@@ -2,5 +2,8 @@ extends layout
 
 block content
   div join game page
-    p= gameID
-    p= userName
+    p(id='gameID')= gameID
+    p(id='user')= userName
+    #send_btn.join_game
+        .icon
+        .text Join Game

@@ -3,6 +3,7 @@ module.exports = (io) => {
     var app = require('express');
     var router = app.Router();
     var userCount = 0;
+    var rooms = [];
     // socket.io events
     io.on('connection', function (socket) {
         userCount++;
@@ -12,42 +13,27 @@ module.exports = (io) => {
             text: 'Welcome to Chat', 
         });
         socket.on('send', function (msg) {
-            var stamp = new Date().toLocaleTimeString();
-            if(stamp.length == 10 ){
-                stamp = stamp.substring(0, 4) + ' ' + stamp.substring(8, 10)
-            }else{
-                stamp = stamp.substring(0, 5) + ' ' + stamp.substring(9, 11)
-            }
+            
             io.emit('message', { 
                 username: msg.username, 
                 text: msg.text, 
-                time: stamp
             });
         });
         socket.on('join', function (msg) {
-            var stamp = new Date().toLocaleTimeString();
-            if(stamp.length == 10 ){
-                stamp = stamp.substring(0, 4) + ' ' + stamp.substring(8, 10)
-            }else{
-                stamp = stamp.substring(0, 5) + ' ' + stamp.substring(9, 11)
-            }
-            io.emit('message', {
-                username: 'Chat It Up', 
-                text: msg.username + ' has joined Chat', 
-                time: stamp
+            rooms.push(msg.room)
+            socket.join(msg.room);
+            io.in(msg.room).emit('message', {
+                username: 'Game', 
+                text: msg.username + ' has joined the game', 
             });
+            console.log(room);
+            console.log(rooms);
         });
         socket.on('leave', function (msg) {
-            var stamp = new Date().toLocaleTimeString();
-            if(stamp.length == 10 ){
-                stamp = stamp.substring(0, 4) + ' ' + stamp.substring(8, 10)
-            }else{
-                stamp = stamp.substring(0, 5) + ' ' + stamp.substring(9, 11)
-            }
+            
             io.emit('message', {
-                username: 'Chat It Up', 
-                text: msg.username + ' has left Chat', 
-                time: stamp
+                username: 'Game', 
+                text: msg.username + ' has left Game', 
             });
         });
         socket.on('disconnect', function(){
