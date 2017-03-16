@@ -17,3 +17,9 @@ body {
   position: absolute;
   left: 46%;
 }
+input{
+  color: black;
+}
+#user{
+  display: none;
+}

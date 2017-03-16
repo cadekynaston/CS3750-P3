@@ -1,4 +1,15 @@
 extends layout
 
 block content
-  div landing page
+  link(rel='stylesheet', href='/stylesheets/index.css')
+  .container
+    h1.gameName Balderdash
+    p.intro Balderdash. In the game, there is a reader and some number of guessers. The reader picks a category from the options given, and then reads the question. The guessers must then write down a possible answer that seems like it should fit the question. All participants are then shown the responses, and the each participant picks the response he or she believes is the correct answer. Points are scored for guessing the correct answer, but also for having others guess your answer as the correct answer.
+    .buttons
+      a.btn.btn-primary.join(href='/game/join') 
+        |  Join Game  
+        span.glyphicon.glyphicon-log-in
+      a.btn.btn-primary.create(href='/game/create') 
+        span.glyphicon.glyphicon-pencil
+        |  Create Game 
+    
