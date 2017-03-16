@@ -9,6 +9,7 @@ html(lang='en')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
     //- stylesheets
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/index.css')
     //- script
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
@@ -22,16 +23,16 @@ html(lang='en')
     nav.navbar.navbar-inverse
       .container-fluid
         .navbar-header
-          a.navbar-brand(href='/') Project 3 : Group 1
+          a.navbar-brand(href='/') Project 3 Group 1
         ul.nav.navbar-nav.navbar-nav-center
           li
             a Welcome  
               span#myName= userName
         ul.nav.navbar-nav.navbar-right
           li
-            a(href='/game') game
+            a(href='/game/join') Join Game
           li
-            a(href='/game/join') join game
+            a(href='/game/create') Create Game
         
     .container
 

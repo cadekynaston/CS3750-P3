@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    div.container.main Create Page
+        a.btn.btn-primary.create(href='/game/create') 
+            span.glyphicon.glyphicon-pencil
+            |  Create Game 
+        form(action="create", method="post", id="createForm")
+            

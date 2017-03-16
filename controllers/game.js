@@ -40,7 +40,7 @@ router.get('/create', function(req, res, next) {
     req.user = noUser;
   }
 
-  res.render('JoinGame', { 
+  res.render('create', { 
     userName: req.user.username,
     gameID: Math.random().toString(36).substr(2, 4).toUpperCase()
   });

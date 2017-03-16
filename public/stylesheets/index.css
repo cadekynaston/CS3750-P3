@@ -1,8 +1,13 @@
 .btn{
     margin: 1em;
-    background-color: tan;
+    /*color: black;
+    background-color: lawngreen;*/
 }
 .buttons{
     margin: auto;
     width: 33vw;
+}
+.main{
+    margin: 0 auto;
+    width: 50%;
 }
