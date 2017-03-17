@@ -3,46 +3,40 @@ var router = express.Router();
 var utils = require('./utils');
 
 /* GET game page. */
-router.get('/', function(req, res, next) {
-  var noUser = {
-    username: 'No User',
-    gameID: ''
-  };
-
-  if(req.user == null){
-    req.user = noUser;
-  }
+router.get('/', utils.requireLogin, function(req, res, next) {
   res.render('game', { 
     userName: req.user.username,
-    gameID: req.user.gameID
+    gameID: req.user.gameID,
+    csrfToken: req.csrfToken()
   });
 });
-router.get('/join', function(req, res, next) {
-    var noUser = {
-    username: 'No User'
-  };
+// Moved to users page for proper login 
+// router.get('/join', function(req, res, next) {
+//     var noUser = {
+//     username: 'No User'
+//   };
 
-  if(req.user == null){
-    req.user = noUser;
-  }
+//   if(req.user == null){
+//     req.user = noUser;
+//   }
 
-  res.render('joinGame', { 
-    userName: req.user.username,
-    gameID: Math.random().toString(36).substr(2, 4).toUpperCase()
-  });
-});
-router.get('/create', function(req, res, next) {
-    var noUser = {
-    username: 'No User',
-  };
+//   res.render('joinGame', { 
+//     userName: req.user.username,
+//     gameID: Math.random().toString(36).substr(2, 4).toUpperCase()
+//   });
+// });
+// router.get('/create', function(req, res, next) {
+//     var noUser = {
+//     username: 'No User',
+//   };
 
-  if(req.user == null){
-    req.user = noUser;
-  }
+//   if(req.user == null){
+//     req.user = noUser;
+//   }
 
-  res.render('create', { 
-    userName: req.user.username,
-    gameID: Math.random().toString(36).substr(2, 4).toUpperCase()
-  });
-});
+//   res.render('create', { 
+//     userName: req.user.username,
+//     gameID: Math.random().toString(36).substr(2, 4).toUpperCase()
+//   });
+// });
 module.exports = router;
