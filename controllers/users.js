@@ -34,22 +34,6 @@ router.post('/create', function(req, res, next) {
     username: req.body.username,
     gameID: req.body.gameID,
   });
-  // create a new schema.Game 
-  var game = new schema.Game({
-    gameID: req.body.gameID,
-    numPlayers: req.body.numPlayers,
-    numRounds: req.body.numRounds,
-    categories: {
-      catname: true,
-      catname: false,
-    },
-    players: {
-      gameHost: req.body.username, 
-      // players are added to this when they join
-      
-    },
-
-  });
   //console.log(user); 
   user.save(function(err) {
     //check for errors
@@ -58,13 +42,6 @@ router.post('/create', function(req, res, next) {
       return next(err);
       res.render('create', { error: error });
     } else {
-      game.save(function(err) {
-        if(err){
-          var error = 'Something bad happened! Please try again.';
-          return next(err);
-          res.render('create', { error: error });
-        }
-      });
       // if no errors we create a new user session and redirect to the chat
       utils.createUserSession(req, res, user);
       res.redirect('/game');
@@ -95,6 +72,7 @@ router.post('/join', function(req, res) {
     username: req.body.username,
     gameID: req.body.gameID,
   });
+  //console.log(user); 
   user.save(function(err) {
     //check for errors
     if (err) {
@@ -104,24 +82,7 @@ router.post('/join', function(req, res) {
     } else {
       // if no errors we create a new user session and redirect to the chat
       utils.createUserSession(req, res, user);
-    }
-  });
-  // get a single user from their username entered on the webpage
-  schema.Game.findOne({ gameID: req.body.gameID }, 'gameID', function(err, user) {
-    // console.log(user);
-    // cant find user redirect to login with error msg displayed
-    if (!user) {
-      res.render('join', { error: "gameID dose not exist", csrfToken: req.csrfToken() });
-    } else {
-      // if user found compare encrypted password to match
-      if (req.body.gameID == user.gameID) {
-        // if input is validated create a new user session and redirect to chat
-        utils.createUserSession(req, res, user);
-        res.redirect('/game');
-      } else {
-        // if password is wrong redirecct to login with error msg displayed
-        res.render('join', { error: "gameID dose not exist", csrfToken: req.csrfToken() });
-      }
+      res.redirect('/game');
     }
   });
 });
