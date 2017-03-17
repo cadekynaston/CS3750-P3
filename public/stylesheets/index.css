@@ -1,4 +1,4 @@
-.btn{
+.create{
     margin: 1em;
     /*color: black;
     background-color: lawngreen;*/
@@ -8,6 +8,8 @@
     width: 33vw;
 }
 .main{
-    margin: 0 auto;
-    width: 50%;
+    width: 450px;
+}
+h2{
+    margin-bottom: 1em;
 }
