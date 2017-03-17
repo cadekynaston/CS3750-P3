@@ -1,9 +1,11 @@
 extends layout
 
 block content
-  div join game page
+  div.container.main
+    h2 Join Game
     #user= userName
-    input(type="text" value= gameID)
-    .btn.btn-primary#send_btn.join_game
-        .icon
-        .text Join Game
+    form.form-group(action="join", method="post", id="joinForm")
+        input.form-control#gameCode(name='gameCode', type='text' placeholder="Enter Game Room Code")
+        br
+        div.submitdiv
+          input.btn.btn-primary(type="submit" id="submit" value="Join Game")

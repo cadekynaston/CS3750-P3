@@ -1,9 +1,25 @@
 extends layout
 
 block content
-    div.container.main Create Page
-        a.btn.btn-primary.create(href='/game/create') 
-            span.glyphicon.glyphicon-pencil
-            |  Create Game 
-        form(action="create", method="post", id="createForm")
-            
+    div.container.main 
+        h2 Create Page
+        form.form-group(action="create", method="post", id="createForm")
+            input.form-control#username(name='username', type='text' placeholder="Username" required)
+            br
+            input.form-control#gameCode(name='gameCode', type='text' placeholder="Game Room Name (optional)" value= gameID + " (this is the Game Room Code)")
+            br
+            input.form-control#numPlayers(name='numPlayers', type='text' placeholder="Number of Players" required)
+            br
+            input.form-control#numRounds(name='numRounds', type='text' placeholder="Number of Rounds" required)
+            br
+            select.form-control#categories
+                option(value="All" required) All Categories
+                //option(value=variable.id) #{variable.var_name}
+            br
+            div.submitdiv
+                div.center
+                    input.btn.btn-primary(type="submit" id="submit" value="Create Game")
+                    
+        //div#help
+            h3 Already have an account? 
+                a#noaccnt(href='../users/login') Login
