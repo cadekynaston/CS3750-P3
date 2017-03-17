@@ -4,8 +4,12 @@ block content
   div.container.main
     h2 Join Game
     #user= userName
-    form.form-group(action="join", method="post", id="joinForm")
+    form.form-group(action="", method="post", id="joinForm")
+        input.form-control#username(name='username', type='text' placeholder="Username" required)
+        br
         input.form-control#gameCode(name='gameCode', type='text' placeholder="Enter Game Room Code" required)
         br
         div.submitdiv
-          input.btn.btn-primary(type="submit" id="submit" value="Join Game")
+          div.center
+            button#submit.btn.btn-primary(type='submit') Join Game
+        

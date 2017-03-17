@@ -32,7 +32,7 @@ router.post('/create', function(req, res, next) {
   // create a new schema.User from the fields in the form 
   var user = new schema.User({
     username: req.body.username,
-    gameID: req.body.gameID,
+    gameID: req.body.gameCode,
   });
   //console.log(user); 
   user.save(function(err) {
@@ -70,7 +70,7 @@ router.post('/join', function(req, res) {
   // create a new schema.User from the fields in the form 
   var user = new schema.User({
     username: req.body.username,
-    gameID: req.body.gameID,
+    gameID: req.body.gameCode,
   });
   //console.log(user); 
   user.save(function(err) {

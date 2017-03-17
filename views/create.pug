@@ -3,7 +3,7 @@ extends layout
 block content
     div.container.main
         h2 Create Game
-        form.form-group(action="create", method="post", id="createForm")
+        form.form-group(action="", method="post", id="createForm")
             input.form-control#username(name='username', type='text' placeholder="Username" required)
             br
             input.form-control#gameCode(name='gameCode', type='text' placeholder="Game Room Name (optional)" value= gameID + " (this is the Game Room Code)")
@@ -18,7 +18,7 @@ block content
             br
             div.submitdiv
                 div.center
-                    input.btn.btn-primary(type="submit" id="submit" value="Create Game")
+                    .btn.btn-primary(type="submit" id="submit" value="Create Game")
                     
         //div#help
             h3 Already have an account? 
