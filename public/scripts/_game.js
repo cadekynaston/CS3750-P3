@@ -3,7 +3,7 @@ window.onload = ()=>{
 
     let msg = {
         username: $('#user').val(),
-        gameCode: $('#gameCode').val(),
+        gameCode: '9CKG',//$('#gameCode').val(),
         numPlayers: $('#numPlayers').val(),
         numRounds: $('#numRounds').val(),
         categorys: {

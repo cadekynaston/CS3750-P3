@@ -30,9 +30,11 @@ module.exports = (io) => {
             //     playerCount: 0
             // }
             
-            console.log('Join Game');
+            console.log('Join Game' + msg.gameCode);
             console.log(games);
-            if(games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0){
+            let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
+            console.log(test);
+            if(test){
                 console.log(':) game');
                 console.log(games.filter(function(e) { return e.gameCode == msg.gameCode; }))
                 socket.emit('join-game');
