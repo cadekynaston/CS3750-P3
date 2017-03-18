@@ -3,16 +3,19 @@ window.onload = ()=>{
 
     let msg = {
         username: $('#user').val(),
-        room: $('#gameCode').val(),
+        gameCode: $('#gameCode').val(),
         numPlayers: $('#numPlayers').val(),
         numRounds: $('#numRounds').val(),
         categorys: {
-            catname: $('#catname').val()
+            catname: $('.catname').val()
         }
     }
 
-    socket.emit('create', msg)
+    socket.emit('join', msg)
     socket.on('message', (msg) =>{
         console.log(msg);
     });
+    socket.on('no-game',function(){
+        window.location.href = '/';
+    })
 }

@@ -4,6 +4,7 @@ block content
   link(rel='stylesheet', href='/stylesheets/create.css')
   if error
     p.error ERROR: #{error}
+  #error
   div.container.main
     h2 Join Game
     #user= userName
@@ -11,7 +12,7 @@ block content
       input.register(type="hidden", name="_csrf", value=csrfToken)
       input.form-control#username(name='username', type='text' placeholder="Username" required)
       br
-      input.form-control#gameCode(name='gameCode', type='text' placeholder="Enter Game Room Code" required)
+      input.form-control#gameCode(name='gameCode', type='text' placeholder="Enter Game Code" required)
       br
       div.submitdiv
         div.center

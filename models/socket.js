@@ -26,35 +26,45 @@ module.exports = (io) => {
         });
         socket.on('join', function (msg) {
             // search games for msg.gameCode
-            let mygame = {
-                playerCount: 0
+            // let mygame = {
+            //     playerCount: 0
+            // }
+            
+            console.log('Join Game');
+            console.log(games);
+            if(games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0){
+                console.log(':) game');
+                console.log(games.filter(function(e) { return e.gameCode == msg.gameCode; }))
+                socket.emit('join-game');
+            }else{
+                console.log('no game');
+                socket.emit('no-game');
             }
             
-        
-            console.log(games);
-            // join room game is in   
-            //socket.join(msg.gameCode);
-            // tell player that game is ready to join
-            io.sockets.in(msg.room).emit('Join-game-approved');
+            // // join room game is in   
+            // //socket.join(msg.gameCode);
+            // // tell player that game is ready to join
+            // io.sockets.in(msg.room).emit('Join-game-approved');
             
         
-            //if(mygame = games.find(msg.gameCode)){
-                socket.join(msg.gameCode);
-                io.sockets.in(msg.gameCode).emit('message', {
-                    username: 'Game', 
-                    text: msg.username + ' has joined the game', 
-                });
-                mygame.playerCount++;
-                player = 'player' + mygame.playerCount;
-                mygame.players[player] = msg.username; 
-                mygame.playerPoints[player] = 0;
-                mygame.round.playerAnswers[player] = 'Players answer';
-                mygame.round.playerQuestions[player] = 'Playrs quetion';
-            //}else
-                socket.emit('game-exists', false);
+            // //if(mygame = games.find(msg.gameCode)){
+            //     socket.join(msg.gameCode);
+            //     io.sockets.in(msg.gameCode).emit('message', {
+            //         username: 'Game', 
+            //         text: msg.username + ' has joined the game', 
+            //     });
+            //     mygame.playerCount++;
+            //     player = 'player' + mygame.playerCount;
+            //     mygame.players[player] = msg.username; 
+            //     mygame.playerPoints[player] = 0;
+            //     mygame.round.playerAnswers[player] = 'Players answer';
+            //     mygame.round.playerQuestions[player] = 'Playrs quetion';
+            // //}else
+            //     socket.emit('game-exists', false);
             
         });
         socket.on('create', function (msg) {
+            console.log('Create Game');
             var game = {
                 gameCode: msg.gameCode,
                 numPlayers: msg.numPlayers,
@@ -93,7 +103,7 @@ module.exports = (io) => {
                 text: msg.username + ' has joined the game', 
             });
             console.log(msg.gameCode);
-            console.log(game);
+            console.log(games);
         });
         
         socket.on('disconnect', function(){

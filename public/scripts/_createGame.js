@@ -1,15 +1,5 @@
 window.onload = ()=>{
     let socket = io();
-    let msg = {
-        username: $('#user').val(),
-        room: $('#gameCode').val(),
-        numPlayers: $('#numPlayers').val(),
-        numRounds: $('#numRounds').val(),
-        categorys: {
-            catname: $('#catname').val()
-        }
-    };
-
     var validator = $("#createForm").kendoValidator({
 
         rules: {
@@ -37,6 +27,15 @@ window.onload = ()=>{
 
 
     $('#submit').click(function (e) {
+        let msg = {
+            username: $('#username').val(),
+            gameCode: $('#gameCode').val(),
+            numPlayers: $('#numPlayers').val(),
+            numRounds: $('#numRounds').val(),
+            categorys: {
+                catname: $('#catname').val()
+            }
+        };
         if (!validator.validate()) {
             // If the form is valid, the Validator will return true
             //do stuff

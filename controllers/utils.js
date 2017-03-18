@@ -26,7 +26,7 @@ module.exports.requireLogin = function(req, res, next) {
 module.exports.createUserSession = function(req, res, user) {
   var cleanUser = {
     username:   user.username,
-    gameID: user.gameID,
+    gameCode: user.gameCode,
   };
 
   req.session.user = cleanUser;

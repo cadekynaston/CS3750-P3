@@ -2,7 +2,7 @@ window.onload = ()=>{
     let socket = io();
     let msg = {
         username: $('#user').val(),
-        room: $('#gameID').val()
+        gameCode: $('#gameCode').val()
     };
 
     var validator = $("#joinForm").kendoValidator({
@@ -38,14 +38,8 @@ window.onload = ()=>{
             event.preventDefault();
         }
         socket.emit('join', msg);
-        socket.on('game-exists',function(ifgame){
-            if(!ifgame){
-                event.preventDefault();
-            }
-
-        })
+        
         console.log('click join');
     });
-    
-    
+        
 }

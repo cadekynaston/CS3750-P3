@@ -9,7 +9,8 @@ var router = express.Router();
 //   res.send('respond with a resource');
 // });
 var noUser = {
-  username: 'No User'
+  username: 'No User',
+  gameCode: '0000'
 };
 /* GET register page. */
 router.get('/create', function(req, res, next) {
