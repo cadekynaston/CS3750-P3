@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  link(rel='stylesheet', href='/stylesheets/create.css')
   if error
     p.error ERROR: #{error}
   div.container.main

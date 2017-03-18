@@ -3,10 +3,15 @@ window.onload = ()=>{
 
     let msg = {
         username: $('#user').val(),
-        gameCode: $('#gameID').val()
+        room: $('#gameCode').val(),
+        numPlayers: $('#numPlayers').val(),
+        numRounds: $('#numRounds').val(),
+        categorys: {
+            catname: $('#catname').val()
+        }
     }
 
-    socket.emit('join', msg)
+    socket.emit('create', msg)
     socket.on('message', (msg) =>{
         console.log(msg);
     });

@@ -27,43 +27,13 @@ module.exports = (io) => {
         socket.on('join', function (msg) {
             // search games for msg.gameCode
             let mygame = {
-                room: msg.romm,
-                hostName: msg.username,
-                playerCount: 0,
-                players: {
-                    player0: msg.username,
-                    
-                },
-                round: {
-                    catigory: '',
-                    playerQuestions: {
-                        player0: '',
-
-                    },
-                    playerAnswers: {
-                        player0: '',
-
-                    }
-                },
-                playerPoints: {
-                    player0: 0,
-                },
-                // Leader: Object.keys(playerPoints).reduce(function(a, b){
-                //     return playerPoints[a] > playerPoints[b] ? a : b
-                // })
-            };
-            // wont work till game exists
-            // if game is found add player to game
-            mygame.playerCount++;
-            player = 'player' + mygame.playerCount;
-            mygame.players[player] = msg.username; 
-            mygame.playerPoints[player] = 0;
-            mygame.round.playerAnswers[player] = 'Players answer';
-            mygame.round.playerQuestions[player] = 'Playrs quetion';
+                playerCount: 0
+            }
+            
         
-            console.log(mygame);
+            console.log(games);
             // join room game is in   
-            socket.join(msg.room);
+            //socket.join(msg.gameCode);
             // tell player that game is ready to join
             io.sockets.in(msg.room).emit('Join-game-approved');
             

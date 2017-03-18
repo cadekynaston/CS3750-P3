@@ -20,6 +20,7 @@ body {
 input{
   color: black;
 }
-#user{
-  display: none;
+#gameInfo{
+  /*make none when done testing */
+  display: block;
 }
