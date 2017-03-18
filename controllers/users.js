@@ -18,7 +18,7 @@ router.get('/create', function(req, res, next) {
   }
   res.render('create', { 
     userName: req.user.username,
-    gameID: Math.random().toString(36).substr(2, 4).toUpperCase(),
+    gameCode: Math.random().toString(36).substr(2, 4).toUpperCase(),
     csrfToken: req.csrfToken() 
   });
 });
@@ -29,12 +29,12 @@ router.get('/create', function(req, res, next) {
  * Once a user is logged in, they will be sent to the chat page.
  */
 router.post('/create', function(req, res, next) {
-  schema.User.findOne({ username: req.body.username }, 'username gameID', function(err, user) {
+  schema.User.findOne({ username: req.body.username }, 'username gameCode', function(err, user) {
     if(!user){
       // create a new schema.User from the fields in the form 
       var user = new schema.User({
         username: req.body.username,
-        gameID: req.body.gameCode,
+        gameCode: req.body.gameCode,
       });
       //console.log(user); 
       user.save(function(err) {
@@ -75,12 +75,12 @@ router.get('/join', function(req, res, next) {
  * Once a user is logged in, they will be sent to the dashboard page.
  */
 router.post('/join', function(req, res, next) {
-  schema.User.findOne({ username: req.body.username }, 'username gameID', function(err, user) {
+  schema.User.findOne({ username: req.body.username }, 'username gameCode', function(err, user) {
     if(!user){
       // create a new schema.User from the fields in the form 
       var user = new schema.User({
         username: req.body.username,
-        gameID: req.body.gameCode,
+        gameCode: req.body.gameCode,
       });
       //console.log(user); 
       user.save(function(err) {

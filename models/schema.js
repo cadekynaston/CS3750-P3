@@ -6,5 +6,5 @@ var ObjectId = schema.ObjectId;
 module.exports.User = mongoose.model('User', new schema({
   id:           ObjectId,
   username:     { type: String, required: '{PATH} is required.'},
-  gameID:       {type: String, required: '{PATH} is required.' }
+  gameCode:       {type: String, required: '{PATH} is required.' }
 }));

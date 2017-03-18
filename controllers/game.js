@@ -6,7 +6,7 @@ var utils = require('./utils');
 router.get('/', utils.requireLogin, function(req, res, next) {
   res.render('game', { 
     userName: req.user.username,
-    gameID: req.user.gameID,
+    gameCode: req.user.gameCode,
     csrfToken: req.csrfToken()
   });
 });
@@ -22,7 +22,7 @@ router.get('/', utils.requireLogin, function(req, res, next) {
 
 //   res.render('joinGame', { 
 //     userName: req.user.username,
-//     gameID: Math.random().toString(36).substr(2, 4).toUpperCase()
+//     gameCode: Math.random().toString(36).substr(2, 4).toUpperCase()
 //   });
 // });
 // router.get('/create', function(req, res, next) {
@@ -36,7 +36,7 @@ router.get('/', utils.requireLogin, function(req, res, next) {
 
 //   res.render('create', { 
 //     userName: req.user.username,
-//     gameID: Math.random().toString(36).substr(2, 4).toUpperCase()
+//     gameCode: Math.random().toString(36).substr(2, 4).toUpperCase()
 //   });
 // });
 module.exports = router;

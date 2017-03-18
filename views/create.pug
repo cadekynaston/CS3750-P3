@@ -9,8 +9,9 @@ block content
         form.form-group(action="", method="post", id="createForm")
             input.register(type="hidden", name="_csrf", value=csrfToken)
             input.form-control#username(name='username', type='text' placeholder="Username" required)
-            br
-            input.form-control#gameCode(name='gameCode', type='text' placeholder="Game Room Name (optional)" value= gameID + " (this is the Game Room Code)")
+            span Game Room Name or GameCode
+            br 
+            input.form-control#gameCode(name='gameCode', type='text' value= gameCode + " (this is the Game Room Code)")
             br
             input.form-control#numPlayers(name='numPlayers', type='text' placeholder="Number of Players" required)
             br
