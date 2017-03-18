@@ -6,7 +6,7 @@ var session = require('client-sessions');
  */
 module.exports.requireLogin = function(req, res, next) {
   if (!req.user) {
-    res.redirect(history.back);
+    res.redirect('/');
   } else {
     next();
   }

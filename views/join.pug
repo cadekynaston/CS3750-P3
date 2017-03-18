@@ -1,6 +1,8 @@
 extends layout
 
 block content
+  if error
+    p.error ERROR: #{error}
   div.container.main
     h2 Join Game
     #user= userName
@@ -12,4 +14,8 @@ block content
         div.submitdiv
           div.center
             button#submit.btn.btn-primary(type='submit') Join Game
+
+block scripts
+    script(src='/scripts/_joinGame.js')
+    script(src='//kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js')
         
