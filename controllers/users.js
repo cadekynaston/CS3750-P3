@@ -29,19 +29,27 @@ router.get('/create', function(req, res, next) {
  * Once a user is logged in, they will be sent to the chat page.
  */
 router.post('/create', function(req, res, next) {
-  // create a new schema.User from the fields in the form 
-  var user = new schema.User({
-    username: req.body.username,
-    gameID: req.body.gameCode,
-  });
-  //console.log(user); 
-  user.save(function(err) {
-    //check for errors
-    if (err) {
-      var error = 'Something bad happened! Please try again.';
-      return next(err);
-      res.render('create', { error: error });
-    } else {
+  schema.User.findOne({ username: req.body.username }, 'username gameID', function(err, user) {
+    if(!user){
+      // create a new schema.User from the fields in the form 
+      var user = new schema.User({
+        username: req.body.username,
+        gameID: req.body.gameCode,
+      });
+      //console.log(user); 
+      user.save(function(err) {
+        //check for errors
+        if (err) {
+          var error = 'Something bad happened! Please try again.';
+          return next(err);
+          res.render('create', { error: error });
+        } else {
+          // if no errors we create a new user session and redirect to the chat
+          utils.createUserSession(req, res, user);
+          res.redirect('/game');
+        }
+      });
+    }else{
       // if no errors we create a new user session and redirect to the chat
       utils.createUserSession(req, res, user);
       res.redirect('/game');
@@ -66,20 +74,28 @@ router.get('/join', function(req, res, next) {
  * Log a user into their account.
  * Once a user is logged in, they will be sent to the dashboard page.
  */
-router.post('/join', function(req, res) {
-  // create a new schema.User from the fields in the form 
-  var user = new schema.User({
-    username: req.body.username,
-    gameID: req.body.gameCode,
-  });
-  //console.log(user); 
-  user.save(function(err) {
-    //check for errors
-    if (err) {
-      var error = 'Something bad happened! Please try again.';
-      return next(err);
-      res.render('join', { error: error });
-    } else {
+router.post('/join', function(req, res, next) {
+  schema.User.findOne({ username: req.body.username }, 'username gameID', function(err, user) {
+    if(!user){
+      // create a new schema.User from the fields in the form 
+      var user = new schema.User({
+        username: req.body.username,
+        gameID: req.body.gameCode,
+      });
+      //console.log(user); 
+      user.save(function(err) {
+        //check for errors
+        if (err) {
+          var error = 'Something bad happened! Please try again.';
+          return next(err);
+          res.render('create', { error: error });
+        } else {
+          // if no errors we create a new user session and redirect to the chat
+          utils.createUserSession(req, res, user);
+          res.redirect('/game');
+        }
+      });
+    }else{
       // if no errors we create a new user session and redirect to the chat
       utils.createUserSession(req, res, user);
       res.redirect('/game');
