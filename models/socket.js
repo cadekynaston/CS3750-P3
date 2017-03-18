@@ -27,7 +27,17 @@ module.exports = (io) => {
         socket.on('join', function (msg) {
             rooms.push(msg.room)
             socket.join(msg.room);
-            io.in(msg.room).emit('message', {
+            io.sockets.in(msg.room).emit('message', {
+                username: 'Game', 
+                text: msg.username + ' has joined the game', 
+            });
+            console.log(msg.room);
+            console.log(rooms);
+        });
+        socket.on('create', function (msg) {
+            rooms.push(msg.room)
+            socket.join(msg.room);
+            io.sockets.in(msg.room).emit('message', {
                 username: 'Game', 
                 text: msg.username + ' has joined the game', 
             });

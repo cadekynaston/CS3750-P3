@@ -7,13 +7,14 @@ block content
     h2 Join Game
     #user= userName
     form.form-group(action="", method="post", id="joinForm")
-        input.form-control#username(name='username', type='text' placeholder="Username" required)
-        br
-        input.form-control#gameCode(name='gameCode', type='text' placeholder="Enter Game Room Code" required)
-        br
-        div.submitdiv
-          div.center
-            button#submit.btn.btn-primary(type='submit') Join Game
+      input.register(type="hidden", name="_csrf", value=csrfToken)
+      input.form-control#username(name='username', type='text' placeholder="Username" required)
+      br
+      input.form-control#gameCode(name='gameCode', type='text' placeholder="Enter Game Room Code" required)
+      br
+      div.submitdiv
+        div.center
+          button#submit.btn.btn-primary(type='submit') Join Game
 
 block scripts
     script(src='/scripts/_joinGame.js')

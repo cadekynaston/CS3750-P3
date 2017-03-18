@@ -2,24 +2,29 @@ window.onload = ()=>{
     let socket = io();
     let msg = {
         username: $('#user').val(),
-        room: $('#gameID').val()
+        room: $('#gameCode').val(),
+        numPlayers: $('#numPlayers').val(),
+        numRounds: $('#numRounds').val(),
+        categorys: {
+            catname: $('#catname').val()
+        }
     };
 
-    var validator = $("#joinForm").kendoValidator({
+    var validator = $("#createForm").kendoValidator({
 
         rules: {
 
-        userAlphanumeric: function(input) {
+            userAlphanumeric: function(input) {
 
-            // username must be alphanumeric
-            if (input.is('#user')) {
-                var str = msg.username;
-                var patt = /^[a-z0-9_-]+$/i;
-                var res = patt.test(str);
-                return res;
+                // username must be alphanumeric
+                if (input.is('#user')) {
+                    var str = msg.username;
+                    var patt = /^[a-z0-9_-]+$/i;
+                    var res = patt.test(str);
+                    return res;
+                }
+                return true;
             }
-            return true;
-        }
         },
         messages: {
 
@@ -37,13 +42,7 @@ window.onload = ()=>{
             //do stuff
             event.preventDefault();
         }
-        socket.emit('join', msg);
-        socket.on('game-exists',function(ifgame){
-            if(!ifgame){
-                event.preventDefault();
-            }
-
-        })
+        socket.emit('create', msg);
         console.log('click join');
     });
     
