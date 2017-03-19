@@ -9,8 +9,8 @@ var router = express.Router();
 //   res.send('respond with a resource');
 // });
 var noUser = {
-  username: 'No User',
-  gameCode: '0000'
+  username: ' ',
+  gameCode: ' '
 };
 /* GET register page. */
 router.get('/create', function(req, res, next) {
@@ -30,7 +30,7 @@ router.get('/create', function(req, res, next) {
  * Once a user is logged in, they will be sent to the chat page.
  */
 router.post('/create', function(req, res, next) {
-  schema.User.findOne({ username: req.body.username }, 'username gameCode', function(err, user) {
+  schema.User.findOne({ username: req.body.username }, function(err, user) {
     if(!user){
       // create a new schema.User from the fields in the form 
       var user = new schema.User({
@@ -51,6 +51,11 @@ router.post('/create', function(req, res, next) {
         }
       });
     }else{
+      schema.User.update({username: req.body.username,}, {
+          gameCode: req.body.gameCode
+      }, function(err, numberAffected, rawResponse) {
+        //handle it
+      });
       // if no errors we create a new user session and redirect to the chat
       utils.createUserSession(req, res, user);
       res.redirect('/game');
@@ -76,7 +81,7 @@ router.get('/join', function(req, res, next) {
  * Once a user is logged in, they will be sent to the dashboard page.
  */
 router.post('/join', function(req, res, next) {
-  schema.User.findOne({ username: req.body.username }, 'username gameCode', function(err, user) {
+  schema.User.findOne({ username: req.body.username }, function(err, user) {
     if(!user){
       // create a new schema.User from the fields in the form 
       var user = new schema.User({
@@ -97,6 +102,11 @@ router.post('/join', function(req, res, next) {
         }
       });
     }else{
+      schema.User.update({username: req.body.username,}, {
+          gameCode: req.body.gameCode
+      }, function(err, numberAffected, rawResponse) {
+        //handle it
+      });
       // if no errors we create a new user session and redirect to the chat
       utils.createUserSession(req, res, user);
       res.redirect('/game');
