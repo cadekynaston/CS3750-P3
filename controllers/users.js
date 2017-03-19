@@ -9,8 +9,8 @@ var router = express.Router();
 //   res.send('respond with a resource');
 // });
 var noUser = {
-  username: ' ',
-  gameCode: ' '
+  username: '',
+  gameCode: ''
 };
 /* GET register page. */
 router.get('/create', function(req, res, next) {
@@ -70,6 +70,7 @@ router.get('/join', function(req, res, next) {
   }
   res.render('join', { 
     userName: req.user.username,
+    gameCode: req.user.gameCode,
     csrfToken: req.csrfToken() 
   });
 });

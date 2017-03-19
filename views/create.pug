@@ -8,7 +8,8 @@ block content
         h2 Create Game
         form.form-group(action="", method="post", id="createForm")
             input.register(type="hidden", name="_csrf", value=csrfToken)
-            input.form-control#username(name='username', type='text' placeholder="Username" required)
+            input.form-control#username(name='username', type='text' value= userName required)
+            span Username
             br 
             input.form-control#gameCode(name='gameCode', type='text' value= gameCode)
             span Game Room Name or GameCode fill free to change
