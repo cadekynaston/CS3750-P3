@@ -2,7 +2,7 @@ window.onload = ()=>{
     let socket = io();
     
     let msg = {
-        username: $('#user').val(),
+        username: $('#username').val(),
         gameCode: $('#gameCode').val()
     };
 
@@ -40,7 +40,7 @@ window.onload = ()=>{
             //do stuff
             event.preventDefault();
         }
-        
+        socket.emit('join-game-room', msg);
         console.log('click join');
     });
         
