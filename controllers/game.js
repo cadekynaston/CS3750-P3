@@ -4,6 +4,7 @@ var utils = require('./utils');
 
 /* GET game page. */
 router.get('/', utils.requireLogin, function(req, res, next) {
+  console.log(req.user);
   res.render('game', { 
     userName: req.user.username,
     gameCode: req.user.gameCode,
