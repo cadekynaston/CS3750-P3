@@ -30,7 +30,7 @@ module.exports = (io) => {
             //     playerCount: 0
             // }
             
-            console.log('Join Game' + msg.gameCode);
+            console.log('Join Game', msg);
             console.log(games);
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             console.log(test);

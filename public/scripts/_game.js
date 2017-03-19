@@ -1,17 +1,18 @@
 window.onload = ()=>{
     let socket = io();
 
-    let msg = {
-        username: $('#user').val(),
-        gameCode: '9CKG',//$('#gameCode').val(),
-        numPlayers: $('#numPlayers').val(),
-        numRounds: $('#numRounds').val(),
-        categorys: {
-            catname: $('.catname').val()
-        }
+    let gameInfo = {
+        username: document.getElementById('username').textContent,
+        gameCode: document.getElementById('gameCode').textContent,
     }
+    socket.emit('join', gameInfo)
+    
+    // test function click to run socket commands
+    $('#test').click(function (e) {
 
-    socket.emit('join', msg)
+        console.log('Action');
+    });
+
     socket.on('message', (msg) =>{
         console.log(msg);
     });

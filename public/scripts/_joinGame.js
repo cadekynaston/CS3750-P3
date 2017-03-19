@@ -1,5 +1,6 @@
 window.onload = ()=>{
     let socket = io();
+    
     let msg = {
         username: $('#user').val(),
         gameCode: $('#gameCode').val()
@@ -9,23 +10,25 @@ window.onload = ()=>{
 
         rules: {
 
-        userAlphanumeric: function(input) {
-
-            // username must be alphanumeric
-            if (input.is('#user')) {
-                var str = msg.username;
-                var patt = /^[a-z0-9_-]+$/i;
-                var res = patt.test(str);
-                return res;
-            }
-            return true;
-        }
+            userAlphanumeric: function(input) {
+                // username must be alphanumeric
+                if (input.is('#user')) {
+                    var str = msg.username;
+                    var patt = /^[a-z0-9_-]+$/i;
+                    var res = patt.test(str);
+                    return res;
+                }
+                return true;
+            },
+            
         },
         messages: {
 
-        // custom error messages. email gets picked up 
-        // automatically for any inputs of that type
-        // userAlphanumeric: 'Letters, numbers, -, _ only'
+            // custom error messages. email gets picked up 
+            // automatically for any inputs of that type
+            userAlphanumeric: 'Letters, Numbers, -, _ only',
+            
+
         }
 
     }).getKendoValidator(); //.data('kendoValidator');
@@ -37,7 +40,6 @@ window.onload = ()=>{
             //do stuff
             event.preventDefault();
         }
-        socket.emit('join', msg);
         
         console.log('click join');
     });
