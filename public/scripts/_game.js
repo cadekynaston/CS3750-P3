@@ -5,7 +5,7 @@ window.onload = ()=>{
         username: document.getElementById('username').textContent,
         gameCode: document.getElementById('gameCode').textContent,
     }
-    socket.emit('join', gameInfo)
+    socket.emit('connect-to-game-room', gameInfo)
     
     // test function click to run socket commands
     $('#test').click(function (e) {

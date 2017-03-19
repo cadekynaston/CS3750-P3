@@ -24,7 +24,18 @@ module.exports = (io) => {
                 text: msg.text, 
             });
         });
-        socket.on('join', function (msg) {
+        socket.on('connect-to-game-room', function(msg) {
+            console.log('connect to Game', msg);
+            let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
+            if(test){
+                socket.join(msg.gameCode);
+                io.sockets.in(msg.gameCode).emit('join-game');
+            }else{
+                socket.emit('no-game');
+            }
+            
+        })
+        socket.on('join-game-room', function (msg) {
             // search games for msg.gameCode
             // let mygame = {
             //     playerCount: 0
@@ -33,7 +44,6 @@ module.exports = (io) => {
             console.log('Join Game', msg);
             console.log(games);
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
-            console.log(test);
             if(test){
                 console.log(':) game');
                 console.log(games.filter(function(e) { return e.gameCode == msg.gameCode; }))
