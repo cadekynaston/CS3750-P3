@@ -29,39 +29,46 @@ module.exports = (io) => {
         // exists it calls no game and returns to home page
         socket.on('connect-to-game-room', function(msg) {
             console.log('connect to Game', msg);
+            //check to see of game exists
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
+                // if game exists join room with gameCode
                 socket.join(msg.gameCode);
+                // tell game somone joined the game (not implimented yet)
                 io.sockets.in(msg.gameCode).emit('join-game');
             }else{
                 console.log('no game');
+                // tell game bage there is no game
                 socket.emit('no-game');
             }
         });
+        // this function is called my the join game page 
+        // it add a player to ghe game if the game exists
         socket.on('join-game-room', function (msg) {
+            // test for if game with gameCode exists
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
-            let game = {};
             console.log('join game room', msg , test, '\nGame: ', game);
             if(test){
+                // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                console.log('mygame: ', dex);
-                io.sockets.in(msg.gameCode).emit('join-game');
+                // add new player to the game 
                 games[dex].playerCount++
                 player = 'player' + games[dex].playerCount;
                 games[dex].players[player] = msg.username; 
                 games[dex].playerPoints[player] = 0;
                 games[dex].round.playerAnswers[player] = 'Players answer';
                 games[dex].round.playerQuestions[player] = 'Playrs quetion';
-                
                 console.log(games);
             }else{
                 console.log('no game');
                 socket.emit('no-game');
             }
-            
         });
+        // this function is called by the create game page
         socket.on('create', function (msg) {
             console.log('Create Game');
+            // we may need to make sure a game with gameCode dose not exists before creating a new game with that gameCode
+            // make a new game model 
             var game = {
                 gameCode: msg.gameCode,
                 numPlayers: msg.numPlayers,
@@ -87,19 +94,20 @@ module.exports = (io) => {
                 playerPoints: {
                     player0: 0,
                 },
+                // calculate that player with the highest points (we may not want to do this here)
                 // Leader: Object.keys(playerPoints).reduce(function(a, b){
                 //     return playerPoints[a] > playerPoints[b] ? a : b
                 // })
             }
-            
-
+            // add game to the active games array
             games.push(game)
-            socket.join(msg.gameCode);
-            io.sockets.in(msg.gameCode).emit('message', {
-                username: 'Game', 
-                text: msg.username + ' has joined the game', 
-            });
-            console.log(msg.gameCode);
+            // this is not needed 
+            // socket.join(msg.gameCode);
+            // io.sockets.in(msg.gameCode).emit('message', {
+            //     username: 'Game', 
+            //     text: msg.username + ' has joined the game', 
+            // });
+            // console.log(msg.gameCode);
             console.log(games);
         });
         
