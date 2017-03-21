@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   var noUser = {
     username: 'No User',
-    gameID: ''
+    gameCode: '0000'
   };
 
   if(req.user == null){
