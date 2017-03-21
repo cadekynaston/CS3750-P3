@@ -17,3 +17,10 @@ body {
   position: absolute;
   left: 46%;
 }
+input{
+  color: black;
+}
+#gameInfo{
+  /*make none when done testing */
+  display: block;
+}

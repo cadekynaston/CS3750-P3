@@ -13,7 +13,7 @@ var middleware = require('./middleware');
 
 
 // database dependencies
-mongoose.connect('mongodb://localhost/chat');
+mongoose.connect('mongodb://localhost/Balderdash');
 mongoose.Promise = Promise;
 
 // controllers
@@ -71,7 +71,9 @@ app.use('/game', game);
 
 app.get('/logout', function(req, res) {
   req.session.reset();
-  res.redirect('/');
+  res.render('index', {
+    errorLogout: 'If you would like to Rejoin the game you just left. You can simply join with your username and gameCode'
+  });
 });
 
 // catch 404 and forward to error handler

@@ -6,7 +6,7 @@ var session = require('client-sessions');
  */
 module.exports.requireLogin = function(req, res, next) {
   if (!req.user) {
-    res.redirect('/users/login');
+    res.redirect('/');
   } else {
     next();
   }
@@ -25,11 +25,8 @@ module.exports.requireLogin = function(req, res, next) {
  */
 module.exports.createUserSession = function(req, res, user) {
   var cleanUser = {
-    fname:  user.fname,
-    lname:   user.lname,
-    email:      user.email,
-    username:   user.username,
-    data:       user.data || {},
+    username: user.username,
+    gameCode: user.gameCode,
   };
 
   req.session.user = cleanUser;

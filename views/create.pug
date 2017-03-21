@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    link(rel='stylesheet', href='/stylesheets/create.css')
+    if error
+        p.error ERROR: #{error}
+    div.container.main
+        h2 Create Game
+        form.form-group(action="", method="post", id="createForm")
+            input.register(type="hidden", name="_csrf", value=csrfToken)
+            input.form-control#username(name='username', type='text' value= userName required)
+            span Username
+            br 
+            input.form-control#gameCode(name='gameCode', type='text' value= gameCode)
+            span Game Room Name or GameCode fill free to change
+            br
+            input.form-control#numPlayers(name='numPlayers', type='text' placeholder="Number of Players" required)
+            br
+            input.form-control#numRounds(name='numRounds', type='text' placeholder="Number of Rounds" required)
+            br
+            select.form-control#categories
+                option(value="All" required) All Categories
+                //option(value=variable.id) #{variable.var_name}
+            br
+            div.submitdiv
+                div.center
+                    button#submit.btn.btn-primary(type="submit") Create Game
+                        
+        //div#help
+            h3 Already have an account? 
+                a#noaccnt(href='../users/login') Login
+
+block scripts
+    script(src='/scripts/_createGame.js')
+    script(src='//kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js')
