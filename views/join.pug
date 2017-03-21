@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  link(rel='stylesheet', href='/stylesheets/create.css')
+  if error
+    p.error ERROR: #{error}
+  #error
+  div.container.main
+    h2 Join Game
+    
+    form.form-group(action="", method="post", id="joinForm")
+      input.register(type="hidden", name="_csrf", value=csrfToken)
+      input.form-control#username(name='username', type='text' value= userName required)
+      br
+      input.form-control#gameCode(name='gameCode', type='text' value= gameCode required)
+      br
+      div.submitdiv
+        div.center
+          button#submit.btn.btn-primary(type='submit') Join Game
+
+block scripts
+    script(src='/scripts/_joinGame.js')
+    script(src='//kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js')
+        

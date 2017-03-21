@@ -1,16 +1,11 @@
 window.onload = ()=>{
     let socket = io();
-    
-    let msg = {
-        username: $('#username').val(),
-        gameCode: $('#gameCode').val()
-    };
-
-    var validator = $("#joinForm").kendoValidator({
+    var validator = $("#createForm").kendoValidator({
 
         rules: {
 
             userAlphanumeric: function(input) {
+
                 // username must be alphanumeric
                 if (input.is('#user')) {
                     var str = msg.username;
@@ -19,29 +14,36 @@ window.onload = ()=>{
                     return res;
                 }
                 return true;
-            },
-            
+            }
         },
         messages: {
 
-            // custom error messages. email gets picked up 
-            // automatically for any inputs of that type
-            userAlphanumeric: 'Letters, Numbers, -, _ only',
-            
-
+        // custom error messages. email gets picked up 
+        // automatically for any inputs of that type
+        // userAlphanumeric: 'Letters, numbers, -, _ only'
         }
 
     }).getKendoValidator(); //.data('kendoValidator');
 
 
     $('#submit').click(function (e) {
+        let msg = {
+            username: $('#username').val(),
+            gameCode: $('#gameCode').val(),
+            numPlayers: $('#numPlayers').val(),
+            numRounds: $('#numRounds').val(),
+            categorys: {
+                catname: $('#catname').val()
+            }
+        };
         if (!validator.validate()) {
             // If the form is valid, the Validator will return true
             //do stuff
             event.preventDefault();
         }
-        socket.emit('join-game-room', msg);
+        socket.emit('create', msg);
         console.log('click join');
     });
-        
+    
+    
 }
