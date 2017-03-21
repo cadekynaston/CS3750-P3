@@ -9,7 +9,11 @@ window.onload = ()=>{
     
     // test function click to run socket commands
     $('#test').click(function (e) {
-
+        socket.emit('send',{
+            gameCode: gameInfo.gameCode,
+            username: gameInfo.username,
+            text: 'did it work'
+        })
         console.log('Action');
     });
 

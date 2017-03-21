@@ -19,7 +19,7 @@ module.exports = (io) => {
             });
         });
         socket.on('send', function (msg) {
-            io.emit('message', { 
+            io.sockets.in(msg.gameCode).emit('message', { 
                 username: msg.username, 
                 text: msg.text, 
             });
