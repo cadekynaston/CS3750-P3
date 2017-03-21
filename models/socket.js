@@ -146,7 +146,7 @@ module.exports = (io) => {
         });
 
         // this will gets game catigories from mongo for create game 
-        socket.on('server-getCategories',function(game){
+        socket.on('server-getCategories',function(){
             schema.Categories.find({}, function(err, category){
                 console.log(category);
                 socket.emit('client-getCategories', category);
@@ -172,6 +172,26 @@ module.exports = (io) => {
             });
         });
         
+        // add a quetion to db
+        socket.on('server-addQuestion',function(quest){
+            schema.Questions.findOne({ question: quest.question }, function(err, question){
+                if(!question){
+                    var newQuest = new schema.Questions({
+                        question: quest.question,
+                        answer: quest.answer
+                    });
+                    newCat.save(function(err) {
+                        //check for errors
+                        if (err) {
+                            console.log('Something bad happened! Please try again.');
+                        } 
+                    });
+                } else{
+                    console.log('category already exists')
+                }
+            });
+        });
+
         socket.on('disconnect', function(){
             userCount--;
             console.log('user disconnected ' + userCount + ' user(s)');
