@@ -1,3 +1,4 @@
+var schema = require('../models/schema');
 
 module.exports = (io) => {
     var app = require('express');
@@ -90,7 +91,7 @@ module.exports = (io) => {
                 numPlayers: msg.numPlayers,
                 playerCount: 0,
                 players: {
-                    player0: msg.username,
+                    gameHost: msg.username,
                     
                 },
                 numRounds: msg.numRounds,
@@ -99,16 +100,16 @@ module.exports = (io) => {
                         
                     },
                     playerQuestions: {
-                        player0: '',
+                        gameHost: '',
 
                     },
                     playerAnswers: {
-                        player0: '',
+                        gameHost: '',
 
                     }
                 },
                 playerPoints: {
-                    player0: 0,
+                    gameHost: 0,
                 },
                 // calculate that player with the highest points (we may not want to do this here)
                 // Leader: Object.keys(playerPoints).reduce(function(a, b){
