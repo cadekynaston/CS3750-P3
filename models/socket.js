@@ -62,7 +62,7 @@ module.exports = (io) => {
         socket.on('join-game-room', function (msg) {
             // test for if game with gameCode exists
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
-            console.log('join game room', msg , test, '\nGame: ', game);
+            console.log('join game room', msg , test, '\nGame: ', games);
             if(test){
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
