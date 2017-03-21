@@ -176,9 +176,10 @@ module.exports = (io) => {
         socket.on('server-getQuestionInCat', function(cat){
             schema.Questions.find({category: cat}, function(err, question){
                 if(!question){
-
+                    // return a category has no questions
+                }else{
+                    // return question from category
                 }
-
             });
         });
         // add a quetion to db
