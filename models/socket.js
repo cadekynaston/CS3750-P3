@@ -172,11 +172,21 @@ module.exports = (io) => {
             });
         });
         
+        // get question in category
+        socket.on('server-getQuestionInCat', function(cat){
+            schema.Questions.find({category: cat}, function(err, question){
+                if(!question){
+
+                }
+
+            });
+        });
         // add a quetion to db
         socket.on('server-addQuestion',function(quest){
             schema.Questions.findOne({ question: quest.question }, function(err, question){
                 if(!question){
                     var newQuest = new schema.Questions({
+                        category: quest.category,
                         question: quest.question,
                         answer: quest.answer
                     });
