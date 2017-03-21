@@ -17,7 +17,7 @@ module.exports = (io) => {
         });
 
         // chat style message that indicates when someone has navigated away 
-        // this fuction is called by a cliant fuction that looks like:
+        // this fuction is called by a client fuction that looks like:
         // window.onbeforeunload = () => {
         //     socket.emit('leave',{
         //         username: document.getElementById('username').textContent,
@@ -143,7 +143,34 @@ module.exports = (io) => {
                 socket.emit('no-game');
             }
             
-        })
+        });
+
+        // this will gets game catigories from mongo for create game 
+        socket.on('server-getCategories',function(game){
+            schema.Categories.find({}, function(err, category){
+                console.log(category);
+                socket.emit('client-getCategories', category);
+            })
+        });
+        // add a Categories to db
+        socket.on('server-addCategory',function(cat){
+            schema.Categories.findOne({ category: cat }, function(err, category){
+                if(!category){
+                    var newCat = new schema.Categories({
+                        category: cat
+                    });
+                    newCat.save(function(err) {
+                        //check for errors
+                        if (err) {
+                            console.log('Something bad happened! Please try again.');
+                        } 
+                    });
+                                    
+                } else{
+                    console.log('category already exists')
+                }
+            });
+        });
         
         socket.on('disconnect', function(){
             userCount--;

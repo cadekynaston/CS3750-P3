@@ -7,7 +7,7 @@ window.onload = ()=>{
             userAlphanumeric: function(input) {
 
                 // username must be alphanumeric
-                if (input.is('#user')) {
+                if (input.is('#username')) {
                     var str = msg.username;
                     var patt = /^[a-z0-9_-]+$/i;
                     var res = patt.test(str);
@@ -20,11 +20,17 @@ window.onload = ()=>{
 
         // custom error messages. email gets picked up 
         // automatically for any inputs of that type
-        // userAlphanumeric: 'Letters, numbers, -, _ only'
+        userAlphanumeric: 'Letters, numbers, -, _ only'
         }
 
     }).getKendoValidator(); //.data('kendoValidator');
 
+    // get Categories from mongo and populate create form 
+    socket.emit('server-getCategories');
+    socket.on('client-getCategories',function(categories){
+        // get category template
+        // fill with categories use for loop to add them to form
+    });
 
     $('#submit').click(function (e) {
         let msg = {
