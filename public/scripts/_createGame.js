@@ -35,7 +35,10 @@ window.onload = ()=>{
         // fill with categories use for loop to add them to form
         console.log(categories);
         categories.forEach(function(element) {
-            document.getElementById('checkbox').innerHTML += element.category;            
+            //document.getElementsByClassName('checkbox-inline');
+            $('.checkbox-inline').append('<div><input type="checkbox" id="checkbox">'
+                 + element.category + '</input></div>');
+
         }, this);
     });
 
