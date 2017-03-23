@@ -92,41 +92,65 @@ module.exports = (io) => {
                 playerCount: 0,
                 players: {
                     gameHost: msg.username,
-                    
-                },
-                numRounds: msg.numRounds,
-                round: {
-                    catigory: {
-                        
-                    },
-                    playerQuestions: {
-                        gameHost: '',
-
-                    },
-                    playerAnswers: {
-                        gameHost: '',
-
-                    }
                 },
                 playerPoints: {
                     gameHost: 0,
                 },
-                // calculate that player with the highest points (we may not want to do this here)
-                // Leader: Object.keys(playerPoints).reduce(function(a, b){
-                //     return playerPoints[a] > playerPoints[b] ? a : b
-                // })
+                numRounds: msg.numRounds,
+                round: [],
             }
             // add game to the active games array
             games.push(game)
-            // this is not needed this will be done in the game page
-            // socket.join(msg.gameCode);
-            // io.sockets.in(msg.gameCode).emit('message', {
-            //     username: 'Game', 
-            //     text: msg.username + ' has joined the game', 
-            // });
-            // console.log(msg.gameCode);
             console.log(games);
         });
+
+        socket.on('server-createRound', function(msg){
+            let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
+            if(test){
+                // make new round
+                var round = {
+                    catigory: '',
+                    playerQuestions: {
+                        gameHost: '',
+                    },
+                    playerAnswers: {
+                        gameHost: '',
+                    }
+                }
+                // find the index of the game with gameCode
+                let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
+                // set round catigory
+                round.catigory = msg.category;
+                // addPlayers to round
+                for(i=0;games[dex].playerCount>i;i++){
+                    var player = 'player' + i;
+                    round.playerAnswers[player] = '';
+                    round.playerQuestions[player] = '';
+                }
+                // add new round to game 
+                games[dex].round.push(round);
+                // send updated game object to all players in the game (not yet implimented)
+                socket.emit('client-newRound', round)
+            }else{
+               io.sockets.in(msg.gameCode).emit('message', { 
+                    username: 'Game Server', 
+                    text: 'Cant find Game', 
+                });
+            }   
+        })
+        socket.emit('server-updateRound', function(msg){
+            let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
+            if(test){
+                let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
+                games[dex].round.playerQuestions[msg.player] = msg.question;
+                games[dex].round.playerAnswers[msg.player] = msg.answers;
+            }else{
+               io.sockets.in(msg.gameCode).emit('message', { 
+                    username: 'Game Server', 
+                    text: 'Cant find Game', 
+                });
+            }  
+        })
         
         // this will update the server side game
         socket.on('server-getGame',function(){
@@ -137,6 +161,7 @@ module.exports = (io) => {
                 // update the game Object
                 games[dex];
                 // send updated game object to all players in the game (not yet implimented)
+                console.log(games[dex]);
                 socket.emit('client-getGame',games[dex]);    
             }else{
                 console.log('no game');
