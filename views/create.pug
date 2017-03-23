@@ -17,17 +17,13 @@ block content
             br
             input.form-control#numRounds(name='numRounds', type='text' placeholder="Number of Rounds" required)
             br
-            select.form-control#categories
-                option(value="All" required) All Categories
-                //option(value=variable.id) #{variable.var_name}
+            p Select Categories:
+            .checkbox-inline
+                checkbox-input#checkbox(type='checkbox', value=val)
             br
             div.submitdiv
                 div.center
                     button#submit.btn.btn-primary(type="submit") Create Game
-                        
-        //div#help
-            h3 Already have an account? 
-                a#noaccnt(href='../users/login') Login
 
 block scripts
     script(src='/scripts/_createGame.js')
