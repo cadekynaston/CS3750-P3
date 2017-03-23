@@ -129,15 +129,15 @@ module.exports = (io) => {
         });
         
         // this will update the server side game
-        socket.on('update-server',function(game){
+        socket.on('server-getGame',function(){
             let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
             if(test){
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 // update the game Object
-                games[dex] = game;
+                games[dex];
                 // send updated game object to all players in the game (not yet implimented)
-                io.sockets.in(game.gameCode).emit('update-game',games[dex]);    
+                socket.emit('client-getGame',games[dex]);    
             }else{
                 console.log('no game');
                 socket.emit('no-game');
@@ -147,7 +147,7 @@ module.exports = (io) => {
 
         // this will gets game catigories from mongo for create game 
         socket.on('server-getCategories',function(){
-            schema.Categories.find({}, function(err, category){
+            schema.Categories.find({}, 'category', function(err, category){
                 console.log(category);
                 socket.emit('client-getCategories', category);
             })

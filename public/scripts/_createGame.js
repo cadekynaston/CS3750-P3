@@ -26,7 +26,7 @@ window.onload = ()=>{
     }).getKendoValidator(); //.data('kendoValidator');
 
     // add categories for testing 
-    //socket.emit('server-addCategories', 'testcat');
+    socket.emit('server-addCategory', 'test13');
     
     // get Categories from mongo and populate create form 
     socket.emit('server-getCategories');
