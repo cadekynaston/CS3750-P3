@@ -15,6 +15,6 @@ module.exports.Categories = mongoose.model('Categories', new schema({
 module.exports.Questions = mongoose.model('Questions', new schema({
   id:           ObjectId,
   category:     { type: String, required: '{PATH} is required.'},
-  answers:      {type: String, required: '{PATH} is required.' },
+  answer:      {type: String, required: '{PATH} is required.' },
   question:     {type: String, required: '{PATH} is required.' }
 }));

@@ -8,7 +8,6 @@ var noUser = {
 
 router.get('/', function(req, res, next) {
 
-
   if(req.user == null){
     req.user = noUser;
   }
@@ -24,6 +23,18 @@ router.get('/create', function(req, res, next) {
   }
   res.render('createQuestion', {
     userName: req.user.username,
+    csrfToken: req.csrfToken()
+  })
+});
+
+router.get('/:id', function(req, res, next) {
+
+  if(req.user == null){
+    req.user = noUser;
+  }
+  res.render('editQuestion', {
+    userName: req.user.username,
+    questionID: req.params.id,
     csrfToken: req.csrfToken()
   })
 });
@@ -47,7 +58,7 @@ router.post('/create', function(req, res) {
             console.log(err);
         } else {
             console.log('question created');
-            res.redirect('/');
+            res.redirect('/questions');
         }
     });
 });
