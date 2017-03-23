@@ -158,8 +158,6 @@ module.exports = (io) => {
             if(test){
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                // update the game Object
-                games[dex];
                 // send updated game object to all players in the game (not yet implimented)
                 console.log(games[dex]);
                 socket.emit('client-getGame',games[dex]);    
