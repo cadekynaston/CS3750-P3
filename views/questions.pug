@@ -2,14 +2,15 @@ extends layout
 
 block content
   p#username= userName
-  a(href = "questions/create") new question
+  a(href = "/questions/create") new question
   br
-
-  a(href = "questions/1") question 1
-  br
-
-  a(href = "questions/2") question 2
-  br
-
-  a(href = "questions/3") question 3
-  br
+    
+  .question-container
+    - for (var i=0; i<questions.length; i++)
+      a(href="/questions/"+questions[i]['_id']) 
+        p Question
+        .question-class #{questions[i]['question']}
+        p Answer
+        .answer-class #{questions[i]['answer']}
+        p Category
+        .category-class #{questions[i]['category']}
