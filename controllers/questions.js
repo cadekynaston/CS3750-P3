@@ -6,13 +6,21 @@ var noUser = {
   username: 'No User',
 };
 
-router.get('/', function(req, res, next) {
 
-  if(req.user == null){
-    req.user = noUser;
-  }
-  res.render('questions', {
-    userName: req.user.username
+router.get('/', function(req, res, next) {
+  var questionsToPass;
+  schema.Questions.find(function (err, q) {
+    if (err) {
+      res.render('questions', {
+        error: 'Could not load questions'
+      });
+    } else {
+      questionsToPass = q;
+      console.log(questionsToPass)
+      res.render('questions', {
+        questions: questionsToPass
+      });
+    }
   });
 });
 
@@ -29,16 +37,22 @@ router.get('/create', function(req, res, next) {
 
 router.get('/:id', function(req, res, next) {
 
+
+  // find each person with a last name matching 'Ghost', selecting the `name` and `occupation` fields
+  schema.Questions.findOne({ '_id': req.params.id }, function (err, q) {
+  if (err) return 'Error getting data';
+  console.log(q);
+  res.render('editQuestion', {
+    userName: req.user.username,
+    question: q,
+    csrfToken: req.csrfToken()
+  })
+  })
   if(req.user == null){
     req.user = noUser;
   }
-  res.render('editQuestion', {
-    userName: req.user.username,
-    questionID: req.params.id,
-    csrfToken: req.csrfToken()
-  })
-});
 
+});
 
 router.post('/create', function(req, res) {
 
@@ -47,6 +61,8 @@ router.post('/create', function(req, res) {
     //     answer: req.body.answer,
     //     category: req.body.category,
     // };
+
+    console.log('hi')
 
     var newQuestion = new schema.Questions({
         question: req.body.question,
@@ -61,6 +77,19 @@ router.post('/create', function(req, res) {
             res.redirect('/questions');
         }
     });
+});
+
+router.post('/:id', function(req, res, next) {
+
+  schema.Questions.findByIdAndUpdate(req.params.id, { $set: {
+      question:req.body.question,
+      answer: req.body.answer,
+      category: req.body.category
+    }}, function (err, q) {
+      if (err) return handleError(err);
+      res.redirect('/questions');
+  });
+
 });
 
 
