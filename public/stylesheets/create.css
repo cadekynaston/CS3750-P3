@@ -9,3 +9,16 @@
 h2{
     margin-bottom: 1em;
 }
+#submit{
+    margin-top: 20px;
+}
+#checkbox{
+    transform: scale(1.5);
+}
+.checkboxdiv{
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+.checkbox-inline{
+    font-size: 12pt;
+}
