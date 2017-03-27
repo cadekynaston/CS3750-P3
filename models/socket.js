@@ -107,7 +107,7 @@ module.exports = (io) => {
         socket.on('server-createRound', function(msg){
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
-                // make new round
+                // make new round template
                 var round = {
                     catigory: '',
                     playerQuestions: {
