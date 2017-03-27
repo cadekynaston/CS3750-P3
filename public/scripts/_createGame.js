@@ -26,7 +26,7 @@ window.onload = ()=>{
     }).getKendoValidator(); //.data('kendoValidator');
 
     // add categories for testing 
-    socket.emit('server-addCategory', 'test13');
+    socket.emit('server-addCategory', 'testit');
     
     var cat;
     // get Categories from mongo and populate create form 
@@ -37,7 +37,7 @@ window.onload = ()=>{
         cat = categories;
         console.log(categories);
         categories.forEach(function(element) {
-            $('.checkbox-inline').append('<label><input type="checkbox" id="checkbox" name="'
+            $('.checkbox-inline').append('<label><input type="checkbox" id="'
                  + element.category + '">' + element.category + '</input></label>');
         }, this);
     });
@@ -62,7 +62,7 @@ window.onload = ()=>{
         var i = 0;
         // use for loop to get categories
         cat.forEach(function(element){
-            if($("input[name="+element.category+"]")) // check for checked
+            if(document.getElementById(element.category).checked) // check for checked
             {
                 catname = 'catefory' + i++;
                 game.categories[catname]=element.category;
