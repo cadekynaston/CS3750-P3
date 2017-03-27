@@ -8,7 +8,7 @@ window.onload = ()=>{
 
                 // username must be alphanumeric
                 if (input.is('#username')) {
-                    var str = msg.username;
+                    var str = $('#username').val();
                     var patt = /^[a-z0-9_-]+$/i;
                     var res = patt.test(str);
                     return res;
@@ -43,21 +43,29 @@ window.onload = ()=>{
     });
 
     $('#submit').click(function (e) {
-        let msg = {
-            username: $('#username').val(),
-            gameCode: $('#gameCode').val(),
+        // make game object
+        let game = {
+            gameCode:  $('#gameCode').val(),
             numPlayers: $('#numPlayers').val(),
+            playerCount: 1,
+            players: {
+                player0: $('#username').val(),
+            },
+            playerPoints: {
+                player0: 0,
+            },
             numRounds: $('#numRounds').val(),
-            categorys: {
-                catname: $('#catname').val()
-            }
-        };
+            categories: {},
+            round: [],
+        }
+        // use for loop to get categories
+        //game.categories[category0] = 0// some check box id
         if (!validator.validate()) {
             // If the form is valid, the Validator will return true
             //do stuff
             event.preventDefault();
         }
-        socket.emit('create', msg);
+        socket.emit('create', game);
         console.log('click join');
     });
     
