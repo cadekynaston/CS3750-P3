@@ -36,8 +36,8 @@ window.onload = ()=>{
         console.log(categories);
         categories.forEach(function(element) {
             //document.getElementsByClassName('checkbox-inline');
-            $('.checkbox-inline').append('<div class="checkboxdiv"><input type="checkbox">'
-                 + element.category + '</input></div>');
+            $('.checkbox-inline').append('<div class="checkboxdiv"><label><input type="checkbox">'
+                 + element.category + '</input></label></div>');
 
         }, this);
     });
