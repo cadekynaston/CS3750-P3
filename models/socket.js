@@ -68,12 +68,10 @@ module.exports = (io) => {
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 // add new player to the game 
-                games[dex].playerCount++
                 player = 'player' + games[dex].playerCount;
                 games[dex].players[player] = msg.username; 
                 games[dex].playerPoints[player] = 0;
-                games[dex].round.playerAnswers[player] = 'Players answer';
-                games[dex].round.playerQuestions[player] = 'Playrs quetion';
+                games[dex].playerCount++
                 console.log(games);
             }else{
                 console.log('no game');
@@ -82,23 +80,10 @@ module.exports = (io) => {
         });
         
         // this function is called by the create game page
-        socket.on('create', function (msg) {
+        socket.on('create', function (game) {
             console.log('Create Game');
             // we may need to make sure a game with gameCode dose not exists before creating a new game with that gameCode
-            // make a new game model 
-            var game = {
-                gameCode: msg.gameCode,
-                numPlayers: msg.numPlayers,
-                playerCount: 0,
-                players: {
-                    gameHost: msg.username,
-                },
-                playerPoints: {
-                    gameHost: 0,
-                },
-                numRounds: msg.numRounds,
-                round: [],
-            }
+            
             // add game to the active games array
             games.push(game)
             console.log(games);
