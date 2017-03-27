@@ -30,9 +30,16 @@ window.onload = ()=>{
     
     // get Categories from mongo and populate create form 
     socket.emit('server-getCategories');
-    socket.on('client-getCategories',function(categories){
+    socket.on('client-getCategories', function(categories){
         // get category template
         // fill with categories use for loop to add them to form
+        console.log(categories);
+        categories.forEach(function(element) {
+            //document.getElementsByClassName('checkbox-inline');
+            $('.checkbox-inline').append('<div class="checkboxdiv"><input type="checkbox">'
+                 + element.category + '</input></div>');
+
+        }, this);
     });
 
     $('#submit').click(function (e) {

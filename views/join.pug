@@ -10,6 +10,9 @@ block content
     
     form.form-group(action="", method="post", id="joinForm")
       input.register(type="hidden", name="_csrf", value=csrfToken)
+      input.form-control#username(name='username', type='text' placeholder="Username" value= userName required)
+      br
+      input.form-control#gameCode(name='gameCode', type='text' placeholder="Game Code" value= gameCode required)
       input.form-control#username(name='username', type='text' placeholder='Username' value= userName required)
       br
       input.form-control#gameCode(name='gameCode', type='text' placeholder='Game Code' value= gameCode required)

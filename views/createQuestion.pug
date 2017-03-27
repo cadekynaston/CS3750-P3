@@ -1,0 +1,20 @@
+extends layout
+
+block content
+
+  form(method="post")
+      input(type="hidden", name="_csrf", value=csrfToken)
+    
+      span Question:
+      input(type="text", name="question", value=question, required=true)
+      br
+
+      span Answer:
+      input(type="text", name="answer", value=answer, required=true)
+      br
+
+      span Category:
+      input(type="text", name="category", value=category, required=true)
+      br
+
+      input(type="submit")
