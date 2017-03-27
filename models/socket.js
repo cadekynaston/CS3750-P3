@@ -88,23 +88,20 @@ module.exports = (io) => {
             console.log(games);
         });
 
-        socket.on('server-createRound', function(msg){
+        socket.on('server-createRound', function(round){
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
-                // make new round template
-                var round = {
-                    catigory: '',
-                    playerQuestions: {
-                        gameHost: '',
-                    },
-                    playerAnswers: {
-                        gameHost: '',
-                    }
-                }
+                // generate on client
+                // // make new round template
+                // var round = {
+                //     category: '',
+                //     playerQuestions: {},
+                //     playerAnswers: {}
+                // }
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                // set round catigory
-                round.catigory = msg.category;
+                // // set round catigory
+                // round.category = msg.category;
                 // addPlayers to round
                 for(i=0;games[dex].playerCount>i;i++){
                     var player = 'player' + i;
