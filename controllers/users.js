@@ -20,7 +20,7 @@ router.get('/create', function(req, res, next) {
   res.render('create', { 
     userName: req.user.username,
     gameCode: Math.random().toString(36).substr(2, 4).toUpperCase(),
-    csrfToken: req.csrfToken() 
+    csrfToken: req.csrfToken()
   });
 });
 

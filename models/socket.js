@@ -63,18 +63,15 @@ module.exports = (io) => {
         socket.on('join-game-room', function (msg) {
             // test for if game with gameCode exists
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
-            console.log('join game room', msg , test, '\nGame: ', games);
             if(test){
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 // add new player to the game 
-                games[dex].playerCount++
                 player = 'player' + games[dex].playerCount;
                 games[dex].players[player] = msg.username; 
                 games[dex].playerPoints[player] = 0;
-                games[dex].round.playerAnswers[player] = 'Players answer';
-                games[dex].round.playerQuestions[player] = 'Playrs quetion';
-                console.log(games);
+                games[dex].playerCount++
+                console.log('join game room', msg , test, '\nGame: ', games);
             }else{
                 console.log('no game');
                 socket.emit('no-game');
@@ -82,23 +79,10 @@ module.exports = (io) => {
         });
         
         // this function is called by the create game page
-        socket.on('create', function (msg) {
+        socket.on('create', function (game) {
             console.log('Create Game');
             // we may need to make sure a game with gameCode dose not exists before creating a new game with that gameCode
-            // make a new game model 
-            var game = {
-                gameCode: msg.gameCode,
-                numPlayers: msg.numPlayers,
-                playerCount: 0,
-                players: {
-                    gameHost: msg.username,
-                },
-                playerPoints: {
-                    gameHost: 0,
-                },
-                numRounds: msg.numRounds,
-                round: [],
-            }
+            
             // add game to the active games array
             games.push(game)
             console.log(games);
@@ -107,7 +91,7 @@ module.exports = (io) => {
         socket.on('server-createRound', function(msg){
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
-                // make new round
+                // make new round template
                 var round = {
                     catigory: '',
                     playerQuestions: {
@@ -158,8 +142,6 @@ module.exports = (io) => {
             if(test){
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                // update the game Object
-                games[dex];
                 // send updated game object to all players in the game (not yet implimented)
                 console.log(games[dex]);
                 socket.emit('client-getGame',games[dex]);    
@@ -176,6 +158,18 @@ module.exports = (io) => {
                 console.log(category);
                 socket.emit('client-getCategories', category);
             })
+        });
+        socket.on('server-getGameCategories',function(){
+            let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
+            if(test){
+                let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
+                socket.emit('client-getGameCategories', games[dex].Categories);
+            }else{
+               io.sockets.in(msg.gameCode).emit('message', { 
+                    username: 'Game Server', 
+                    text: 'Cant find Game', 
+                });
+            }  
         });
         // add a Categories to db
         socket.on('server-addCategory',function(cat){
