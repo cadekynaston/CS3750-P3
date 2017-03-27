@@ -26,7 +26,7 @@ window.onload = ()=>{
     }).getKendoValidator(); //.data('kendoValidator');
 
     // add categories for testing 
-    socket.emit('server-addCategory', 'testit');
+    socket.emit('server-addCategory', 'Dog');
     
     var cat;
     // get Categories from mongo and populate create form 
@@ -64,7 +64,7 @@ window.onload = ()=>{
         cat.forEach(function(element){
             if(document.getElementById(element.category).checked) // check for checked
             {
-                catname = 'catefory' + i++;
+                catname = 'category' + i++;
                 game.categories[catname]=element.category;
                 console.log(element.category, catname);
             }
