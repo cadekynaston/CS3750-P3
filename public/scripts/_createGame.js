@@ -41,10 +41,11 @@ window.onload = ()=>{
             gameCode: $('#gameCode').val(),
             numPlayers: $('#numPlayers').val(),
             numRounds: $('#numRounds').val(),
-            categorys: {
-                catname: $('#catname').val()
-            }
+            categories: {}
         };
+        // use for loop to get categories
+        msg.categories[category0] = 0// some check box id
+
         if (!validator.validate()) {
             // If the form is valid, the Validator will return true
             //do stuff
