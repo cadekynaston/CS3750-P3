@@ -6,7 +6,7 @@ window.onload = ()=>{
         gameCode: document.getElementById('gameCode').textContent,
     }
     socket.emit('connect-to-game-room', gameInfo)
-    
+
     // test function click to run socket commands
     $('#test').click(function (e) {
         socket.emit('send',{
@@ -22,11 +22,13 @@ window.onload = ()=>{
 
     socket.on('client-getGameCategories', function(categories){
         console.log('client-getGameCategories', categories, categories.length);
+        console.log('hi')
         cat = categories;
         for(i=0;cat.length>i;i++){
-            $('.container').append('<div><label><input type="checkbox" id="'+ cat[i] + '">' + cat[i] + '</input></label></div>');
+          console.log('inside')
+            $('.game').append('<div><label><input type="checkbox" id="'+ cat[i] + '">' + cat[i] + '</input></label></div>');
         };
-        $('.container').append('<div>test this </div>');
+        $('.game').append('<div>test this </div>');
     });
 
     $('#submit').click(function (e) {
@@ -45,13 +47,13 @@ window.onload = ()=>{
                 round.category = element;
             }
         });
-        
 
-        
+
+
         socket.emit('createRound', round);
         console.log('click join');
     });
-    
+
 
     socket.on('message', (msg) =>{
         console.log(msg);
