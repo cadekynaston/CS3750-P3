@@ -17,6 +17,42 @@ window.onload = ()=>{
         console.log('Action');
     });
 
+    let cat;
+    socket.emit('server-getGameCategories', gameInfo);
+
+    socket.on('client-getGameCategories', function(categories){
+        console.log('client-getGameCategories', categories, categories.length);
+        cat = categories;
+        for(i=0;cat.length>i;i++){
+            $('.container').append('<div><label><input type="checkbox" id="'+ cat[i] + '">' + cat[i] + '</input></label></div>');
+        };
+        $('.container').append('<div>test this </div>');
+    });
+
+    $('#submit').click(function (e) {
+        // make game object
+        let round = {
+            category: '',
+            playerQuestions: {},
+            playerAnswers: {}
+        }
+
+        // use for loop to get categories
+        cat.forEach(function(element){
+            if(document.getElementById(element).checked) // check for checked
+            {
+                console.log(element);
+                round.category = element;
+            }
+        });
+        
+
+        
+        socket.emit('createRound', round);
+        console.log('click join');
+    });
+    
+
     socket.on('message', (msg) =>{
         console.log(msg);
     });
