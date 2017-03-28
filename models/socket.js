@@ -156,11 +156,12 @@ module.exports = (io) => {
                 socket.emit('client-getCategories', category);
             })
         });
-        socket.on('server-getGameCategories',function(){
+        socket.on('server-getGameCategories',function(msg){
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                socket.emit('client-getGameCategories', games[dex].Categories);
+                console.log(games[dex].categories);
+                socket.emit('client-getGameCategories', games[dex].categories);
             }else{
                io.sockets.in(msg.gameCode).emit('message', { 
                     username: 'Game Server', 

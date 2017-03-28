@@ -55,18 +55,21 @@ window.onload = ()=>{
                 player0: 0,
             },
             numRounds: $('#numRounds').val(),
-            categories: {},
+            categories: [],
             round: [],
         }
 
-        var i = 0;
+        let dex = 0
         // use for loop to get categories
         cat.forEach(function(element){
             if(document.getElementById(element.category).checked) // check for checked
             {
-                catname = 'category' + i++;
-                game.categories[catname]=element.category;
-                console.log(element.category, catname);
+                let cats = { 
+                    id: dex++,
+                    category: element.category,
+                };
+                game.categories.push(element.category);
+                console.log(element.category, cats);
             }
         });
         //game.categories[category0] = 0// some check box id
