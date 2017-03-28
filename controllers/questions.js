@@ -16,7 +16,6 @@ router.get('/', function(req, res, next) {
       });
     } else {
       questionsToPass = q;
-      console.log(questionsToPass)
       res.render('questions', {
         questions: questionsToPass
       });
@@ -25,44 +24,31 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/create', function(req, res, next) {
-
-  if(req.user == null){
-    req.user = noUser;
-  }
-  res.render('createQuestion', {
-    userName: req.user.username,
-    csrfToken: req.csrfToken()
-  })
+  schema.Questions.find().distinct('category', function(error, ids) {
+      console.log('found categories');
+      res.render('createQuestion', {
+        categories: ids,
+        csrfToken: req.csrfToken()
+      })
+  });
 });
 
 router.get('/:id', function(req, res, next) {
 
-
-  // find each person with a last name matching 'Ghost', selecting the `name` and `occupation` fields
   schema.Questions.findOne({ '_id': req.params.id }, function (err, q) {
-  if (err) return 'Error getting data';
-  console.log(q);
-  res.render('editQuestion', {
-    userName: req.user.username,
-    question: q,
-    csrfToken: req.csrfToken()
+    if (err) return 'Error getting data';
+    schema.Questions.find().distinct('category', function(error, ids) {
+        console.log('found categories');
+        res.render('editQuestion', {
+          categories: ids,
+          question: q,
+          csrfToken: req.csrfToken()
+      });
+    })
   })
-  })
-  if(req.user == null){
-    req.user = noUser;
-  }
-
 });
 
 router.post('/create', function(req, res) {
-
-    // var params = {
-    //     question: req.body.question,
-    //     answer: req.body.answer,
-    //     category: req.body.category,
-    // };
-
-    console.log('hi')
 
     var newQuestion = new schema.Questions({
         question: req.body.question,
@@ -80,6 +66,7 @@ router.post('/create', function(req, res) {
 });
 
 router.post('/:id', function(req, res, next) {
+
 
   schema.Questions.findByIdAndUpdate(req.params.id, { $set: {
       question:req.body.question,

@@ -1,16 +1,18 @@
 extends layout
 
 block content
-  p#username= userName
-  a(href = "/questions/create") new question
-  br
-    
-  .question-container
-    - for (var i=0; i<questions.length; i++)
-      a(href="/questions/"+questions[i]['_id']) 
-        p Question
-        .question-class #{questions[i]['question']}
-        p Answer
-        .answer-class #{questions[i]['answer']}
-        p Category
-        .category-class #{questions[i]['category']}
+  link(rel='stylesheet', href='/stylesheets/create.css')
+  .container
+    p#username= userName
+    a(href = "/questions/create") new question
+    br
+      
+    .question-container
+      - for (var i=0; i<questions.length; i++)
+        a(href="/questions/"+questions[i]['_id']) 
+          p Question
+          .question-class #{questions[i]['question']}
+          p Answer
+          .answer-class #{questions[i]['answer']}
+          p Category
+          .category-class #{questions[i]['category']}
