@@ -176,7 +176,7 @@ module.exports = (io) => {
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 console.log(games[dex].playerPoints);
-                socket.emit('client-getGameCategories', games[dex].playerPoints);
+                socket.emit('client-getScores', games[dex].playerPoints);
             }else{
                io.sockets.in(msg.gameCode).emit('message', { 
                     username: 'Game Server', 
