@@ -3,23 +3,33 @@ extends layout
 block content
   .container
     .game
-    button#submit.btn.btn-primary(type='submit') Action
+      button#test.btn.btn-primary(type='submit') Action
   
-  #gameInfo game page
+  #gameInfo.template game page
     p#username= userName
     p#gameCode= gameCode
+  
+  .creatRound_template.template
+    form.form
+    button#createRound.btn.btn-primary(type='submit') Start Round
 
-  .gameRound_template
+  .gameRoundQuestion_template.template
     .question this is a question
     input.answer(type="text")
 
-  .gamePlay_template
+  .gameRoundAnswer_template.template
     .question this is the question
     .answers
 
-  .gameAnswers
-    button(id=userame)
+  .gameAnswers_template.template
+    button.AnswerBTN(type='submit')
+  
+  .gameEndRound_template.template
+    .scores
   
 
 block scripts
   script(src='/scripts/_game.js')
+  script(src='/scripts/_gameStartRound.js')
+  script(src='/scripts/_gamePlayRound.js')
+  script(src='/scripts/_gameEndRound.js')
