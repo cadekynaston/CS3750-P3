@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  link(rel='stylesheet', href='/stylesheets/create.css')
+  .container.main
+    h2 Update Question
+    form.form-group(method="post")
+      input.form-control(type="hidden", name="_csrf", value=csrfToken)
+    
+      span Question:
+      input.form-control(type="text", name="question", value=question['question'], required=true)
+      br
+
+      span Answer:
+      input.form-control(type="text", name="answer", value=question['answer'], required=true)
+      br
+
+      span Category:    
+      input.form-control(type='text', name="category", value=question['category'],  required=true, autocomplete="off", list='listid')
+      datalist#listid
+        - for (var i=0; i<categories.length; i++)
+          option(value=categories[i])
+      br
+
+      input(type="Submit" value="Update")
