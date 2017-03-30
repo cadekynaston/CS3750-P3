@@ -3,12 +3,23 @@ extends layout
 block content
   .container
     .game
-
-    #gameInfo game page
-      p#username= userName
-      p#gameCode= gameCode
-
     button#submit.btn.btn-primary(type='submit') Action
+  
+  #gameInfo game page
+    p#username= userName
+    p#gameCode= gameCode
+
+  .gameRound_template
+    .question this is a question
+    input.answer(type="text")
+
+  .gamePlay_template
+    .question this is the question
+    .answers
+
+  .gameAnswers
+    button(id=userame)
+  
 
 block scripts
   script(src='/scripts/_game.js')
