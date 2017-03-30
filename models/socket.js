@@ -134,6 +134,7 @@ module.exports = (io) => {
             }  
         })
         
+        
         // this will update the server side game
         socket.on('server-getGame',function(){
             let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
@@ -170,6 +171,19 @@ module.exports = (io) => {
                 });
             }  
         });
+        socket.on('server-getScores', function(msg){
+            let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
+            if(test){
+                let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
+                console.log(games[dex].playerPoints);
+                socket.emit('client-getScores', games[dex].playerPoints);
+            }else{
+               io.sockets.in(msg.gameCode).emit('message', { 
+                    username: 'Game Server', 
+                    text: 'Cant find Game', 
+                });
+            }  
+        })
         // add a Categories to db
         socket.on('server-addCategory',function(cat){
             schema.Categories.findOne({ category: cat }, function(err, category){
