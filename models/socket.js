@@ -87,6 +87,43 @@ module.exports = (io) => {
             games.push(game)
             console.log(games);
         });
+        // this will update the server side game
+        socket.on('server-getGame',function(game){
+            let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
+            if(test){
+                // find the index of the game with gameCode
+                let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
+                // send updated game object to all players in the game (not yet implimented)
+                console.log(games[dex]);
+                socket.emit('client-getGame',games[dex]);    
+            }else{
+                console.log('no game');
+                socket.emit('no-game');
+            }
+            
+        });
+        // this will remove game from games array
+        socket.on('server-endGame', function(game){
+            let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
+            if(test){
+                // find the index of the game with gameCode
+                let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
+                // remove game from games
+                games.splice(dex, 1);
+                // make sure game is closed
+                test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
+
+                if(test){
+                    io.sockets.in(game.gameCode).emit('no-game');
+                };
+
+                socket.emit('client-endGame');    
+            }else{
+                console.log('no game');
+                socket.emit('no-game');
+            }
+        });
+
 
         socket.on('server-createRound', function(game){
             let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
@@ -135,22 +172,7 @@ module.exports = (io) => {
         })
         
         
-        // this will update the server side game
-        socket.on('server-getGame',function(){
-            let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
-            if(test){
-                // find the index of the game with gameCode
-                let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                // send updated game object to all players in the game (not yet implimented)
-                console.log(games[dex]);
-                socket.emit('client-getGame',games[dex]);    
-            }else{
-                console.log('no game');
-                socket.emit('no-game');
-            }
-            
-        });
-
+        
         // this will gets game catigories from mongo for create game 
         socket.on('server-getCategories',function(){
             schema.Questions.find().distinct('category', function(err, category){
