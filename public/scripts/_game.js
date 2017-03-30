@@ -30,14 +30,14 @@ window.onload = ()=>{
     socket.on('client-getGameCategories', function(categories){
         console.log('client-getGameCategories', categories, categories.length);
         var $template = $($('.creatRound_template').clone().html());
-        cat = categories;
-        for(i=0;cat.length>i;i++){
-            console.log('inside')
-            $template.addClass('').find('.form').append('<div><Lable><input type="radio" name="radio" id="'+ 
-                cat[i] + '">' + cat[i] + '</input></Lable></div>');
-        };
         $('.game').children().remove();
         $('.game').append($template);
+        cat = categories;
+        for(i=0;cat.length>i;i++){
+            console.log('inside', cat[i])
+            $('.form').append('<div><label><input type="radio" name="radio" id="'+ cat[i] + '">' + cat[i] + '</input></label></div>')
+        };
+        
     });
     $('#createRound').click(function (e) {
         // make game object
@@ -66,13 +66,14 @@ window.onload = ()=>{
 // 
 //  Code to make the new round work
     socket.on('client-newRound', function(round){
-        var $template = $($('.gamePlay_template').clone().html());
-
-
-
-
+        var $template = $($('.gameRoundQuestion_template').clone().html());
         $('.game').children().remove();
         $('.game').append($template);
+
+
+
+
+        
         console.log(round);
     })
 
