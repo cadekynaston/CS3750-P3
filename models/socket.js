@@ -47,10 +47,12 @@ module.exports = (io) => {
             //check to see of game exists
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
+                let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 // if game exists join room with gameCode
                 socket.join(msg.gameCode);
                 // tell game somone joined the game (not implimented yet)
                 io.sockets.in(msg.gameCode).emit('join-game');
+                socket.emit('client-gameStart', games[dex])
             }else{
                 console.log('no game');
                 // tell game bage there is no game

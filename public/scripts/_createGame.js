@@ -38,7 +38,7 @@ window.onload = ()=>{
         console.log(categories);
         categories.forEach(function(element) {
             $('.checkbox-inline').append('<div><label><input type="checkbox" id="'
-                 + element.category + '">' + element.category + '</input></label></div>');
+                 + element + '">' + element + '</input></label></div>');
         }, this);
     });
 
@@ -62,14 +62,14 @@ window.onload = ()=>{
         let dex = 0
         // use for loop to get categories
         cat.forEach(function(element){
-            if(document.getElementById(element.category).checked) // check for checked
+            if(document.getElementById(element).checked) // check for checked
             {
                 let cats = { 
                     id: dex++,
-                    category: element.category,
+                    category: element,
                 };
-                game.categories.push(element.category);
-                console.log(element.category, cats);
+                game.categories.push(element);
+                console.log(element, cats);
             }
         });
         //game.categories[category0] = 0// some check box id

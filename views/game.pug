@@ -13,11 +13,20 @@ block content
     form.form
     button#createRound.btn.btn-primary(type='submit') Start Round
 
+  .waitScreen_template.template#content
+    #loader-wrapper
+      h1 please wait for host
+      #loader
+      //- .loader-section.section-left
+      //- .loader-section.section-right
+
   .gameRoundQuestion_template.template
+    .category
     .question this is a question
     input.answer(type="text")
 
   .gameRoundAnswer_template.template
+    .category
     .question this is the question
     li.answers
 
@@ -30,6 +39,4 @@ block content
 
 block scripts
   script(src='/scripts/_game.js')
-  script(src='/scripts/_gameStartRound.js')
-  script(src='/scripts/_gamePlayRound.js')
-  script(src='/scripts/_gameEndRound.js')
+  link(rel='stylesheet', href='/stylesheets/loading.css')
