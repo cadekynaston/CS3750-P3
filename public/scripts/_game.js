@@ -34,7 +34,8 @@ window.onload = ()=>{
     });
 
     socket.on('client-newRound', function(round){
-        $('.game').innerHTML = (`we have a round`);
+        $('.game').children().remove();
+        $('.game').append(`we have a round`);
         console.log(round);
     })
 
