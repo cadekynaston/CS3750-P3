@@ -67,14 +67,17 @@ window.onload = ()=>{
         var $template = $($('.gameRoundQuestion_template').clone().html());
         $('.game').children().remove();
         $('.game').append($template);
-
-
-
-
-        
+      
         console.log(round);
     })
 
+
+    //show the scores
+    socket.on('client-getScores', (scores) => {
+        console.log(scores);
+    });
+
+      
     //show the scores
     socket.on('client-getScores', (scores) => {
         console.log(scores);
