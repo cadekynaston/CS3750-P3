@@ -16,25 +16,36 @@ block content
 
   .waitScreen_template.template#content
     #loader-wrapper
-      h1.wait please wait for host
+      .wait 
+        h1 Please wait for Host 
       #loader
       //- .loader-section.section-left
       //- .loader-section.section-right
 
   .gameRoundQuestion_template.template
     .category
-    .question this is a question
-    input.answer(type="text")
+      p
+    .question
+      p
+    input.lie(type="text" placeholder="Tell Your Lie, make it good")
     button#getAnswer.btn.btn-primary(type='submit') Send Lie
 
   .gameRoundAnswer_template.template
     .category
-    .question this is the question
-    li.answers
+      p
+    .question
+      p
+    .listOfLies
+      ul.answers
 
   .gameAnswers_template.template
-    button#answerLies.btn.btn-primary(type='submit') your answer
+    li.lieListItem
+      button#selectLie.btn.btn-primary(type='submit')
   
+  .gameEndRoundContainer_template.template
+    .listOfScores
+      ul
+
   .gameEndRound_template.template
     li.scores
   

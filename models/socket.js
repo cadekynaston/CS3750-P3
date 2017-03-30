@@ -130,56 +130,92 @@ module.exports = (io) => {
         socket.on('server-createRound', function(round){
             let test = games.filter(function(e) { return e.gameCode == round.gameCode; }).length > 0;
             if(test){
-                // generate on client
-                // // make new round template
-                // var round = {
-                //     category: game.category,
-                //     playerQuestions: {},
+                // // round object makde in _game.js
+                // let round = {
+                //     gameCode: gameInfo.gameCode,
+                //     Category: '',
+                //     Question: '',
+                //     Answer: '',
+                //     liesIn: 0,
+                //     playerLies: {},
+                //     answersIn: 0,
                 //     playerAnswers: {}
                 // }
+                
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == round.gameCode; });
-                // // set round catigory
-                // round.category = msg.category;
+                // get a random question 
+
+                // add Question and Answer to round
+                round.Question = 'some Question';
+                round.Answer = 'some Answer';
                 // addPlayers to round
                 for(i=0;games[dex].playerCount>i;i++){
                     var player = 'player' + i;
+                    round.playerLies[player] = '';
                     round.playerAnswers[player] = '';
                 }
-                // get a random question
-                round.playerQuestion = 'random question?';
                 // add new round to game 
                 games[dex].round.push(round);
                 // send updated game object to all players in the game (not yet implimented)
-                io.sockets.in(round.gameCode).emit('client-newRound', round);
-                console.log(games);
+                io.sockets.in(round.gameCode).emit('client-newRound', games[dex].round[games[dex].roundCount]);
+                // add timer here if there is time
             }else{
                 socket.emit('no-game');
             }   
         })
-        socket.on('server-updateRoundAnswers', function(msg){
+        socket.on('server-updateRoundLies', function(msg){
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                games[dex].players.forEach(([key, value])=> {
+                Object.entries(games[dex].players).forEach(([key, value])=> {
                     if(msg.username == value){
-                        game.round.playerAnswers[key] = msg.answer;
+                        games[dex].round[games[dex].roundCount].liesIn++;
+                        games[dex].round[games[dex].roundCount].playerLies[key] = msg.lie;
                     }
                 });
-                socket.emit('wait', {text: 'waiting for all players to answers'});
-                // use a timer 
-                io.sockets.in(msg.gameCode).emit('client-selectionRound', games[dex].round);
+                console.log(games[dex].round[games[dex].roundCount]);
+                
+                // if all players are in, move to next part of round else show answering player wait screen
+                if(games[dex].playerCount == games[dex].round[games[dex].roundCount].liesIn){
+                    io.sockets.in(msg.gameCode).emit('client-selectionRound', games[dex].round[games[dex].roundCount]);
+                }else{
+                    socket.emit('wait', {text: 'waiting for all players to send there lies'});
+                }
             }else{
                io.sockets.in(msg.gameCode).emit('message', { 
                     username: 'Game Server', 
                     text: 'Cant find Game', 
                 });
                 socket.emit('no-game');
-            }  
-        })
-        socket.on('server-updateRoundLies', function(msg){
-
+            }
         });
+
+        socket.on('server-getRoundAnswers', function(msg){
+            let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
+            if(test){
+                let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
+                games[dex].players.forEach(([key, value])=> {
+                    if(msg.username == value){
+                        games[dex].round[games[dex].roundCount].answersIn++;
+                        games[dex].round[games[dex].roundCount].playerAnswers[key] = msg.answer;
+                    }
+                });
+                // if all players are in move to next part of round else show answering player wait screen
+                if(game[dex].playerCount == games[dex].round){
+                    // calculate scores 
+                    io.sockets.in(msg.gameCode).emit('client-showRoundScore', games[dex].round);
+                }else{
+                    socket.emit('wait', {text: 'waiting for all players to answers'});
+                }
+            }else{
+               io.sockets.in(msg.gameCode).emit('message', { 
+                    username: 'Game Server', 
+                    text: 'Cant find Game', 
+                });
+                socket.emit('no-game');
+            }
+        })
         
         
         

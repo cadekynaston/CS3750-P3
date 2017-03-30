@@ -4,6 +4,7 @@ window.onload = ()=>{
     let gameInfo = {
         username: document.getElementById('username').textContent,
         gameCode: document.getElementById('gameCode').textContent,
+        lie: '',
         answer: '',
         host: false
     }
@@ -13,7 +14,7 @@ window.onload = ()=>{
         $('.game').children().remove();
         $('.game').append($template);
         $('.wait').children().remove();
-        $('.wait').append(msg.text);
+        $('.wait').add.append(msg.text);
     })
 //
 //  check game host
@@ -47,8 +48,12 @@ window.onload = ()=>{
             // make game object
             let round = {
                 gameCode: gameInfo.gameCode,
-                category: '',
-                playerQuestion: '',
+                Category: '',
+                Question: '',
+                Answer: '',
+                liesIn: 0,
+                playerLies: {},
+                answersIn: 0,
                 playerAnswers: {}
             }
             
@@ -57,7 +62,7 @@ window.onload = ()=>{
                 if(document.getElementById(element).checked) // check for checked
                 {
                     console.log(element);
-                    round.category = element;
+                    round.Category = element;
                 }
             });
 
@@ -75,12 +80,18 @@ window.onload = ()=>{
         var $template = $($('.gameRoundQuestion_template').clone().html());
         $('.game').children().remove();
         $('.game').append($template);
+        // display question 
+        $('.category').append(round.Category);
+        console.log(round.Category)
+        $('.question').children().remove();
+        console.log(round.Question)
+        $('.question').append(round.Question);
 
 
         $('#getAnswer').click(function (e) {
-            gameInfo.answer =  $('.answer').val()
+            gameInfo.lie =  $('.lie').val();
             
-            socket.emit('server-updateRoundAnswers', gameInfo);
+            socket.emit('server-updateRoundLies', gameInfo);
 
             
             console.log('answer sent');
@@ -92,15 +103,20 @@ window.onload = ()=>{
 // 
     socket.on('client-selectionRound', function(round){
         var $template = $($('.gameRoundAnswer_template').clone().html());
-        $('.game').children().remove();
+        $('.game')
         $('.game').append($template);
+        $('.category').children().remove();
+        $('.category').append(round.Category);
 
-        $('#answerLies').onClick(function (e) {
+        $('.question').children().remove();
+        $('.question').append(round.Question);
+
+        $('#getAnswer').click(function (e) {
             // make game object
-            gameInfo.lie = $('.#answerLies').val();
+            gameInfo.answer = e.value;
 
-            socket.emit('server-updateRoundLies', gameInfo)
-            console.log('lies sent');
+            socket.emit('server-updateRoundAnsers', gameInfo)
+            console.log('lies sent', gameInfo);
         });
     })
 
