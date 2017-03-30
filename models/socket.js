@@ -109,9 +109,10 @@ module.exports = (io) => {
                     game.playerQuestions[player] = '';
                 }
                 // add new round to game 
-                games[dex].round.push(round);
+                games[dex].round.push(game);
                 // send updated game object to all players in the game (not yet implimented)
                 socket.emit('client-newRound', game)
+                console.log(games);
             }else{
                io.sockets.in(msg.gameCode).emit('message', { 
                     username: 'Game Server', 

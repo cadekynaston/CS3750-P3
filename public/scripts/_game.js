@@ -33,14 +33,21 @@ window.onload = ()=>{
         $('.game').append('</form>');
     });
 
+    socket.on('client-newRound', function(round){
+        $('.game').children().remove();
+        $('.game').append(`we have a round`);
+        console.log(round);
+    })
+
     $('#submit').click(function (e) {
         // make game object
         let round = {
+            gameCode: gameInfo.gameCode,
             category: '',
             playerQuestions: {},
             playerAnswers: {}
         }
-
+        
         // use for loop to get categories
         cat.forEach(function(element){
             if(document.getElementById(element).checked) // check for checked
@@ -50,12 +57,11 @@ window.onload = ()=>{
             }
         });
 
+        socket.emit('server-createRound', round);
 
-
-        socket.emit('createRound', round);
-        console.log('click join');
+        
+        console.log('create Round');
     });
-
 
     socket.on('message', (msg) =>{
         console.log(msg);
