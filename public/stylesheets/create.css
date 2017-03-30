@@ -22,3 +22,30 @@ h2{
 .checkbox-inline{
     font-size: 12pt;
 }
+
+.question-container {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+
+.small-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.question-container a {
+  height: 200px;
+  width: 400px;
+  border: 1px solid white;
+  margin: 10px;
+  background-color: white;
+  text-decoration: none;
+  padding:10px;
+
+}
+
+.indent {
+  text-indent: 40px;
+}
