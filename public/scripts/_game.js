@@ -7,6 +7,13 @@ window.onload = ()=>{
         host: false
     }
     socket.emit('connect-to-game-room', gameInfo)
+    socket.on('wait', function(msg){
+        var $template = $($('.waitScreen_template').clone().html());
+        $('.game').children().remove();
+        $('.game').append($template);
+        $('.wait').children().remove();
+        $('.wait').append(msg.text);
+    })
 //
 //  check game host
 //
@@ -67,10 +74,35 @@ window.onload = ()=>{
         var $template = $($('.gameRoundQuestion_template').clone().html());
         $('.game').children().remove();
         $('.game').append($template);
-      
+
+
+        $('#createRound').click(function (e) {
+            // make game object
+            let answer = {
+                gameCode: gameInfo.gameCode,
+                player: gameInfo.username,
+                playerAnswers: $('.answer').val()
+            }
+
+            socket.emit('server-updateRound', answer);
+
+            
+            console.log('answer sent');
+        });
         console.log(round);
     })
+//  
+//  move into selection portion of round
+// 
+    socket.on('client-selectionRound', function(round){
+        var $template = $($('.gameRoundAnswer_template').clone().html());
+        $('.game').children().remove();
+        $('.game').append($template);
 
+        round.playerAnswers.forEach(player)
+        
+
+    })
 
     //show the scores
     socket.on('client-getScores', (scores) => {

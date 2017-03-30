@@ -161,13 +161,16 @@ module.exports = (io) => {
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                games[dex].round.playerQuestions[msg.player] = msg.question;
                 games[dex].round.playerAnswers[msg.player] = msg.answers;
+                socket.emit('wait', {text: 'waiting for all players to answers'})
+                // use a timer 
+                io.sockets.in(msg.gameCode).emit('client-selectionRound', games[dex].round)
             }else{
                io.sockets.in(msg.gameCode).emit('message', { 
                     username: 'Game Server', 
                     text: 'Cant find Game', 
                 });
+                socket.emit('no-game');
             }  
         })
         
