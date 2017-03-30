@@ -40,7 +40,7 @@ window.onload = ()=>{
             let round = {
                 gameCode: gameInfo.gameCode,
                 category: '',
-                playerQuestions: {},
+                playerQuestion: '',
                 playerAnswers: {}
             }
             

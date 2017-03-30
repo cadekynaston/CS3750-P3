@@ -127,8 +127,8 @@ module.exports = (io) => {
         });
 
 
-        socket.on('server-createRound', function(game){
-            let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
+        socket.on('server-createRound', function(round){
+            let test = games.filter(function(e) { return e.gameCode == round.gameCode; }).length > 0;
             if(test){
                 // generate on client
                 // // make new round template
@@ -138,25 +138,23 @@ module.exports = (io) => {
                 //     playerAnswers: {}
                 // }
                 // find the index of the game with gameCode
-                let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
+                let dex = games.findIndex(function(e) { return e.gameCode == round.gameCode; });
                 // // set round catigory
                 // round.category = msg.category;
                 // addPlayers to round
                 for(i=0;games[dex].playerCount>i;i++){
                     var player = 'player' + i;
-                    game.playerAnswers[player] = '';
-                    game.playerQuestions[player] = '';
+                    round.playerAnswers[player] = '';
                 }
+                // get a random question
+                round.playerQuestion = 'random question?';
                 // add new round to game 
-                games[dex].round.push(game);
+                games[dex].round.push(round);
                 // send updated game object to all players in the game (not yet implimented)
-                io.sockets.in(msg.gameCode).emit('client-newRound', game);
+                io.sockets.in(round.gameCode).emit('client-newRound', round);
                 console.log(games);
             }else{
-               io.sockets.in(msg.gameCode).emit('message', { 
-                    username: 'Game Server', 
-                    text: 'Cant find Game', 
-                });
+                socket.emit('no-game');
             }   
         })
         socket.emit('server-updateRound', function(msg){
