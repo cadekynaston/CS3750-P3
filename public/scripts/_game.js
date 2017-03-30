@@ -4,6 +4,7 @@ window.onload = ()=>{
     let gameInfo = {
         username: document.getElementById('username').textContent,
         gameCode: document.getElementById('gameCode').textContent,
+        answer: '',
         host: false
     }
     socket.emit('connect-to-game-room', gameInfo)
@@ -76,15 +77,10 @@ window.onload = ()=>{
         $('.game').append($template);
 
 
-        $('#createRound').click(function (e) {
-            // make game object
-            let answer = {
-                gameCode: gameInfo.gameCode,
-                player: gameInfo.username,
-                playerAnswers: $('.answer').val()
-            }
-
-            socket.emit('server-updateRound', answer);
+        $('#getAnswer').click(function (e) {
+            gameInfo.answer =  $('.answer').val()
+            
+            socket.emit('server-updateRoundAnswers', gameInfo);
 
             
             console.log('answer sent');
@@ -99,9 +95,13 @@ window.onload = ()=>{
         $('.game').children().remove();
         $('.game').append($template);
 
-        round.playerAnswers.forEach(player)
-        
+        $('#answerLies').onClick(function (e) {
+            // make game object
+            gameInfo.lie = $('.#answerLies').val();
 
+            socket.emit('server-updateRoundLies', gameInfo)
+            console.log('lies sent');
+        });
     })
 
     //show the scores

@@ -157,14 +157,18 @@ module.exports = (io) => {
                 socket.emit('no-game');
             }   
         })
-        socket.emit('server-updateRound', function(msg){
+        socket.on('server-updateRoundAnswers', function(msg){
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                games[dex].round.playerAnswers[msg.player] = msg.answers;
-                socket.emit('wait', {text: 'waiting for all players to answers'})
+                games[dex].players.forEach(([key, value])=> {
+                    if(msg.username == value){
+                        game.round.playerAnswers[key] = msg.answer;
+                    }
+                });
+                socket.emit('wait', {text: 'waiting for all players to answers'});
                 // use a timer 
-                io.sockets.in(msg.gameCode).emit('client-selectionRound', games[dex].round)
+                io.sockets.in(msg.gameCode).emit('client-selectionRound', games[dex].round);
             }else{
                io.sockets.in(msg.gameCode).emit('message', { 
                     username: 'Game Server', 
@@ -173,6 +177,9 @@ module.exports = (io) => {
                 socket.emit('no-game');
             }  
         })
+        socket.on('server-updateRoundLies', function(msg){
+
+        });
         
         
         

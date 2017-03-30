@@ -54,8 +54,9 @@ window.onload = ()=>{
             playerPoints: {
                 player0: 0,
             },
-            numRounds: $('#numRounds').val(),
             categories: [],
+            numRounds: $('#numRounds').val(),
+            roundCount: 0,
             round: [],
         }
 
