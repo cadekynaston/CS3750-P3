@@ -1,16 +1,16 @@
 extends layout
 
-link(rel='stylesheet', href='css/normalize.css')
-link(rel='stylesheet', href='css/main.css')
-
 block content
-    .container
+    .container#content
         #loader-wrapper
-        #loader
-        .loader-section.section-left
-        .loader-section.section-right
+            #loader
+            .loader-section.section-left
+            .loader-section.section-right
 
 block scripts
-    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
-    //script(window.jQuery || document.write('<script src="js/jquery/jquery-1.9.1.min.js"></script>'))
-    script(src='js/main.js')
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/main.css')
+    link(rel='stylesheet', href='/stylesheets/loading.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+    script(src='/scripts/jquery/jquery-1.9.1.min.js')
+    script(src='/scripts/main.js')
