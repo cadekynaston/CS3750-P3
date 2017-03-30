@@ -39,6 +39,11 @@ window.onload = ()=>{
         console.log(round);
     })
 
+    //show the scores
+    socket.on('client-getScores', (scores) => {
+        console.log(scores);
+    });
+
     $('#submit').click(function (e) {
         // make game object
         let round = {
