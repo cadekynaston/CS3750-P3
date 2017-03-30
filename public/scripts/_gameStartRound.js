@@ -1,18 +1,17 @@
 window.onload = ()=>{
     // start game by creating a new round
-    
+    var $template = $($('.creatRound_template').clone().html());
     let cat;
     socket.on('client-getGameCategories', function(categories){
         console.log('client-getGameCategories', categories, categories.length);
         console.log('hi')
         cat = categories;
-        $('.game').append('<form>')
         for(i=0;cat.length>i;i++){
-          console.log('inside')
-            $('.game').append('<div><label><input type="radio" name="radio" id="'+ 
-                cat[i] + '">' + cat[i] + '</input></label></div>');
+            console.log('inside')
+            $template.find('form').append('<input type="radio" name="radio" id="'+ 
+                cat[i] + '">' + cat[i] + '</input>');
         };
-        $('.game').append('</form>');
+        $('.game').append($template);
     });
 
 
@@ -21,7 +20,7 @@ window.onload = ()=>{
         let round = {
             gameCode: document.getElementById('gameCode').textContent,
             category: '',
-            playerQuestions: {},
+            Questions: '',
             playerAnswers: {}
         }
         

@@ -5,7 +5,7 @@ block content
     .game
       button#test.btn.btn-primary(type='submit') Action
   
-  #gameInfo.template game page
+  .gameInfo.template game page
     p#username= userName
     p#gameCode= gameCode
   
@@ -19,13 +19,13 @@ block content
 
   .gameRoundAnswer_template.template
     .question this is the question
-    .answers
+    li.answers
 
   .gameAnswers_template.template
-    button.AnswerBTN(type='submit')
+    button.AnswerBTN(type='submit') your answer
   
   .gameEndRound_template.template
-    .scores
+    li.scores
   
 
 block scripts
