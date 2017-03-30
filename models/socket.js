@@ -153,7 +153,7 @@ module.exports = (io) => {
 
         // this will gets game catigories from mongo for create game 
         socket.on('server-getCategories',function(){
-            schema.Categories.find({}, 'category', function(err, category){
+            schema.Questions.find().distinct('category', function(err, category){
                 console.log(category);
                 socket.emit('client-getCategories', category);
             })
