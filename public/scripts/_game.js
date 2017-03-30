@@ -24,11 +24,13 @@ window.onload = ()=>{
         console.log('client-getGameCategories', categories, categories.length);
         console.log('hi')
         cat = categories;
+        $('.game').append('<form>')
         for(i=0;cat.length>i;i++){
           console.log('inside')
-            $('.game').append('<div><label><input type="checkbox" id="'+ cat[i] + '">' + cat[i] + '</input></label></div>');
+            $('.game').append('<div><label><input type="radio" name="radio" id="'+ 
+                cat[i] + '">' + cat[i] + '</input></label></div>');
         };
-        $('.game').append('<div>test this </div>');
+        $('.game').append('</form>');
     });
 
     $('#submit').click(function (e) {
