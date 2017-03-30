@@ -24,8 +24,6 @@ window.onload = ()=>{
 //  
 //  Code For Starting a new round
 //  
-
-    
     let cat;
     socket.on('client-getGameCategories', function(categories){
         console.log('client-getGameCategories', categories, categories.length);
@@ -37,31 +35,31 @@ window.onload = ()=>{
             console.log('inside', cat[i])
             $('.form').append('<div><label><input type="radio" name="radio" id="'+ cat[i] + '">' + cat[i] + '</input></label></div>')
         };
-        
-    });
-    $('#createRound').click(function (e) {
-        // make game object
-        let round = {
-            gameCode: gameInfo.gameCode,
-            category: '',
-            playerQuestions: {},
-            playerAnswers: {}
-        }
-        
-        // use for loop to get categories
-        cat.forEach(function(element){
-            if(document.getElementById(element).checked) // check for checked
-            {
-                console.log(element);
-                round.category = element;
+        $('#createRound').click(function (e) {
+            // make game object
+            let round = {
+                gameCode: gameInfo.gameCode,
+                category: '',
+                playerQuestions: {},
+                playerAnswers: {}
             }
+            
+            // use for loop to get categories
+            cat.forEach(function(element){
+                if(document.getElementById(element).checked) // check for checked
+                {
+                    console.log(element);
+                    round.category = element;
+                }
+            });
+
+            socket.emit('server-createRound', round);
+
+            
+            console.log('create Round');
         });
-
-        socket.emit('server-createRound', round);
-
-        
-        console.log('create Round');
     });
+    
 //  End Starting a new round 
 // 
 //  Code to make the new round work
@@ -94,6 +92,7 @@ window.onload = ()=>{
     });
     socket.on('message', (msg) =>{
         console.log(msg);
+        $('.message').append(msg);
     });
     socket.on('no-game',function(){
         window.location.href = '/';
