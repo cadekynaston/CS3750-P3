@@ -157,6 +157,27 @@ window.onload = ()=>{
             $scores.find('.score').html(game.playerPoints[key]);
             $('.scores').append($scores);
         });
+        var $button = $($('.nextButton_template').clone().html());
+        if(game.numRounds == game.roundCount){
+            $button.find('.text').html('Save and End Game');
+            $button.find('.btn').addClass('.endGame')
+        }else{
+            $button.find('.text').html('Next Round');
+            $button.find('.btn').addClass('.nextRound')
+        }
+        $('.next').append($button);
+
+        $('.endGame').click(function (e) {
+            socket.emit('server-endGame', gameInfo);
+
+        });
+
+        $('.nextRound').click(function (e) {
+            socket.emit('server-newRound', gameInfo);
+        
+        });
+
+       
     });
 
     
