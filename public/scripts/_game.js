@@ -135,7 +135,7 @@ window.onload = ()=>{
     //calculate scores send them back to server
     socket.on('client-endRound', (game) => {
         // add 100 points for every player that picked your lie 
-        Object.entries(game.round[game.roundCount].playerAnswers).forEach(([key, value])=> {
+        Object.entries(game.round[game.roundCount-1].playerAnswers).forEach(([key, value])=> {
             if(gameInfo.lie == value){
                 game.playerPoints[gameInfo.mykey] += 100;
             }
@@ -159,7 +159,7 @@ window.onload = ()=>{
         });
         var $button;
         console.log(game);
-        if(game.numRounds == game.roundCount++){
+        if(game.numRounds == game.roundCount){
             $button = $($('.endButton_template').clone().html());
         }else{
             $button = $($('.nextButton_template').clone().html());
