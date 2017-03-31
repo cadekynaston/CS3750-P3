@@ -14,7 +14,7 @@ window.onload = ()=>{
         $('.game').children().remove();
         $('.game').append($template);
         $('.wait').children().remove();
-        $('.wait').add.append(msg.text);
+        $('.wait').append(msg.text);
     })
 //
 //  check game host
