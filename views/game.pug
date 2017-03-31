@@ -17,37 +17,40 @@ block content
     .waitScreen_template.template#content
       #loader-wrapper
         .wait 
-          h1 Please wait for Host 
+          h1.text Please wait for Host 
         #loader
         //- .loader-section.section-left
         //- .loader-section.section-right
 
     .gameRoundQuestion_template.template
       .category
-        p
+        .textCat
       .question
-        p
+        .textQue
       input.lie(type="text" placeholder="Tell Your Lie, make it good")
       button#getAnswer.btn.btn-primary(type='submit') Send Lie
 
     .gameRoundAnswer_template.template
       .category
-        p
+        .textCat
       .question
-        p
+        .textQue
       .listOfLies
         ul.answers
 
     .gameAnswers_template.template
       li.lieListItem
-        button#selectLie.btn.btn-primary(type='submit')
+        button.selectLie.btn.btn-primary(type='submit')
+          .text
     
     .gameEndRoundContainer_template.template
       .listOfScores
-        ul
+        ul.scores
 
     .gameEndRound_template.template
-      li.scores
+      li
+        .player
+        .score
   
 
 block scripts

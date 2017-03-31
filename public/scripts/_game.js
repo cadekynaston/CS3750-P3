@@ -6,15 +6,24 @@ window.onload = ()=>{
         gameCode: document.getElementById('gameCode').textContent,
         lie: '',
         answer: '',
+        mykey: '',
         host: false
     }
     socket.emit('connect-to-game-room', gameInfo)
+    socket.on('client-gameStart', (game)=>{
+        // get your player key so that you can add to your score
+        Object.entries(game.players).forEach(([key, value])=> {
+            if(gameInfo.username == value){
+                gameInfo.mykey = key;
+            }
+        });
+    })
     socket.on('wait', function(msg){
         var $template = $($('.waitScreen_template').clone().html());
+        $template.find('.text').html(msg.text);
         $('.game').children().remove();
         $('.game').append($template);
-        $('.wait').children().remove();
-        $('.wait').append(msg.text);
+        
     })
 //
 //  check game host
@@ -78,23 +87,19 @@ window.onload = ()=>{
 //  Code to make the new round work
     socket.on('client-newRound', function(round){
         var $template = $($('.gameRoundQuestion_template').clone().html());
+        // add Question and Answer
+        $template.find('.textCat').html(round.Category);
+        $template.find('.textQue').html(round.Question);
+        // but them on the page
         $('.game').children().remove();
         $('.game').append($template);
-        // display question 
-        $('.category').append(round.Category);
-        console.log(round.Category)
-        $('.question').children().remove();
-        console.log(round.Question)
-        $('.question').append(round.Question);
-
 
         $('#getAnswer').click(function (e) {
             gameInfo.lie =  $('.lie').val();
             
             socket.emit('server-updateRoundLies', gameInfo);
 
-            
-            console.log('answer sent');
+            console.log('lie sent');
         });
         console.log(round);
     })
@@ -103,32 +108,55 @@ window.onload = ()=>{
 // 
     socket.on('client-selectionRound', function(round){
         var $template = $($('.gameRoundAnswer_template').clone().html());
-        $('.game')
+        $template.find('.textCat').html(round.Category);
+        $template.find('.textQue').html(round.Question);
+        $('.game').children().remove();
         $('.game').append($template);
-        $('.category').children().remove();
-        $('.category').append(round.Category);
 
-        $('.question').children().remove();
-        $('.question').append(round.Question);
+        var $button = $($('.gameAnswers_template').clone().html());
 
-        $('#getAnswer').click(function (e) {
+        $button.find('.text').html(round.Answer);
+        $('.answers').append($button);
+
+        Object.entries(round.playerLies).forEach(([key, value])=> {
+            $button.find('.text').html(value);
+            $('.answers').append($button);
+        });
+
+        $('.selectLie').click(function (e) {
             // make game object
-            gameInfo.answer = e.value;
+            gameInfo.answer = this.innerText;
 
-            socket.emit('server-updateRoundAnsers', gameInfo)
-            console.log('lies sent', gameInfo);
+            socket.emit('server-getRoundAnswers', gameInfo)
+            console.log('lie selected', gameInfo);
         });
     })
 
-    //show the scores
-    socket.on('client-getScores', (scores) => {
-        console.log(scores);
+    //calculate scores send them back to server
+    socket.on('client-endRound', (game) => {
+        // add 100 points for every player that picked your lie 
+        Object.entries(game.round[game.roundCount].playerAnswers).forEach(([key, value])=> {
+            if(gameInfo.lie == value){
+                game.playerPoints[gameInfo.mykey] += 100;
+            }
+        });
+        gameInfo.score = game.playerPoints[gameInfo.mykey];
+        socket.emit('server-updateScore', gameInfo)
+        console.log(game.playerPoints);
     });
 
       
     //show the scores
-    socket.on('client-getScores', (scores) => {
-        console.log(scores);
+    socket.on('client-getScores', (game) => {
+        var $template = $($('.gameEndRoundContainer_template').clone().html());
+        $('.game').children().remove();
+        $('.game').append($template);
+        var $scores = $($('.gameEndRound_template').clone().html());
+        Object.entries(game.players).forEach(([key, value])=> {
+            $scores.find('.player').html(value);
+            $scores.find('.score').html(game.playerPoints[key]);
+            $('.scores').append($scores);
+        });
     });
 
     
