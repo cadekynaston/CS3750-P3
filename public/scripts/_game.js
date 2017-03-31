@@ -53,6 +53,7 @@ window.onload = ()=>{
             console.log('inside', cat[i])
             $('.form').append('<div><label><input type="radio" name="radio" id="'+ cat[i] + '">' + cat[i] + '</input></label></div>')
         };
+
         $('#createRound').click(function (e) {
             // make game object
             let round = {
@@ -169,12 +170,6 @@ window.onload = ()=>{
         $('.endGame').click(function (e) {
             socket.emit('server-endGame', game);
             console.log('end Game')
-        });
-
-        $('.nextRound').click(function (e) {
-
-            socket.emit('server-createRound', gameInfo);
-            console.log('next round')
         });
 
        

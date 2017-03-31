@@ -60,6 +60,7 @@ module.exports = (io) => {
             }
         });
         
+        
         // this function is called my the join game page 
         // it add a player to ghe game if the game exists
         socket.on('join-game-room', function (msg) {
@@ -139,13 +140,8 @@ module.exports = (io) => {
                 // remove game from games
                 games.splice(dex, 1);
                 // make sure game is closed
-                test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
-
-                if(test){
-                    io.sockets.in(game.gameCode).emit('no-game');
-                };
-
-                
+                console.log(games);
+                io.sockets.in(game.gameCode).emit('no-game');
             }else{
                 console.log('no game');
                 socket.emit('no-game');
