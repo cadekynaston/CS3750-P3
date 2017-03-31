@@ -157,24 +157,24 @@ window.onload = ()=>{
             $scores.find('.score').html(game.playerPoints[key]);
             $('.scores').append($scores);
         });
-        var $button = $($('.nextButton_template').clone().html());
-        if(game.numRounds == game.roundCount){
-            $button.find('.text').html('Save and End Game');
-            $button.find('.btn').addClass('.endGame')
+        var $button;
+        console.log(game);
+        if(game.numRounds == game.roundCount++){
+            $button = $($('.endButton_template').clone().html());
         }else{
-            $button.find('.text').html('Next Round');
-            $button.find('.btn').addClass('.nextRound')
+            $button = $($('.nextButton_template').clone().html());
         }
         $('.next').append($button);
 
         $('.endGame').click(function (e) {
-            socket.emit('server-endGame', gameInfo);
-
+            socket.emit('server-endGame', game);
+            console.log('end Game')
         });
 
         $('.nextRound').click(function (e) {
-            socket.emit('server-newRound', gameInfo);
-        
+
+            socket.emit('server-createRound', gameInfo);
+            console.log('next round')
         });
 
        

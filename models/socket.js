@@ -145,7 +145,7 @@ module.exports = (io) => {
                     io.sockets.in(game.gameCode).emit('no-game');
                 };
 
-                socket.emit('client-endGame');    
+                
             }else{
                 console.log('no game');
                 socket.emit('no-game');
@@ -170,7 +170,7 @@ module.exports = (io) => {
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == round.gameCode; });
                 // get a random question 
-
+                games[dex].roundCount++;
                 // add Question and Answer to round
                 round.Question = 'some Question';
                 round.Answer = 'some Answer';
@@ -183,7 +183,7 @@ module.exports = (io) => {
                 // add new round to game 
                 games[dex].round.push(round);
                 // send updated game object to all players in the game (not yet implimented)
-                io.sockets.in(round.gameCode).emit('client-newRound', games[dex].round[games[dex].roundCount]);
+                io.sockets.in(round.gameCode).emit('client-newRound', games[dex].round[games[dex].roundCount-1]);
                 // add timer here if there is time
             }else{
                 socket.emit('no-game');
@@ -195,15 +195,15 @@ module.exports = (io) => {
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 Object.entries(games[dex].players).forEach(([key, value])=> {
                     if(msg.username == value){
-                        games[dex].round[games[dex].roundCount].liesIn++;
-                        games[dex].round[games[dex].roundCount].playerLies[key] = msg.lie;
+                        games[dex].round[games[dex].roundCount-1].liesIn++;
+                        games[dex].round[games[dex].roundCount-1].playerLies[key] = msg.lie;
                     }
                 });
-                console.log(games[dex].round[games[dex].roundCount]);
+                console.log(games[dex].round[games[dex].roundCount-1]);
                 
                 // if all players are in, move to next part of round else show answering player wait screen
-                if(games[dex].playerCount == games[dex].round[games[dex].roundCount].liesIn){
-                    io.sockets.in(msg.gameCode).emit('client-selectionRound', games[dex].round[games[dex].roundCount]);
+                if(games[dex].playerCount == games[dex].round[games[dex].roundCount-1].liesIn){
+                    io.sockets.in(msg.gameCode).emit('client-selectionRound', games[dex].round[games[dex].roundCount-1]);
                 }else{
                     socket.emit('wait', {text: 'waiting for all players to send there lies'});
                 }
@@ -221,13 +221,13 @@ module.exports = (io) => {
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 Object.entries(games[dex].players).forEach(([key, value])=> {
                     if(msg.username == value){
-                        games[dex].round[games[dex].roundCount].answersIn++;
-                        games[dex].round[games[dex].roundCount].playerAnswers[key] = msg.answer;
+                        games[dex].round[games[dex].roundCount-1].answersIn++;
+                        games[dex].round[games[dex].roundCount-1].playerAnswers[key] = msg.answer;
                     }
                 });
                 
                 // if all players are in, move to next part of round else show answering player wait screen
-                if(games[dex].playerCount == games[dex].round[games[dex].roundCount].answersIn){
+                if(games[dex].playerCount == games[dex].round[games[dex].roundCount-1].answersIn){
                     console.log('end Round');
                     io.sockets.in(msg.gameCode).emit('client-endRound', games[dex]);
                 }else{
