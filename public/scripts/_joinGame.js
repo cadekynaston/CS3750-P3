@@ -41,5 +41,7 @@ window.onload = ()=>{
         });
         console.log('click join');
     });
-        
+    socket.on('redirect',function(loc){
+        window.location.href = loc;
+    }) 
 }

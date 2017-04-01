@@ -10,14 +10,7 @@ window.onload = ()=>{
         host: false
     }
     socket.emit('connect-to-game-room', gameInfo)
-    socket.on('client-gameStart', (game)=>{
-        // get your player key so that you can add to your score
-        Object.entries(game.players).forEach(([key, value])=> {
-            if(gameInfo.username == value){
-                gameInfo.mykey = key;
-            }
-        });
-    })
+    
     socket.on('wait', function(msg){
         var $template = $($('.waitScreen_template').clone().html());
         $template.find('.text').html(msg.text);
@@ -29,8 +22,14 @@ window.onload = ()=>{
 //  check game host
 //
     socket.on('client-gameStart', function(game){
+        // get your player key so that you can add to your score
+        Object.entries(game.players).forEach(([key, value])=> {
+            if(gameInfo.username == value){
+                gameInfo.mykey = key;
+            }
+        });
         if(game.playerCount == game.numPlayers || game.roundCount-1 == game.round.length){
-            socket.emit('server-getGameCategories', gameInfo);
+            socket.emit('host-start', gameInfo);
         }else{
             // show wait screen
             var $template = $($('.waitScreen_template').clone().html());
@@ -38,12 +37,24 @@ window.onload = ()=>{
             $('.game').children().remove();
             $('.game').append($template);
         }
-    })
+    });
+    socket.on('host-createRound', function(){
+        if(gameInfo.mykey = 'player0'){
+            socket.emit('server-getGameCategories', gameInfo);
+        }else{
+            var $template = $($('.waitScreen_template').clone().html());
+            $template.find('.text').html('Waiting for Host To start Round');
+            $('.game').children().remove();
+            $('.game').append($template);
+        }
+    });
 //  
 //  Code For Starting a new round
 //  
     let cat;
     socket.on('client-getGameCategories', function(categories){
+        // tell the other players a new round is being created
+        socket.emit('server-newRound', gameInfo);
         var $template = $($('.creatRound_template').clone().html());
         $('.game').children().remove();
         $('.game').append($template);
@@ -76,7 +87,7 @@ window.onload = ()=>{
             socket.emit('server-createRound', round);
 
             
-            console.log('create Round');
+            console.log('create Round', round);
         });
     });
     
@@ -158,20 +169,28 @@ window.onload = ()=>{
             $('.scores').append($scores);
         });
         var $button;
-        console.log(game);
+        
         if(game.numRounds == game.roundCount){
             $button = $($('.endButton_template').clone().html());
         }else{
-            $button = $($('.nextButton_template').clone().html());
+            $button = $($('.createButton_template').clone().html());
         }
         $('.next').append($button);
 
         $('.endGame').click(function (e) {
+            console.log('End game', game);
             socket.emit('server-endGame', game);
-            console.log('end Game')
+        });
+        $('.createButton').click(function (e) {
+            console.log('End game', game);
+            socket.emit('server-endRound', game);
         });
 
        
+    });
+    socket.on('changeNextButton', function(){
+        $button = $($('.nextButton_template').clone().html());
+        $('.next').html($button);
     });
 
     
@@ -185,10 +204,10 @@ window.onload = ()=>{
         console.log('Action');
     });
     socket.on('message', (msg) =>{
-        console.log(msg);
+        console.log('message recived',msg);
         $('.message').append(msg);
     });
-    socket.on('no-game',function(){
-        window.location.href = '/';
+    socket.on('redirect',function(loc){
+        window.location.href = loc;
     })
 }
