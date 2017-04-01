@@ -29,7 +29,6 @@ window.onload = ()=>{
 //  check game host
 //
     socket.on('client-gameStart', function(game){
-        console.log('client-gameStart',game);
         if(game.playerCount == game.numPlayers || game.roundCount-1 == game.round.length){
             socket.emit('server-getGameCategories', gameInfo);
         }else{
@@ -45,13 +44,11 @@ window.onload = ()=>{
 //  
     let cat;
     socket.on('client-getGameCategories', function(categories){
-        console.log('client-getGameCategories', categories, categories.length);
         var $template = $($('.creatRound_template').clone().html());
         $('.game').children().remove();
         $('.game').append($template);
         cat = categories;
         for(i=0;cat.length>i;i++){
-            console.log('inside', cat[i])
             $('.form').append('<div><label><input type="radio" name="radio" id="'+ cat[i] + '">' + cat[i] + '</input></label></div>')
         };
 
@@ -72,7 +69,6 @@ window.onload = ()=>{
             cat.forEach(function(element){
                 if(document.getElementById(element).checked) // check for checked
                 {
-                    console.log(element);
                     round.Category = element;
                 }
             });
@@ -101,9 +97,9 @@ window.onload = ()=>{
             
             socket.emit('server-updateRoundLies', gameInfo);
 
-            console.log('lie sent');
+            console.log('lie sent', gameInfo);
         });
-        console.log(round);
+        
     })
 //  
 //  move into selection portion of round
@@ -141,10 +137,12 @@ window.onload = ()=>{
             if(gameInfo.lie == value){
                 game.playerPoints[gameInfo.mykey] += 100;
             }
+            if(game.round[game.roundCount-1].Answer = value){
+                game.playerPoints[gameInfo.mykey] += 500;
+            }
         });
         gameInfo.score = game.playerPoints[gameInfo.mykey];
-        socket.emit('server-updateScore', gameInfo)
-        console.log(game.playerPoints);
+        socket.emit('server-updateScore', gameInfo);
     });
 
       
