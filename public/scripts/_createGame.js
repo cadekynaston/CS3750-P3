@@ -46,10 +46,10 @@ window.onload = ()=>{
         // make game object
         let game = {
             gameCode:  $('#gameCode').val(),
-            numPlayers: $('#numPlayers').val(),
+            numPlayers: parseInt($('#numPlayers').val()),
             playerCount: 1,
             players: {
-                player0: parseInt($('#username').val()), //parseInt
+                player0: $('#username').val(), //parseInt
             },
             playerPoints: {
                 player0: 0,
