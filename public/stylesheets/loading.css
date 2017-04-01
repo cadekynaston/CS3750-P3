@@ -11,6 +11,9 @@ p {
     color: #7E7E7E;
 }
 h1 {
+    position: relative;
+    top: 4em;
+    text-align: center;
     color: #EEEEEE;
 }
 

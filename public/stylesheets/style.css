@@ -20,7 +20,7 @@ body {
 input{
   color: black;
 }
-#gameInfo{
+.template{
   /*make none when done testing */
-  display: block;
+  display: none;
 }
