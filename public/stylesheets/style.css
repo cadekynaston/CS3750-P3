@@ -4,7 +4,7 @@ html {
 
 body {
   /*NAV BAR STUFF HERE*/
-  background: url('../img/header.jpg') no-repeat center center fixed; 
+  background: url('../img/header1.jpg') no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -20,7 +20,7 @@ body {
 input{
   color: black;
 }
-#gameInfo{
+.template{
   /*make none when done testing */
-  display: block;
+  display: none;
 }

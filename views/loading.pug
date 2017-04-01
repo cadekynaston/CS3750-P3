@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    .container#content
+        #loader-wrapper
+            #loader
+            .loader-section.section-left
+            .loader-section.section-right
+
+block scripts
+    link(rel='stylesheet', href='/stylesheets/normalize.css')
+    link(rel='stylesheet', href='/stylesheets/main.css')
+    link(rel='stylesheet', href='/stylesheets/loading.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+    script(src='/scripts/jquery/jquery-1.9.1.min.js')
+    script(src='/scripts/main.js')
