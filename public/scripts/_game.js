@@ -30,12 +30,12 @@ window.onload = ()=>{
 //
     socket.on('client-gameStart', function(game){
         console.log('client-gameStart',game);
-        if(game.playerCount == game.numPlayers){
+        if(game.playerCount == game.numPlayers || game.roundCount-1 == game.round.length){
             socket.emit('server-getGameCategories', gameInfo);
         }else{
             // show wait screen
             var $template = $($('.waitScreen_template').clone().html());
-            $template.find('.text').html('Waiting for Players To Join');
+            $template.find('.text').html('Waiting for Players To Join Round');
             $('.game').children().remove();
             $('.game').append($template);
         }
