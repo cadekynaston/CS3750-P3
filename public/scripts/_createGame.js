@@ -49,13 +49,13 @@ window.onload = ()=>{
             numPlayers: $('#numPlayers').val(),
             playerCount: 1,
             players: {
-                player0: $('#username').val(),
+                player0: parseInt($('#username').val()), //parseInt
             },
             playerPoints: {
                 player0: 0,
             },
             categories: [],
-            numRounds: $('#numRounds').val(),
+            numRounds: parseInt($('#numRounds').val()), //parseInt
             roundCount: 0,
             round: [],
         }
