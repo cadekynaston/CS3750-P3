@@ -9,14 +9,14 @@ module.exports = (io) => {
     io.on('connection', function (socket) {
         userCount++;
         console.log('a user connected ' + userCount + ' user(s)');
-        
-        // this funciton will only send to the connecting player 
+
+        // this funciton will only send to the connecting player
         socket.emit('message',{
-            username: 'Game', 
-            text: 'Welcome to the Game', 
+            username: 'Game',
+            text: 'Welcome to the Game',
         });
 
-        // chat style message that indicates when someone has navigated away 
+        // chat style message that indicates when someone has navigated away
         // this fuction is called by a client fuction that looks like:
         // window.onbeforeunload = () => {
         //     socket.emit('leave',{
@@ -26,19 +26,19 @@ module.exports = (io) => {
         // };
         socket.on('leave', function (msg) {
             io.sockets.in(msg.gameCode).emit('message', {
-                username: 'Game', 
-                text: msg.username + ' has left Game', 
+                username: 'Game',
+                text: msg.username + ' has left Game',
             });
         });
-        
-        // chat style function for sending and reciving messages 
+
+        // chat style function for sending and reciving messages
         socket.on('send', function (msg) {
-            io.sockets.in(msg.gameCode).emit('message', { 
-                username: msg.username, 
-                text: msg.text, 
+            io.sockets.in(msg.gameCode).emit('message', {
+                username: msg.username,
+                text: msg.text,
             });
         });
-        
+
         // this function is called only by the game page
         // it add a player to a room if the room dose not
         // exists it calls no game and returns to home page
@@ -59,9 +59,9 @@ module.exports = (io) => {
                 socket.emit('no-game');
             }
         });
-        
-        
-        // this function is called my the join game page 
+
+
+        // this function is called my the join game page
         // it add a player to ghe game if the game exists
         socket.on('join-game-room', function (msg) {
             // test for if game with gameCode exists
@@ -74,21 +74,21 @@ module.exports = (io) => {
                     if(msg.username == value){
                         console.log('user already exists joining game')
                     }else{
-                        // add new player to the game 
+                        // add new player to the game
                         player = 'player' + games[dex].playerCount;
-                        games[dex].players[player] = msg.username; 
+                        games[dex].players[player] = msg.username;
                         games[dex].playerPoints[player] = 0;
                         games[dex].playerCount++
                     }
                 });
-                
+
                 console.log('join game room', msg , test, '\nGame: ', games);
             }else{
                 console.log('no game');
                 socket.emit('no-game');
             }
         });
-        
+
         // this function is called by the create game page
         socket.on('create', function (game) {
             console.log('Create Game');
@@ -113,7 +113,7 @@ module.exports = (io) => {
                     username: game.players['player0']
                 })
             }
-            
+
             console.log(games);
         });
         // this will get the server side game
@@ -124,12 +124,12 @@ module.exports = (io) => {
                 let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
                 // send updated game object to all players in the game (not yet implimented)
                 console.log(games[dex]);
-                socket.emit('client-getGame',games[dex]);    
+                socket.emit('client-getGame',games[dex]);
             }else{
                 console.log('no game');
                 socket.emit('no-game');
             }
-            
+
         });
         // this will remove game from games array
         socket.on('server-endGame', function(game){
@@ -162,28 +162,39 @@ module.exports = (io) => {
                 //     answersIn: 0,
                 //     playerAnswers: {}
                 // }
-                
+
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == round.gameCode; });
-                // get a random question 
+                // get a random question
                 games[dex].roundCount++;
                 // add Question and Answer to round
-                round.Question = 'some Question';
-                round.Answer = 'some Answer';
-                // addPlayers to round
-                for(i=0;games[dex].playerCount>i;i++){
-                    var player = 'player' + i;
-                    round.playerLies[player] = '';
-                    round.playerAnswers[player] = '';
-                }
-                // add new round to game 
-                games[dex].round.push(round);
-                // send updated game object to all players in the game (not yet implimented)
-                io.sockets.in(round.gameCode).emit('client-newRound', games[dex].round[games[dex].roundCount-1]);
-                // add timer here if there is time
+                schema.Questions.find({category: round.Category}, function(err, questions){
+                    if(!questions){
+                        console.log('could not find a question');
+                    }else{
+                        console.log(questions);
+                        let rand = Math.floor(Math.random() * (questions.length));
+                        console.log(questions[rand]);
+                        round.Question= questions[rand].question;
+                        round.Answer = questions[rand].answer;
+
+                        //addPlayers to round
+                        for(i=0;games[dex].playerCount>i;i++){
+                            var player = 'player' + i;
+                            round.playerLies[player] = '';
+                            round.playerAnswers[player] = '';
+                        }
+                        // add new round to game
+                        games[dex].round.push(round);
+                        // send updated game object to all players in the game (not yet implimented)
+                        io.sockets.in(round.gameCode).emit('client-newRound', games[dex].round[games[dex].roundCount-1]);
+                        // add timer here if there is time
+                    }
+                });
+
             }else{
                 socket.emit('no-game');
-            }   
+            }
         });
         socket.on('server-updateRoundLies', function(msg){
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
@@ -196,7 +207,7 @@ module.exports = (io) => {
                     }
                 });
                 console.log(games[dex].round[games[dex].roundCount-1]);
-                
+
                 // if all players are in, move to next part of round else show answering player wait screen
                 if(games[dex].playerCount == games[dex].round[games[dex].roundCount-1].liesIn){
                     io.sockets.in(msg.gameCode).emit('client-selectionRound', games[dex].round[games[dex].roundCount-1]);
@@ -204,9 +215,9 @@ module.exports = (io) => {
                     socket.emit('wait', {text: 'waiting for all players to send there lies'});
                 }
             }else{
-               io.sockets.in(msg.gameCode).emit('message', { 
-                    username: 'Game Server', 
-                    text: 'Cant find Game', 
+               io.sockets.in(msg.gameCode).emit('message', {
+                    username: 'Game Server',
+                    text: 'Cant find Game',
                 });
                 socket.emit('no-game');
             }
@@ -221,7 +232,7 @@ module.exports = (io) => {
                         games[dex].round[games[dex].roundCount-1].playerAnswers[key] = msg.answer;
                     }
                 });
-                
+
                 // if all players are in, move to next part of round else show answering player wait screen
                 if(games[dex].playerCount == games[dex].round[games[dex].roundCount-1].answersIn){
                     console.log('end Round');
@@ -230,9 +241,9 @@ module.exports = (io) => {
                     socket.emit('wait', {text: 'waiting for all players to send there Answers'});
                 }
             }else{
-               io.sockets.in(msg.gameCode).emit('message', { 
-                    username: 'Game Server', 
-                    text: 'Cant find Game', 
+               io.sockets.in(msg.gameCode).emit('message', {
+                    username: 'Game Server',
+                    text: 'Cant find Game',
                 });
                 socket.emit('no-game');
             }
@@ -242,15 +253,15 @@ module.exports = (io) => {
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                
+
                 games[dex].playerPoints[msg.mykey] = msg.score;
-                
+
                 console.log('server-updateScores',games[dex].playerPoints);
                 socket.emit('client-getScores', games[dex]);
             }else{
-               io.sockets.in(msg.gameCode).emit('message', { 
-                    username: 'Game Server', 
-                    text: 'Cant find Game', 
+               io.sockets.in(msg.gameCode).emit('message', {
+                    username: 'Game Server',
+                    text: 'Cant find Game',
                 });
                 socket.emit('no-game');
             }
@@ -263,16 +274,16 @@ module.exports = (io) => {
                 console.log('server-getScores',games[dex].playerPoints);
                 socket.emit('client-getScores', games[dex]);
             }else{
-               io.sockets.in(msg.gameCode).emit('message', { 
-                    username: 'Game Server', 
-                    text: 'Cant find Game', 
+               io.sockets.in(msg.gameCode).emit('message', {
+                    username: 'Game Server',
+                    text: 'Cant find Game',
                 });
-            }  
+            }
         });
-        
-        
-        
-        // this will gets game catigories from mongo for create game 
+
+
+
+        // this will gets game catigories from mongo for create game
         socket.on('server-getCategories',function(){
             schema.Questions.find().distinct('category', function(err, category){
                 console.log(category);
@@ -286,11 +297,11 @@ module.exports = (io) => {
                 console.log(games[dex].categories);
                 socket.emit('client-getGameCategories', games[dex].categories);
             }else{
-               io.sockets.in(msg.gameCode).emit('message', { 
-                    username: 'Game Server', 
-                    text: 'Cant find Game', 
+               io.sockets.in(msg.gameCode).emit('message', {
+                    username: 'Game Server',
+                    text: 'Cant find Game',
                 });
-            }  
+            }
         });
         // add a Categories to db
         socket.on('server-addCategory',function(cat){
@@ -303,15 +314,15 @@ module.exports = (io) => {
                         //check for errors
                         if (err) {
                             console.log('Something bad happened! Please try again.');
-                        } 
+                        }
                     });
-                                    
+
                 } else{
                     console.log('category already exists')
                 }
             });
         });
-        
+
         // get question in category
         socket.on('server-getQuestionInCat', function(cat){
             schema.Questions.find({category: cat}, function(err, question){
@@ -322,6 +333,20 @@ module.exports = (io) => {
                 }
             });
         });
+
+        // let getQuestionInCat = function(cat){
+        //     schema.Questions.find({category: cat}, function(err, questions){
+        //         if(!questions){
+        //             console.log('could not find a question');
+        //         }else{
+        //             console.log(questions);
+        //             let rand = Math.floor(Math.random() * (questions.length));
+        //             let obj = {question:questions[rand].question, answer: questions[rand].answer};
+        //             console.log(obj)
+        //             return obj;
+        //         }
+        //     });
+        //   };
         // add a quetion to db
         socket.on('server-addQuestion',function(quest){
             schema.Questions.findOne({ question: quest.question }, function(err, question){
@@ -335,7 +360,7 @@ module.exports = (io) => {
                         //check for errors
                         if (err) {
                             console.log('Something bad happened! Please try again.');
-                        } 
+                        }
                     });
                 } else{
                     console.log('category already exists')
