@@ -49,7 +49,7 @@ window.onload = ()=>{
             numPlayers: parseInt($('#numPlayers').val()),
             playerCount: 1,
             players: {
-                player0: $('#username').val(), //parseInt
+                player0: $('#username').val(),
             },
             playerPoints: {
                 player0: 0,
@@ -58,6 +58,7 @@ window.onload = ()=>{
             numRounds: parseInt($('#numRounds').val()), //parseInt
             roundCount: 0,
             round: [],
+            usedQuestions: []
         }
 
         let dex = 0
