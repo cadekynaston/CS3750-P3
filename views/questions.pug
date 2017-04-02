@@ -2,18 +2,18 @@ extends layout
 
 block content
   link(rel='stylesheet', href='/stylesheets/create.css')
-  
-  .small-container
-    h2 Questions
-    a(href = "/questions/create") new question
-    br
-      
-  .question-container
-    - for (var i=0; i<questions.length; i++)
-      a(href="/questions/"+questions[i]['_id']) 
-        p Question:
-        .indent #{questions[i]['question']}
-        p Answer:
-        .indent #{questions[i]['answer']}
-        p Category:
-        .indent #{questions[i]['category']}
+  .container
+    .small-container
+      h2 Questions
+      a(href = "/questions/create") New Question
+      br
+        
+    .question-container
+      - for (var i=0; i<questions.length; i++)
+        a(href="/questions/"+questions[i]['_id']) 
+          p Question:
+          .indent #{questions[i]['question']}
+          p Answer:
+          .indent #{questions[i]['answer']}
+          p Category:
+          .indent #{questions[i]['category']}

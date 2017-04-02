@@ -24,3 +24,16 @@ input{
   /*make none when done testing */
   display: none;
 }
+.buttons{
+    margin: auto;
+    width: 33vw;
+}
+.main{
+    width: 450px;
+}
+h2{
+    margin-bottom: 1em;
+}
+.home{
+    width: 850px;
+}

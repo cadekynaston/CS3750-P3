@@ -31,8 +31,10 @@ h2{
 }
 
 .small-container {
-  display: flex;
-  justify-content: space-between;
+    margin-left: 15%;
+    margin-bottom: 2%;
+  /*display: flex;
+  justify-content: space-around;*/
 }
 
 .question-container a {
