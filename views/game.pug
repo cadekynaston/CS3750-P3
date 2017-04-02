@@ -46,11 +46,16 @@ block content
   .gameEndRoundContainer_template.template
     .listOfScores
       ul.scores
-    .next
+    .button_wraper
+      .next
   
   .nextButton_template.template
-    a.btn.btn-primary.create(href='/game')
+    a.btn.btn-primary(href='/game')
       .text Next Round
+  
+  .createButton_template.template
+    a.createButton.btn.btn-primary(href='/game')
+      .text Create Round
 
   .endButton_template.template
     button.endGame.btn.btn-primary(type='submit')
