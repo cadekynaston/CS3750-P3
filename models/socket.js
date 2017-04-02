@@ -107,15 +107,8 @@ module.exports = (io) => {
         // this function is called by the create game page
         socket.on('create', function (game) {
             // we may need to make sure a game with gameCode dose not exists before creating a new game with that gameCode
-            let gameExists = false;
-            Object.entries(games).forEach(([key, value])=> {
-                if(key == 'gameCode'){
-                    if(value == game.gameCode){
-                        // not finding the game needs fixing
-                        gameExists = true;
-                    }
-                }
-            });
+            let gameExists = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
+            
             // add game to the active games array
             if(!gameExists){
                 games.push(game)
