@@ -125,6 +125,7 @@ module.exports = (io) => {
 
             console.log(games);
         });
+
         // this will get the server side game
         socket.on('server-getGame',function(game){
             let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
@@ -141,7 +142,8 @@ module.exports = (io) => {
             }
 
         });
-        // this will remove game from games array
+
+        // this will remove game from games array should also save to db
         socket.on('server-endGame', function(game){
             let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
             if(test){
@@ -158,6 +160,7 @@ module.exports = (io) => {
                 socket.emit('redirect', '/');
             }
         });
+
         socket.on('host-start', function(msg){
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
@@ -283,7 +286,6 @@ module.exports = (io) => {
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 games[dex].roundCount++;
-                socket.emit('redirect', '/game');
                 io.sockets.in(msg.gameCode).emit('changeNextButton');
             }else{
                 console.log('no game', games);
