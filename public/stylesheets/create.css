@@ -38,16 +38,30 @@ h2{
 }
 
 .question-container a {
-  height: 200px;
+  height: 250px;
   width: 400px;
   border: 1px solid white;
   margin: 10px;
   background-color: white;
   text-decoration: none;
-  padding:10px;
-
+  padding: 20px;
 }
 
 .indent {
-  text-indent: 40px;
+  padding-left: 30px;
+  margin-bottom: 14px; 
+}
+
+p{
+    margin: 0 0 4px;
+}
+
+.newQ{
+    color: white;
+    text-decoration: underline;
+}
+
+.newQ:hover{
+    color: lightgray;
+    text-decoration: underline;
 }
