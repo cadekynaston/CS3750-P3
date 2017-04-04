@@ -5,6 +5,21 @@
 .main{
     width: 450px;
 }
+.gameName{
+
+    text-align: center;
+    background-color: white;
+    opacity: .8;
+    color: black;
+    font-weight: bold;
+}
+.intro{
+    background-color: white;
+    opacity: .8;
+    color: black;
+    font-weight: bold;
+    padding: 20px;
+}
 h2{
     margin-bottom: 1em;
 }
