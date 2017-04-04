@@ -169,7 +169,6 @@ p{
     text-decoration: underline;
 }
 
-label, #numPlayers, #numRounds {
-    /*display: inline-block;*/
-  
+output {
+    color: white;  
 }
