@@ -170,5 +170,6 @@ p{
 }
 
 output {
-    color: white;  
+    color: white;
+    margin-left: 16px;
 }
