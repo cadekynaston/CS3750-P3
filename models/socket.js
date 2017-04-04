@@ -107,15 +107,8 @@ module.exports = (io) => {
         // this function is called by the create game page
         socket.on('create', function (game) {
             // we may need to make sure a game with gameCode dose not exists before creating a new game with that gameCode
-            let gameExists = false;
-            Object.entries(games).forEach(([key, value])=> {
-                if(key == 'gameCode'){
-                    if(value == game.gameCode){
-                        // not finding the game needs fixing
-                        gameExists = true;
-                    }
-                }
-            });
+            let gameExists = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
+            
             // add game to the active games array
             if(!gameExists){
                 games.push(game)
@@ -268,24 +261,25 @@ module.exports = (io) => {
                     }
                 });
                 console.log('getRoundAnswers', games[dex]);
-                // give player that wrote the question you selected playerPoints
-                Object.entries(games[dex].round[games[dex].roundCount].playerAnswers).forEach(([key, value])=>{
-                    console.log('add points \n', key, value, msg.mykey, msg.answer);
-                    if(value == msg.answer){
-                        console.log('add points \n', key, value, msg.mykey, msg.answer);
-                        if(key == 'Answer'){
-                            console.log('Answer == Key')
-                            // give yourself 200 points for getting the correct answer
-                            games[dex].playerPoints[msg.mykey] += 200;
-                        }else{
-                            // give someone else 100 points for selecing there lie
-                            games[dex].playerPoints[key] += 100
-                        }
-                    }
-                });
-
+                
                 // if all players are in, move to next part of round else show answering player wait screen
                 if(games[dex].playerCount == games[dex].round[games[dex].roundCount].answersIn){
+                    // give players there points
+                    Object.entries(games[dex].round[games[dex].roundCount].playerAnswers).forEach(([key, value])=>{
+                        console.log('add points \n', key, value, msg.mykey, msg.answer);
+                        if(value == msg.answer){
+                            console.log('accepted \n', key, value, msg.mykey, msg.answer);
+                            if(key == 'Answer'){
+                                console.log('Answer == Key', key)
+                                // give yourself 200 points for getting the correct answer
+                                games[dex].playerPoints[msg.mykey] += 200;
+                            }else{
+                                console.log('else', key)
+                                // give someone else 100 points for selecing there lie
+                                games[dex].playerPoints[key] += 100
+                            }
+                        }
+                    });
                     console.log('end Round');
                     io.sockets.in(msg.gameCode).emit('client-getScores', games[dex]);
                 }else{
