@@ -11,19 +11,28 @@ block content
             input.form-control#username(name='username', type='text' placeholder='Username' value= userName required)
             br 
             input.form-control#gameCode(name='gameCode', type='text' value= gameCode)
-            span Game Room Code feel free to change
+            p#gamemsg Game Room Code feel free to change
+            //br
             br
-            input.form-control#numPlayers(name='numPlayers', type='text' placeholder="Number of Players" required)
+            label(for='numPlayers') Number of Players:
+                output#players(name='numberPlayers') 2
+            input.form-control#numPlayers(type='range', name='numPlayers', value='2', min='2', max='10' oninput='players.value = numPlayers.value')
+            //input.form-control#numPlayers(name='numPlayers', type='text' placeholder="Number of Players" required)
             br
-            input.form-control#numRounds(name='numRounds', type='text' placeholder="Number of Rounds" required)
+            label(for='numPlayers') Number of Rounds:
+                output#rounds(name='numberRounds') 1
+            input.form-control#numRounds(type='range', name='numRounds', value='1', min='1', max='10' oninput="rounds.value = numRounds.value")
+            //input.form-control#numRounds(name='numRounds', type='text' placeholder="Number of Rounds" required)
             br
-            p Select Categories:
+            label(for='Categories') Select Categories:
+            br
             .checkbox-inline
                 
             br
             div.submitdiv
                 div.center
                     button#submit.btn.btn-primary(type="submit") Create Game
+
 
 block scripts
     script(src='/scripts/_createGame.js')

@@ -7,20 +7,20 @@ block content
     form.form-group(method="post")
         input.form-control(type="hidden", name="_csrf", value=csrfToken)
       
-        span Question:
-        input.form-control(type="text", name="question", value=question, required=true)
+        //span Question:
+        input.form-control(type="text", name="question", placeholder="Question" value=question, required=true)
         br
 
-        span Answer:
-        input.form-control(type="text", name="answer", value=answer, required=true)
+        //span Answer:
+        input.form-control(type="text", name="answer", placeholder="Answer" value=answer, required=true)
         br
 
-        span Category:    
-        input.form-control(type='text', name="category", value=category,  required=true, autocomplete="off", list='listid')
+        //span Category:    
+        input.form-control(type='text', name="category", placeholder="Category" value=category, required=true, autocomplete="off", list='listid')
         datalist#listid
           - for (var i=0; i<categories.length; i++)
             option(value=categories[i])
         br
 
 
-        input(type="submit")
+        input.btn.btn-primary(type="submit")
