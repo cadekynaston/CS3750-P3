@@ -87,6 +87,5 @@ window.onload = ()=>{
     socket.on('redirect',function(loc){
         window.location.href = loc;
     })
-    
-    
+
 }
