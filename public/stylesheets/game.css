@@ -1,4 +1,14 @@
-.listOfScores
+
+
+ul.scores
 {
-    color: blue;    
+    list-style-type: none;
+    columns: 2;
+    color: white;
+    padding-right: 300px;
+    padding-bottom: 40px;
+}
+.player
+{
+    padding-bottom: 10px;
 }
