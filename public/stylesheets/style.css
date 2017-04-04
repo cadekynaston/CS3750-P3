@@ -24,3 +24,20 @@ input{
   /*make none when done testing */
   display: none;
 }
+.buttons{
+    margin: auto;
+    width: 33vw;
+}
+.main{
+    width: 550px;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    padding: 40px;
+    margin-top: 4em;
+}
+h2{
+    margin-bottom: 1em;
+}
+.home{
+    width: 850px;
+}

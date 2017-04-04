@@ -30,9 +30,7 @@ window.onload = ()=>{
         });
         if(game.playerCount == game.numPlayers){
             socket.emit('server-allPlayersIn', gameInfo);
-            if(game.players['player0'] == gameInfo.username){
-                socket.emit('server-getGameCategories', gameInfo);
-            }
+            
         }else{
             // show wait screen
             var $template = $($('.waitScreen_template').clone().html());
@@ -67,9 +65,9 @@ window.onload = ()=>{
         var $template = $($('.creatRound_template').clone().html());
         $('.game').children().remove();
         $('.game').append($template);
-        if(gameInfo.lie != ''){
-            document.getElementById('createRound').disabled = true;
-        }
+        
+        document.getElementById('createRound').disabled = true;
+        
         cat = categories;
         for(i=0;cat.length>i;i++){
             $('.form').append('<div><label><input type="radio" name="radio" id="'+ cat[i] + '">' + cat[i] + '</input></label></div>')
