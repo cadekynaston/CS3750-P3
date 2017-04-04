@@ -30,6 +30,11 @@ window.onload = ()=>{
         });
         if(game.playerCount == game.numPlayers){
             socket.emit('server-allPlayersIn', gameInfo);
+            if(game.players['player0'] == gameInfo.username){
+                window.setTimeout(function(){
+                    socket.emit('server-getGameCategories', gameInfo);
+                }, 500);
+            }
             
         }else{
             // show wait screen
