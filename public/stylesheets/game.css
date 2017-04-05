@@ -5,10 +5,17 @@ ul.scores
     list-style-type: none;
     columns: 2;
     color: white;
-    padding-right: 300px;
+    padding-right: 250px;
     padding-bottom: 40px;
 }
 .player
 {
+    font-size: 25px;
+    text-decoration: underline;
+    
     padding-bottom: 10px;
+}
+.score
+{
+    font-size: 18px;
 }
