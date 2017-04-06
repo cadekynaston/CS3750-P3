@@ -16,21 +16,6 @@ module.exports = (io) => {
             text: 'Welcome to the Game',
         });
 
-        // chat style message that indicates when someone has navigated away
-        // this fuction is called by a client fuction that looks like:
-        // window.onbeforeunload = () => {
-        //     socket.emit('leave',{
-        //         username: document.getElementById('username').textContent,
-        //         gameCode: document.getElementById('gameCode').textContent
-        //     })
-        // };
-        socket.on('leave', function (msg) {
-            io.sockets.in(msg.gameCode).emit('message', {
-                username: 'Game',
-                text: msg.username + ' has left Game',
-            });
-        });
-
         // chat style function for sending and reciving messages
         socket.on('send', function (msg) {
             io.sockets.in(msg.gameCode).emit('message', {
