@@ -11,6 +11,7 @@ block content
     p#gameCode= gameCode
   
   .creatRound_template.template
+    .createRoundLabel Select Category for this Round
     form.form
     button#createRound.btn.btn-primary(type='submit') Start Round
 
@@ -35,6 +36,7 @@ block content
       .textCat
     .question
       .textQue
+      .pickAnswer Select An Answer
     .listOfLies
       ul.answers
 
@@ -45,10 +47,9 @@ block content
 
   .gameEndRoundContainer_template.template
     .listOfScores
-      ul.scores
+     ul.scores
     .button_wraper
       .next
-  
   
   .nextButton_template.template
     a.btn.btn-primary(href='/game')

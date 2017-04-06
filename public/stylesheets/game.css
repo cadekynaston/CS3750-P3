@@ -2,20 +2,99 @@
 
 ul.scores
 {
-    list-style-type: none;
+
+    list-style-position: inside;
     columns: 2;
+    column-gap: -1000px;
+    list-style-type: none;
+    list-style: none;
     color: white;
-    padding-right: 250px;
     padding-bottom: 40px;
+
+    padding-right: 100px;
+
 }
 .player
 {
+    padding-left: 50px;
+    text-align: center;
     font-size: 25px;
     text-decoration: underline;
     
     padding-bottom: 10px;
+    
 }
 .score
 {
+    padding-left: 50px;
+    text-align: center;
+    padding-top: 10px;
     font-size: 18px;
+}
+
+.endGame
+{
+    display: flex;
+    margin: auto;
+}
+
+#getAnswer
+{
+    margin-left: 10px;
+}
+.textCat
+{
+    font-size: 30px;
+    padding-bottom: 30px;
+    font-weight: bold;
+}
+.textQue
+{
+    font-size: 20px;
+    padding-bottom: 20px;
+    font-weight: bold;
+}
+
+.selectLie
+{
+    text-align: left;
+    word-wrap: break-word;
+    margin: 0 0 10px 0;
+    float: left;
+    width: 300px;
+}
+.text{
+    width: 100%;
+    white-space: normal;
+    text-align: left;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.answers
+{
+    display: inline;
+    text-align: left;
+    padding-right: 50px;
+    list-style-type: none;
+    list-style: none;
+    margin: 0 0 10px 0;
+}
+.createRoundLabel
+{
+    font-size: 25px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+label
+{
+    font-size: 15px;
+    padding-bottom: 10px;
+    display: inline-block;
+    margin-right: 10px;
+}
+input[type="radio"]
+{
+  margin: 0 10px 0 10px;
 }
