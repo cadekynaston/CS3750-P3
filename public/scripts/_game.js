@@ -6,11 +6,14 @@ window.onload = ()=>{
         gameCode: document.getElementById('gameCode').textContent,
         lie: '',
         answer: '',
-        mykey: '',
-        host: false
+        mykey: ''
     }
+
     socket.emit('connect-to-game-room', gameInfo)
-    
+    window.onbeforeunload = () => {
+        socket.emit('client-leave', gameInfo);
+    };
+
     socket.on('wait', function(msg){
         var $template = $($('.waitScreen_template').clone().html());
         $template.find('.text').html(msg.text);
@@ -52,7 +55,10 @@ window.onload = ()=>{
 
     socket.on('client-allPlayersIn', function(game){
         if(game.players['player0'] == gameInfo.username){
-            document.getElementById('createRound').disabled = false;
+            window.setTimeout(function(){
+                document.getElementById('createRound').disabled = false;
+            }, 1000);
+            
         }else{
             var $template = $($('.waitScreen_template').clone().html());
             $template.find('.text').html('Waiting for Host To Start Round');
@@ -70,13 +76,14 @@ window.onload = ()=>{
         var $template = $($('.creatRound_template').clone().html());
         $('.game').children().remove();
         $('.game').append($template);
-        
-        document.getElementById('createRound').disabled = true;
-        
+
         cat = categories;
         for(i=0;cat.length>i;i++){
             $('.form').append('<div><label><input type="radio" name="radio" id="'+ cat[i] + '">' + cat[i] + '</input></label></div>')
         };
+
+        document.getElementById('createRound').disabled = true;
+        
 
         $('#createRound').click(function (e) {
             // make game object
