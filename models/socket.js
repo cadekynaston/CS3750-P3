@@ -250,21 +250,30 @@ module.exports = (io) => {
                 // if all players are in, move to next part of round else show answering player wait screen
                 if(games[dex].playerCount == games[dex].round[games[dex].roundCount].answersIn){
                     // give players there points
-                    Object.entries(games[dex].round[games[dex].roundCount].playerAnswers).forEach(([key, value])=>{
-                        console.log('add points \n', key, value, msg.mykey, msg.answer);
-                        if(value == msg.answer){
-                            console.log('accepted \n', key, value, msg.mykey, msg.answer);
-                            if(key == 'Answer'){
-                                console.log('Answer == Key', key)
-                                // give yourself 200 points for getting the correct answer
-                                games[dex].playerPoints[msg.mykey] += 200;
-                            }else{
-                                console.log('else', key)
-                                // give someone else 100 points for selecing there lie
-                                games[dex].playerPoints[key] += 100
+                    Object.entries(games[dex].round[games[dex].roundCount].playerLies).forEach(([lieKey, lieValue])=>{
+
+                        Object.entries(games[dex].round[games[dex].roundCount].playerAnswers).forEach(([key, value])=>{
+
+                            console.log('add points');
+                            console.log('   Key:' + key + ':value:' + value + ':');
+                            console.log('lieKey:' + lieKey + ':lieValue:' + lieValue + ':');
+                            if(value.trim() == lieValue.trim()){
+                                
+                                console.log('accepted \n', key, value, lieKey, lieValue);
+                                if(lieKey == "Answer"){
+                                    console.log('Answer == Key', key)
+                                    // give yourself 200 points for getting the correct answer
+                                    games[dex].playerPoints[key] += 200;
+                                }else{
+                                    console.log('else', key)
+                                    // give someone else 100 points for selecing there lie
+                                    games[dex].playerPoints[lieKey] += 100
+                                }
                             }
-                        }
+                        });
                     });
+                        
+
                     console.log('end Round');
                     io.sockets.in(msg.gameCode).emit('client-getScores', games[dex]);
                 }else{
