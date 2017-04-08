@@ -217,7 +217,7 @@ module.exports = (io) => {
                 console.log(games[dex].round[games[dex].roundCount]);
 
                 // if all players are in, move to next part of round else show answering player wait screen
-                if(games[dex].playerCount == games[dex].round[games[dex].roundCount].liesIn){
+                if(games[dex].playerCount <= games[dex].round[games[dex].roundCount].liesIn){
                     io.sockets.in(msg.gameCode).emit('client-selectionRound', games[dex].round[games[dex].roundCount]);
                 }else{
                     socket.emit('wait', {text: 'waiting for all players to send there lies'});
@@ -248,7 +248,7 @@ module.exports = (io) => {
                 console.log('getRoundAnswers', games[dex]);
                 
                 // if all players are in, move to next part of round else show answering player wait screen
-                if(games[dex].playerCount == games[dex].round[games[dex].roundCount].answersIn){
+                if(games[dex].playerCount <= games[dex].round[games[dex].roundCount].answersIn){
                     // give players there points
                     Object.entries(games[dex].round[games[dex].roundCount].playerLies).forEach(([lieKey, lieValue])=>{
 
