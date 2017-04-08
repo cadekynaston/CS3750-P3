@@ -9,9 +9,22 @@
     padding: 40px;
     margin-top: 4em;
 }
-h2{
+.gameName{
+  text-align: center;
+  padding-right: 200px;
+  font-weight: bold;
+  color: white;
+  padding: 20px;
     margin-bottom: 1em;
     margin-top: 10px;
+}
+.small-container
+{
+  text-align: center;
+  padding-right: 200px;
+}
+a{
+  color: black;
 }
 #submit{
     margin-top: 20px;

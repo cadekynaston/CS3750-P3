@@ -1,3 +1,14 @@
 .question-container {
-  display flex
+  text-align: center;
 }
+.small-container{
+  text-align: center;
+}
+h2{
+  text-align: center;
+}
+.newQ{
+  background-color: red;
+  text-align: center;   
+}
+
