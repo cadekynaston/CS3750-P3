@@ -1,0 +1,106 @@
+
+
+ul.scores
+{
+    list-style: none;
+    color: white;
+    padding-bottom: 40px;
+    padding-right: 100px;
+    position: relative;
+    flex-flow: row wrap;
+    display: flex;
+    width: inherit;
+   /* -webkit-box-sizing: border-box; */
+
+}
+.player
+{
+    font-size: 25px;
+    width: 170px;
+    padding-bottom: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
+}
+.score
+{
+    
+    padding-left: 80px;
+    padding-top: 6px;
+    font-size: 22px;
+}
+.scoreTitle
+{
+    text-align: center;
+    padding-bottom: 20px;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.endGame
+{
+    display: flex;
+    margin: auto;
+}
+
+#getAnswer
+{
+    margin-left: 10px;
+}
+.textCat
+{
+    font-size: 30px;
+    padding-bottom: 30px;
+    font-weight: bold;
+}
+.textQue
+{
+    font-size: 20px;
+    padding-bottom: 20px;
+    font-weight: bold;
+}
+
+.selectLie
+{
+    text-align: left;
+    word-wrap: break-word;
+    margin: 0 0 10px 0;
+    float: left;
+    width: 300px;
+}
+.text{
+    width: 100%;
+    white-space: normal;
+    text-align: left;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.answers
+{
+    display: inline;
+    text-align: left;
+    padding-right: 50px;
+    list-style-type: none;
+    list-style: none;
+    margin: 0 0 10px 0;
+}
+.createRoundLabel
+{
+    font-size: 25px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+label
+{
+    font-size: 15px;
+    padding-bottom: 10px;
+    display: inline-block;
+    margin-right: 10px;
+}
+input[type="radio"]
+{
+  margin: 0 10px 0 10px;
+}

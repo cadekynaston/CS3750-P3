@@ -105,7 +105,7 @@ window.onload = ()=>{
                 }
             });
 
-            socket.emit('server-createRound', round);
+            if(round.Category){socket.emit('server-createRound', round);}
             console.log('create Round', round);
         });
     });
@@ -125,9 +125,10 @@ window.onload = ()=>{
         $('#getAnswer').click(function (e) {
             gameInfo.lie =  $('.lie').val();
             
-            socket.emit('server-updateRoundLies', gameInfo);
-
-            console.log('lie sent', gameInfo);
+            if(gameInfo.lie) {
+                socket.emit('server-updateRoundLies', gameInfo);
+                console.log('lie sent', gameInfo);
+            }
         });
         
     })
@@ -152,8 +153,10 @@ window.onload = ()=>{
             // make game object
             gameInfo.answer = this.innerText;
 
-            socket.emit('server-getRoundAnswers', gameInfo)
-            console.log('lie selected', gameInfo);
+            if(gameInfo.answer){
+                socket.emit('server-getRoundAnswers', gameInfo)
+                console.log('lie selected', gameInfo);
+            }
         });
     });
       
