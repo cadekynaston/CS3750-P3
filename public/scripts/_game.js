@@ -128,6 +128,9 @@ window.onload = ()=>{
             if(gameInfo.lie) {
                 socket.emit('server-updateRoundLies', gameInfo);
                 console.log('lie sent', gameInfo);
+            }else{
+                console.log('failuer to retreve value')
+                e.preventDefault();
             }
         });
         
@@ -156,6 +159,9 @@ window.onload = ()=>{
             if(gameInfo.answer){
                 socket.emit('server-getRoundAnswers', gameInfo)
                 console.log('lie selected', gameInfo);
+            }else{
+                console.log('failuer to retreve value')
+                e.preventDefault();
             }
         });
     });
