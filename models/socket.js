@@ -99,7 +99,7 @@ module.exports = (io) => {
                 games.push(game)
                 console.log('Create Game', game);
             }else{
-                let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
+                let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
                 
                 // what should we tell the user if game already exists
                 console.log('game already exists', games[dex])
