@@ -262,7 +262,7 @@ module.exports = (io) => {
                                         if(lieKey == "Answer"){
                                             console.log('       Answer == Key', key)
                                             // give yourself 200 points for getting the correct answer
-                                            games[dex].playerPoints[key] += 200;
+                                            games[dex].playerPoints[key] += 2;
                                         }else if(lieKey == key){
                                             console.log('       else if ' + key + ' no points for selecting your lie')
                                             // you dont get points for picking your own answer
@@ -270,7 +270,7 @@ module.exports = (io) => {
                                         }else{
                                             console.log('       else', key)
                                             // give someone else 100 points for selecing there lie
-                                            games[dex].playerPoints[lieKey] += 100
+                                            games[dex].playerPoints[lieKey] += 1
                                         }
                                     }
                                 });

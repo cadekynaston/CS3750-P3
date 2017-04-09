@@ -104,3 +104,9 @@ input[type="radio"]
 {
   margin: 0 10px 0 10px;
 }
+
+.timer{
+    position: absolute;
+    right: 1em;
+    top: 4em;
+}

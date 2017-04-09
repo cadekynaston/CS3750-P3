@@ -1,10 +1,12 @@
 extends layout
 
 block content
+  .timer
   .container.main
     .message
     .game
       button#test.btn.btn-primary(type='submit') Action
+  
   
   .gameInfo.template game page
     p#username= userName
@@ -39,11 +41,21 @@ block content
       .pickAnswer Select An Answer
     .listOfLies
       ul.answers
+    
 
   .gameAnswers_template.template
     li.lieListItem
       button.selectLie.btn.btn-primary(type='submit')
         .text
+
+  .gameCorrectAnswer_template.template
+    .scoreTitle And the Correct Answer Is
+    .listOfScores
+     ul.scores
+      li
+        .player
+      li
+        .score
 
   .gameEndRoundContainer_template.template
     .scoreTitle Scores
