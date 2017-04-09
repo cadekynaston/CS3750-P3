@@ -153,24 +153,31 @@ input[type=range]:focus::-ms-fill-upper {
   justify-content: space-around;*/
 }
 
-.question-container a {
+.question-container {
+  width: 350px;
   height: 250px;
-  width: 400px;
-  border: 1px solid white;
   margin: 10px;
+}
+.question-container a {
+  height: 100%;
+  width: 100%;
+  border: 1px solid white;
+  margin: 5px;
   background-color: white;
   text-decoration: none;
   padding: 20px;
 }
 
-.indent {
-  padding-left: 30px;
-  margin-bottom: 14px; 
+.question-container a:hover {
+  background-color: yellow;
 }
 
-p{
-    margin: 0 0 4px;
+.indent {
+  padding-left: 30px;
+  margin-bottom: 14px;
 }
+
+
 
 .newQ{
     color: white;
@@ -185,4 +192,24 @@ p{
 output {
     color: white;
     margin-left: 16px;
+}
+
+.category-title {
+  font-size: 4em;
+  text-align: center;
+}
+
+.question-category-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+}
+.category-container {
+  background-color: #222222;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 5px;
 }
