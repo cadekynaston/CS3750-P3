@@ -338,9 +338,9 @@ module.exports = (io) => {
                     players: game.players,
                     playerPoints: game.playerPoints,
                     winner: game.winner,
-                    numRounds: game.numRounds,
+                    numQuestions: game.numRounds,
                     round: game.round,
-                }, console.log.bind(console, 'set up new user schema'));
+                }, console.log.bind(console, 'set up new game schema'));
 
                 gameSave.save(function(err) {
                     if (err) {
