@@ -1,6 +1,6 @@
 window.onload = ()=>{
     let socket = io();
-
+    let counter = setInterval(()=>{},100000);
     let gameInfo = {
         username: document.getElementById('username').textContent,
         gameCode: document.getElementById('gameCode').textContent,
@@ -36,6 +36,8 @@ window.onload = ()=>{
 //  check game host
 //
     socket.on('client-gameStart', function(game){
+        clearInterval(counter);
+        $('.timer').html(' ');
         // get your player key so that you can add to your score
         Object.entries(game.players).forEach(([key, value])=> {
             if(gameInfo.username == value){
@@ -82,6 +84,8 @@ window.onload = ()=>{
 //  
     let cat;
     socket.on('client-newRound', function(categories){
+        clearInterval(counter);
+        $('.timer').html(' ');
         // tell the other players a new round is being created
         socket.emit('server-newRound', gameInfo);
         var $template = $($('.creatRound_template').clone().html());
@@ -125,6 +129,8 @@ window.onload = ()=>{
 // 
 //  Code to make the new round work
     socket.on('client-startRound', function(round){
+        clearInterval(counter);
+        $('.timer').html(' ');
         var $template = $($('.gameRoundQuestion_template').clone().html());
         // add Question and Answer
         $template.find('.textCat').html(round.Category);
@@ -140,8 +146,8 @@ window.onload = ()=>{
             clearInterval(counter);
             $('.timer').html(' ');
             socket.emit('server-updateRoundLies', gameInfo);
-        }, 10000);
-        timer=10;
+        }, 20000);
+        timer=20;
         counter = setInterval(()=>{
             timer--;
             console.log(timer);
@@ -151,7 +157,6 @@ window.onload = ()=>{
         $('#getAnswer').click(function (e) {
             gameInfo.lie =  $('.lie').val();
             clearTimeout(sendLieTimer);
-            clearInterval(counter);
             if(gameInfo.lie) {
                 socket.emit('server-updateRoundLies', gameInfo);
                 console.log('lie sent', gameInfo);
@@ -166,6 +171,8 @@ window.onload = ()=>{
 //  move into selection portion of round
 // 
     socket.on('client-selectionRound', function(round){
+        clearInterval(counter);
+        $('.timer').html(' ');
         var $template = $($('.gameRoundAnswer_template').clone().html());
         $template.find('.textCat').html(round.Category);
         $template.find('.textQue').html(round.Question);
@@ -195,7 +202,6 @@ window.onload = ()=>{
 
         $('.selectLie').click(function (e) {
             clearTimeout(answerTimer);
-            clearInterval(counter);
             // make game object
             gameInfo.answer = this.innerText.trim();
 
@@ -211,6 +217,8 @@ window.onload = ()=>{
       
     //show the scores
     socket.on('client-getScores', (game) => {
+        clearInterval(counter);
+        $('.timer').html(' ');
         var $answer = $($('.gameCorrectAnswer_template').clone().html());
         $('.game').children().remove();
         $answer.find('.player').html(game.round[game.roundCount].Question);
@@ -252,7 +260,7 @@ window.onload = ()=>{
                     clearInterval(counter);
                     $('.timer').html(' ');
                 }, 10000);
-                timer=10;
+                timer=9;
                 counter = setInterval(()=>{
                     timer--;
                     console.log(timer);
@@ -271,7 +279,6 @@ window.onload = ()=>{
             
             $('.createButton').click(function (e) {
                 clearTimeout(endRoundTimer);
-                clearInterval(counter);
                 console.log('End round', game);
                 socket.emit('server-endRound', game);
             });
