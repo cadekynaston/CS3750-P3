@@ -15,7 +15,11 @@ router.get('/', function(req, res, next) {
         error: 'Could not load questions'
       });
     } else {
-      questionsToPass = q;
+      questionsToPass = q.reduce((all, curr)=>{
+        all[curr.category] ? all[curr.category].push(curr) : all[curr.category] = [curr];
+        return all;
+      },{});
+      console.log(questionsToPass)
       res.render('questions', {
         questions: questionsToPass
       });
