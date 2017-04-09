@@ -1,6 +1,6 @@
 window.onload = ()=>{
     let socket = io();
-
+    let counter = setInterval(()=>{},100000);
     let gameInfo = {
         username: document.getElementById('username').textContent,
         gameCode: document.getElementById('gameCode').textContent,
@@ -36,6 +36,8 @@ window.onload = ()=>{
 //  check game host
 //
     socket.on('client-gameStart', function(game){
+        clearInterval(counter);
+        $('.timer').html(' ');
         // get your player key so that you can add to your score
         Object.entries(game.players).forEach(([key, value])=> {
             if(gameInfo.username == value){
@@ -82,6 +84,8 @@ window.onload = ()=>{
 //  
     let cat;
     socket.on('client-newRound', function(categories){
+        clearInterval(counter);
+        $('.timer').html(' ');
         // tell the other players a new round is being created
         socket.emit('server-newRound', gameInfo);
         var $template = $($('.creatRound_template').clone().html());
@@ -125,6 +129,8 @@ window.onload = ()=>{
 // 
 //  Code to make the new round work
     socket.on('client-startRound', function(round){
+        clearInterval(counter);
+        $('.timer').html(' ');
         var $template = $($('.gameRoundQuestion_template').clone().html());
         // add Question and Answer
         $template.find('.textCat').html(round.Category);
@@ -133,9 +139,24 @@ window.onload = ()=>{
         $('.game').children().remove();
         $('.game').append($template);
 
+
+        sendLieTimer =setTimeout(()=>{
+            gameInfo.lie =  'Player didn`t Answer';
+            console.log('lie sent', gameInfo);
+            clearInterval(counter);
+            $('.timer').html(' ');
+            socket.emit('server-updateRoundLies', gameInfo);
+        }, 20000);
+        timer=20;
+        counter = setInterval(()=>{
+            timer--;
+            console.log(timer);
+            $('.timer').html(timer);
+        }, 1000);
+
         $('#getAnswer').click(function (e) {
             gameInfo.lie =  $('.lie').val();
-            
+            clearTimeout(sendLieTimer);
             if(gameInfo.lie) {
                 socket.emit('server-updateRoundLies', gameInfo);
                 console.log('lie sent', gameInfo);
@@ -150,6 +171,8 @@ window.onload = ()=>{
 //  move into selection portion of round
 // 
     socket.on('client-selectionRound', function(round){
+        clearInterval(counter);
+        $('.timer').html(' ');
         var $template = $($('.gameRoundAnswer_template').clone().html());
         $template.find('.textCat').html(round.Category);
         $template.find('.textQue').html(round.Question);
@@ -164,9 +187,21 @@ window.onload = ()=>{
                 $('.answers').append($button);
             });
         }
-            
+        answerTimer = setTimeout(()=>{
+            gameInfo.answer = gameInfo.lie;
+            clearInterval(counter);
+            $('.timer').html(' ');
+            socket.emit('server-getRoundAnswers', gameInfo)
+        }, 11000);
+        timer=10;
+        counter = setInterval(()=>{
+            timer--;
+            console.log(timer);
+            $('.timer').html(timer);
+        }, 1000);
 
         $('.selectLie').click(function (e) {
+            clearTimeout(answerTimer);
             // make game object
             gameInfo.answer = this.innerText.trim();
 
@@ -182,45 +217,72 @@ window.onload = ()=>{
       
     //show the scores
     socket.on('client-getScores', (game) => {
-        var $template = $($('.gameEndRoundContainer_template').clone().html());
+        clearInterval(counter);
+        $('.timer').html(' ');
+        var $answer = $($('.gameCorrectAnswer_template').clone().html());
         $('.game').children().remove();
-        $('.game').append($template);
-        var $scores = $($('.gameEndRound_template').clone().html());
+        $answer.find('.player').html(game.round[game.roundCount].Question);
+        $answer.find('.score').html(game.round[game.roundCount].playerLies[0]['Answer']);
+        $('.game').append($answer);
 
-        let playersPoints = game.playerPoints;
-        console.log('points object',playersPoints)
-        var sortable = [];
-        for(var player in playersPoints){
-            sortable.push([player, playersPoints[player]]);
-        }
-        sortable.sort((a, b)=>{
-            return b[1] - a[1];
-        })
-        console.log('sorted array',sortable);
-        for(i=0;i<sortable.length;i++){
-            let player = sortable[i];
-            $scores.find('.player').html(player[0]);
-            $scores.find('.score').html(player[1]);
-            $('.scores').append($scores);
-        }
-        var $button;
-        
-        if(game.numRounds == game.roundCount+1){
-            $button = $($('.endButton_template').clone().html());
-        }else{
-            $button = $($('.createButton_template').clone().html());
-        }
-        $('.next').append($button);
 
-        $('.endGame').click(function (e) {
-            console.log('End game', game);
-            socket.emit('server-endGame', game);
-        });
-        $('.createButton').click(function (e) {
-            console.log('End game', game);
-            socket.emit('server-endRound', game);
-        });
+        setTimeout(()=>{var $template = $($('.gameEndRoundContainer_template').clone().html());
+            $('.game').children().remove();
+            $('.game').append($template);
+            var $scores = $($('.gameEndRound_template').clone().html());
 
+            // SORT SCORES
+            let playersPoints = game.playerPoints;
+            console.log('points object',playersPoints)
+            var sortable = [];
+            for(var player in playersPoints){
+                sortable.push([player, playersPoints[player]]);
+            }
+            sortable.sort((a, b)=>{
+                return b[1] - a[1];
+            })
+            console.log('sorted array',sortable);
+            for(i=0;i<sortable.length;i++){
+                let player = sortable[i];
+                $scores.find('.player').html(game.players[player[0]]);
+                $scores.find('.score').html(player[1]);
+                $('.scores').append($scores);
+            }
+            
+            var $button;
+            if(game.numRounds == game.roundCount+1){
+                $button = $($('.endButton_template').clone().html());
+            }else{
+                $button = $($('.createButton_template').clone().html());
+                endRoundTimer =setTimeout(()=>{
+                    console.log('End round', game);
+                    socket.emit('server-endRound', game);
+                    clearInterval(counter);
+                    $('.timer').html(' ');
+                }, 10000);
+                timer=9;
+                counter = setInterval(()=>{
+                    timer--;
+                    console.log(timer);
+                    $('.timer').html(timer);
+                }, 1000);
+            }
+            $('.next').append($button);
+
+            $('.endGame').click(function (e) {
+                let temp = sortable[0]
+                console.log(temp[0]);
+                game.winner = game.players[temp[0]];
+                console.log('End game', game);
+                socket.emit('server-endGame', game);
+            });
+            
+            $('.createButton').click(function (e) {
+                clearTimeout(endRoundTimer);
+                console.log('End round', game);
+                socket.emit('server-endRound', game);
+            });
+    }, 7000); 
        
     });
     socket.on('changeNextButton', function(){

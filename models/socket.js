@@ -262,7 +262,7 @@ module.exports = (io) => {
                                         if(lieKey == "Answer"){
                                             console.log('       Answer == Key', key)
                                             // give yourself 200 points for getting the correct answer
-                                            games[dex].playerPoints[key] += 200;
+                                            games[dex].playerPoints[key] += 2;
                                         }else if(lieKey == key){
                                             console.log('       else if ' + key + ' no points for selecting your lie')
                                             // you dont get points for picking your own answer
@@ -270,7 +270,7 @@ module.exports = (io) => {
                                         }else{
                                             console.log('       else', key)
                                             // give someone else 100 points for selecing there lie
-                                            games[dex].playerPoints[lieKey] += 100
+                                            games[dex].playerPoints[lieKey] += 1
                                         }
                                     }
                                 });
@@ -302,6 +302,7 @@ module.exports = (io) => {
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 games[dex].roundCount++;
+                
                 io.sockets.in(msg.gameCode).emit('redirect', '/game');
             }else{
                 console.log('no game', games);
@@ -332,6 +333,23 @@ module.exports = (io) => {
             if(test){
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
+                var gameSave = new schema.Game({
+                    gameCode:  game.gameCode,
+                    players: game.players,
+                    playerPoints: game.playerPoints,
+                    winner: game.winner,
+                    numQuestions: game.numRounds,
+                    round: game.round,
+                    timeStamp: new Date().getTime()
+                }, console.log.bind(console, 'set up new game schema'));
+
+                gameSave.save(function(err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('question created');
+                    }
+                });
                 // remove game from games
                 games.splice(dex, 1);
                 // make sure game is closed

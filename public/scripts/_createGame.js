@@ -58,7 +58,8 @@ window.onload = ()=>{
             numRounds: parseInt($('#numRounds').val()), //parseInt
             roundCount: 0,
             round: [],
-            usedQuestions: []
+            usedQuestions: [],
+            winner: ''
         }
 
         let dex = 0
