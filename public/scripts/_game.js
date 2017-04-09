@@ -240,8 +240,22 @@ window.onload = ()=>{
                 console.log('End game', game);
                 socket.emit('server-endGame', game);
             });
+            endRoundTimer =setTimeout(()=>{
+                console.log('End round', game);
+                socket.emit('server-endRound', game);
+                clearInterval(counter);
+                $('.timer').html(' ');
+            }, 10000);
+            timer=10;
+            counter = setInterval(()=>{
+                timer--;
+                console.log(timer);
+                $('.timer').html(timer);
+            }, 1000);
             $('.createButton').click(function (e) {
-                console.log('End game', game);
+                clearTimeout(endRoundTimer);
+                clearInterval(counter);
+                console.log('End round', game);
                 socket.emit('server-endRound', game);
             });
     }, 7000); 
