@@ -195,7 +195,7 @@ output {
 }
 
 .category-title {
-  font-size: 4em;
+  font-size: 2em;
   text-align: center;
 }
 
@@ -210,6 +210,10 @@ output {
   margin: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+justify-content: center;
   padding-bottom: 5px;
+}
+.hideshow {
+  width: auto;
+  margin: 0 auto;
 }
