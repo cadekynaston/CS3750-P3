@@ -340,6 +340,7 @@ module.exports = (io) => {
                     winner: game.winner,
                     numQuestions: game.numRounds,
                     round: game.round,
+                    timeStamp: new Date().getTime()
                 }, console.log.bind(console, 'set up new game schema'));
 
                 gameSave.save(function(err) {

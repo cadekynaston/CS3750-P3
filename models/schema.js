@@ -26,5 +26,6 @@ module.exports.Game = mongoose.model('game', new schema({
   playerPoints: { type: Object, required: '{PATH} is required.'},
   winner: { type: String, required: '{PATH} is required.'},
   numQuestions: { type: Number, required: '{PATH} is required.'},
-  round: { type: Object, required: '{PATH} is required.'}
+  round: { type: Object, required: '{PATH} is required.'},
+  timeStamp: { type: Date, required: '{PATH} is required.'}
 }));
