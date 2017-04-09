@@ -21,5 +21,10 @@ module.exports.Questions = mongoose.model('Questions', new schema({
 }));
 module.exports.Game = mongoose.model('game', new schema({
   id:           ObjectId,
-  game:     { type: Object, required: '{PATH} is required.'}
+  gameCode:  { type: String, required: '{PATH} is required.'},
+  players: { type: Object, required: '{PATH} is required.'},
+  playerPoints: { type: Object, required: '{PATH} is required.'},
+  winner: { type: String, required: '{PATH} is required.'},
+  numRounds: { type: Number, required: '{PATH} is required.'},
+  round: { type: Object, required: '{PATH} is required.'}
 }));

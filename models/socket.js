@@ -333,7 +333,7 @@ module.exports = (io) => {
             if(test){
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
-                var gameSave = new schema.Questions({
+                var gameSave = new schema.Game({
                     gameCode:  game.gameCode,
                     players: game.players,
                     playerPoints: game.playerPoints,
@@ -347,7 +347,6 @@ module.exports = (io) => {
                         console.log(err);
                     } else {
                         console.log('question created');
-                        res.redirect('/questions');
                     }
                 });
                 // remove game from games
