@@ -99,7 +99,7 @@ module.exports = (io) => {
                 games.push(game)
                 console.log('Create Game', game);
             }else{
-                let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
+                let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
                 
                 // what should we tell the user if game already exists
                 console.log('game already exists', games[dex])
@@ -159,9 +159,9 @@ module.exports = (io) => {
                 //     Category: '',
                 //     Question: '',
                 //     liesIn: 0,
-                //     playerLies: {},
+                //     playerLies: [],
                 //     answersIn: 0,
-                //     playerAnswers: {}
+                //     playerAnswers: []
                 // }
 
                 // find the index of the game with gameCode
@@ -176,14 +176,15 @@ module.exports = (io) => {
                         console.log(questions[rand]);
                         
                         round.Question= questions[rand].question;
-                        round.playerLies['Answer'] = questions[rand].answer;
+                        round.playerLies.push({ Answer: questions[rand].answer});
 
-                        //addPlayers to round
-                        for(i=0;games[dex].playerCount>i;i++){
-                            var player = 'player' + i;
-                            round.playerLies[player] = '';
-                            round.playerAnswers[player] = '';
-                        }
+                        // removed when changing to an array
+                        // //addPlayers to round
+                        // for(i=0;games[dex].playerCount>i;i++){
+                        //     var player = 'player' + i;
+                        //     round.playerLies[player] = '';
+                        //     round.playerAnswers[player] = '';
+                        // }
                             
                         // add new round to game
                         
@@ -208,19 +209,18 @@ module.exports = (io) => {
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                Object.entries(games[dex].players).forEach(([key, value])=> {
-                    if(msg.username == value){
-                        games[dex].round[games[dex].roundCount].liesIn++;
-                        games[dex].round[games[dex].roundCount].playerLies[key] = msg.lie;
-                    }
-                });
+                
+                games[dex].round[games[dex].roundCount].liesIn++;
+                games[dex].round[games[dex].roundCount].playerLies.push({[msg.mykey]: msg.lie});
+                
+
                 console.log(games[dex].round[games[dex].roundCount]);
 
                 // if all players are in, move to next part of round else show answering player wait screen
-                if(games[dex].playerCount == games[dex].round[games[dex].roundCount].liesIn){
+                if(games[dex].playerCount <= games[dex].round[games[dex].roundCount].liesIn){
                     io.sockets.in(msg.gameCode).emit('client-selectionRound', games[dex].round[games[dex].roundCount]);
                 }else{
-                    socket.emit('wait', {text: 'waiting for all players to send there lies'});
+                    socket.emit('wait', {text: 'Waiting for All Players to Send Their Lies'});
                 }
             }else{
                io.sockets.in(msg.gameCode).emit('message', {
@@ -239,45 +239,50 @@ module.exports = (io) => {
             let test = games.filter(function(e) { return e.gameCode == msg.gameCode; }).length > 0;
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
-                Object.entries(games[dex].players).forEach(([key, value])=> {
-                    if(msg.username == value){
-                        games[dex].round[games[dex].roundCount].answersIn++;
-                        games[dex].round[games[dex].roundCount].playerAnswers[key] = msg.answer;
-                    }
-                });
-                console.log('getRoundAnswers', games[dex]);
+                
+                games[dex].round[games[dex].roundCount].answersIn++;
+                games[dex].round[games[dex].roundCount].playerAnswers.push({[msg.mykey]: msg.answer});
+                
                 
                 // if all players are in, move to next part of round else show answering player wait screen
-                if(games[dex].playerCount == games[dex].round[games[dex].roundCount].answersIn){
+                if(games[dex].playerCount <= games[dex].round[games[dex].roundCount].answersIn){
+                    console.log('getRoundAnswers', games[dex].round[games[dex].roundCount]);
                     // give players there points
-                    Object.entries(games[dex].round[games[dex].roundCount].playerLies).forEach(([lieKey, lieValue])=>{
-
-                        Object.entries(games[dex].round[games[dex].roundCount].playerAnswers).forEach(([key, value])=>{
-
-                            console.log('add points');
-                            console.log('   Key:' + key + ':value:' + value + ':');
-                            console.log('lieKey:' + lieKey + ':lieValue:' + lieValue + ':');
-                            if(value.trim() == lieValue.trim()){
-                                
-                                console.log('accepted \n', key, value, lieKey, lieValue);
-                                if(lieKey == "Answer"){
-                                    console.log('Answer == Key', key)
-                                    // give yourself 200 points for getting the correct answer
-                                    games[dex].playerPoints[key] += 200;
-                                }else{
-                                    console.log('else', key)
-                                    // give someone else 100 points for selecing there lie
-                                    games[dex].playerPoints[lieKey] += 100
-                                }
+                    
+                    for(lieDex=0;lieDex<=games[dex].round[games[dex].roundCount].liesIn;lieDex++)
+                        {Object.entries(games[dex].round[games[dex].roundCount].playerLies[lieDex]).forEach(([lieKey, lieValue])=>{
+                            for(ansDex=0;ansDex<games[dex].round[games[dex].roundCount].answersIn;ansDex++){
+                                Object.entries(games[dex].round[games[dex].roundCount].playerAnswers[ansDex]).forEach(([key, value])=>{
+                                    console.log('add points ' + lieDex + ' ' + ansDex );
+                                    console.log(' Key:' + key + ':value:' + value + ':');
+                                    console.log(' lieKey:' + lieKey + ':lieValue:' + lieValue + ':');
+                                    if(value.trim() == lieValue.trim()){
+                                        
+                                        console.log('  accepted \n      ', key, value, lieKey, lieValue);
+                                        if(lieKey == "Answer"){
+                                            console.log('       Answer == Key', key)
+                                            // give yourself 200 points for getting the correct answer
+                                            games[dex].playerPoints[key] += 2;
+                                        }else if(lieKey == key){
+                                            console.log('       else if ' + key + ' no points for selecting your lie')
+                                            // you dont get points for picking your own answer
+                                            
+                                        }else{
+                                            console.log('       else', key)
+                                            // give someone else 100 points for selecing there lie
+                                            games[dex].playerPoints[lieKey] += 1
+                                        }
+                                    }
+                                });
                             }
                         });
-                    });
+                    }
                         
 
-                    console.log('end Round');
+                    console.log('end Round', games[dex].playerPoints);
                     io.sockets.in(msg.gameCode).emit('client-getScores', games[dex]);
                 }else{
-                    socket.emit('wait', {text: 'waiting for all players to send there Answers'});
+                    socket.emit('wait', {text: 'Waiting for All Players to Send Their Answers'});
                 }
             }else{
                io.sockets.in(msg.gameCode).emit('message', {
@@ -297,6 +302,7 @@ module.exports = (io) => {
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 games[dex].roundCount++;
+                
                 io.sockets.in(msg.gameCode).emit('redirect', '/game');
             }else{
                 console.log('no game', games);
@@ -327,6 +333,23 @@ module.exports = (io) => {
             if(test){
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
+                var gameSave = new schema.Game({
+                    gameCode:  game.gameCode,
+                    players: game.players,
+                    playerPoints: game.playerPoints,
+                    winner: game.winner,
+                    numQuestions: game.numRounds,
+                    round: game.round,
+                    timeStamp: new Date().getTime()
+                }, console.log.bind(console, 'set up new game schema'));
+
+                gameSave.save(function(err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('question created');
+                    }
+                });
                 // remove game from games
                 games.splice(dex, 1);
                 // make sure game is closed

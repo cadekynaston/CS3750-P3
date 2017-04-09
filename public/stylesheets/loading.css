@@ -16,7 +16,6 @@ p {
 }
 h1 {
     position: relative;
-    top: 4em;
     text-align: center;
     color: #EEEEEE;
 }
@@ -33,10 +32,10 @@ h1 {
     display: block;
     position: relative;
     left: 50%;
-    top: 47%;
+    top: 50%;
     width: 150px;
     height: 150px;
-    margin: -75px 0 0 -75px;
+    margin: 55px 0 0 -75px;
     border-radius: 50%;
     border: 3px solid transparent;
     border-top-color: #3498db;

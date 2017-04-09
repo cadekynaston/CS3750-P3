@@ -1,10 +1,12 @@
 extends layout
 
 block content
+  .timer
   .container.main
     .message
     .game
       button#test.btn.btn-primary(type='submit') Action
+  
   
   .gameInfo.template game page
     p#username= userName
@@ -16,9 +18,9 @@ block content
     button#createRound.btn.btn-primary(type='submit') Start Round
 
   .waitScreen_template.template#content
-    #loader-wrapper
-      .wait 
-        h1.text Please wait for Host 
+    //#loader-wrapper
+    .wait 
+      h1.text Please wait for Host
       #loader
       //- .loader-section.section-left
       //- .loader-section.section-right
@@ -28,8 +30,8 @@ block content
       .textCat
     .question
       .textQue
-    input.lie(type="text" placeholder="Tell Your Lie, make it good")
-    button#getAnswer.btn.btn-primary(type='submit') Send Lie
+    input.lie.form-control#lie(type="text" placeholder="Write Your Lie, make it good" onkeypress="keyPress(event)")
+    button#getAnswer.btn.btn-primary(type='submit' ) Send Lie
 
   .gameRoundAnswer_template.template
     .category
@@ -39,13 +41,24 @@ block content
       .pickAnswer Select An Answer
     .listOfLies
       ul.answers
+    
 
   .gameAnswers_template.template
     li.lieListItem
       button.selectLie.btn.btn-primary(type='submit')
         .text
 
+  .gameCorrectAnswer_template.template
+    .scoreTitle And the Correct Answer is
+    .listOfScores
+     ul.scores
+      li
+        .player
+      li
+        .answer
+
   .gameEndRoundContainer_template.template
+    .scoreTitle Scores
     .listOfScores
      ul.scores
     .button_wraper

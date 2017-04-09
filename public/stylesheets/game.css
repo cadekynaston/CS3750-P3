@@ -1,35 +1,43 @@
-
-
 ul.scores
 {
-
-    list-style-position: inside;
-    columns: 2;
-    column-gap: -1000px;
-    list-style-type: none;
     list-style: none;
     color: white;
     padding-bottom: 40px;
-
-    padding-right: 100px;
+    position: relative;
+    flex-flow: row wrap;
+    display: flex;
+    width: inherit;
+   /* -webkit-box-sizing: border-box; */
 
 }
 .player
 {
-    padding-left: 50px;
-    text-align: center;
     font-size: 25px;
-    text-decoration: underline;
-    
+    width: 250px;
     padding-bottom: 10px;
+    /*white-space: nowrap;*/
+    text-overflow: ellipsis;
+    overflow: hidden;
     
 }
-.score
+.answer
 {
-    padding-left: 50px;
+    padding-left: 10px;
+    padding-top: 6px;
+    font-size: 22px;
+}
+.score
+{    
+    /*padding-left: 80px;*/
+    padding-top: 6px;
+    font-size: 22px;
+}
+.scoreTitle
+{
     text-align: center;
-    padding-top: 10px;
-    font-size: 18px;
+    padding-bottom: 20px;
+    font-weight: bold;
+    font-size: 30px;
 }
 
 .endGame
@@ -40,7 +48,7 @@ ul.scores
 
 #getAnswer
 {
-    margin-left: 10px;
+    margin-top: 20px;
 }
 .textCat
 {
@@ -66,7 +74,8 @@ ul.scores
 .text{
     width: 100%;
     white-space: normal;
-    text-align: left;
+    word-wrap: break-word;
+    text-align: center;
     min-height: 30px;
     display: flex;
     align-items: center;
@@ -97,4 +106,13 @@ label
 input[type="radio"]
 {
   margin: 0 10px 0 10px;
+}
+
+.timer{
+    position: absolute;
+    right: 1em;
+    top: 4em;
+}
+.next{
+    text-align: center;
 }

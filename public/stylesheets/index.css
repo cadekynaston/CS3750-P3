@@ -20,12 +20,13 @@
     font-weight: bold;
     padding: 20px;
 }
-.buttons
-{
+.buttons{
     text-align: center;
     padding: 20px;
-    
 }
 h2{
     margin-bottom: 1em;
+}
+.join{
+    margin-right: 30px;
 }

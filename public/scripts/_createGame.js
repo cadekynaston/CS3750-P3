@@ -26,7 +26,7 @@ window.onload = ()=>{
     }).getKendoValidator(); //.data('kendoValidator');
 
     // add categories for testing 
-    socket.emit('server-addCategory', 'Dog');
+    //socket.emit('server-addCategory', 'Dog');
     
     var cat;
     // get Categories from mongo and populate create form 
@@ -58,7 +58,8 @@ window.onload = ()=>{
             numRounds: parseInt($('#numRounds').val()), //parseInt
             roundCount: 0,
             round: [],
-            usedQuestions: []
+            usedQuestions: [],
+            winner: ''
         }
 
         let dex = 0
@@ -88,4 +89,12 @@ window.onload = ()=>{
         window.location.href = loc;
     })
 
+}
+
+function toggle(source) {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i] != source)
+            checkboxes[i].checked = source.checked;
+    }
 }
