@@ -133,9 +133,25 @@ window.onload = ()=>{
         $('.game').children().remove();
         $('.game').append($template);
 
+
+        sendLieTimer =setTimeout(()=>{
+            gameInfo.lie =  'Player didn`t Answer';
+            console.log('lie sent', gameInfo);
+            clearInterval(counter);
+            $('.timer').html(' ');
+            socket.emit('server-updateRoundLies', gameInfo);
+        }, 10000);
+        timer=10;
+        counter = setInterval(()=>{
+            timer--;
+            console.log(timer);
+            $('.timer').html(timer);
+        }, 1000);
+
         $('#getAnswer').click(function (e) {
             gameInfo.lie =  $('.lie').val();
-            
+            clearTimeout(sendLieTimer);
+            clearInterval(counter);
             if(gameInfo.lie) {
                 socket.emit('server-updateRoundLies', gameInfo);
                 console.log('lie sent', gameInfo);
