@@ -8,7 +8,18 @@ window.onload = ()=>{
         answer: '',
         mykey: ''
     }
+    let shuffle = (array) =>{
+        let curDex = array.length, temVal, randDex;
+        while(0 != curDex){
+            randDex = Math.floor(Math.random() * curDex);
+            curDex--;
 
+            temVal = array[curDex];
+            array[curDex] = array[randDex];
+            array[randDex] = temVal;
+        }
+        return array;
+    }
     socket.emit('connect-to-game-room', gameInfo)
     window.onbeforeunload = () => {
         socket.emit('client-leave', gameInfo);
@@ -92,9 +103,9 @@ window.onload = ()=>{
                 Category: '',
                 Question: '',
                 liesIn: 0,
-                playerLies: {},
+                playerLies: [],
                 answersIn: 0,
-                playerAnswers: {}
+                playerAnswers: []
             }
             
             // use for loop to get categories
@@ -134,7 +145,7 @@ window.onload = ()=>{
             }
         });
         
-    })
+    });
 //  
 //  move into selection portion of round
 // 
@@ -146,15 +157,18 @@ window.onload = ()=>{
         $('.game').append($template);
 
         var $button = $($('.gameAnswers_template').clone().html());
-
-        Object.entries(round.playerLies).forEach(([key, value])=> {
-            $button.find('.text').html(value);
-            $('.answers').append($button);
-        });
+        round.playerLies = shuffle(round.playerLies);
+        for(i=0;i<=round.liesIn;i++){
+            Object.entries(round.playerLies[i]).forEach(([key, value])=> {
+                $button.find('.text').html(value);
+                $('.answers').append($button);
+            });
+        }
+            
 
         $('.selectLie').click(function (e) {
             // make game object
-            gameInfo.answer = this.innerText;
+            gameInfo.answer = this.innerText.trim();
 
             if(gameInfo.answer){
                 socket.emit('server-getRoundAnswers', gameInfo)
@@ -172,11 +186,23 @@ window.onload = ()=>{
         $('.game').children().remove();
         $('.game').append($template);
         var $scores = $($('.gameEndRound_template').clone().html());
-        Object.entries(game.players).forEach(([key, value])=> {
-            $scores.find('.player').html(value);
-            $scores.find('.score').html(game.playerPoints[key]);
+
+        let playersPoints = game.playerPoints;
+        console.log('points object',playersPoints)
+        var sortable = [];
+        for(var player in playersPoints){
+            sortable.push([player, playersPoints[player]]);
+        }
+        sortable.sort((a, b)=>{
+            return b[1] - a[1];
+        })
+        console.log('sorted array',sortable);
+        for(i=0;i<sortable.length;i++){
+            let player = sortable[i];
+            $scores.find('.player').html(player[0]);
+            $scores.find('.score').html(player[1]);
             $('.scores').append($scores);
-        });
+        }
         var $button;
         
         if(game.numRounds == game.roundCount+1){
