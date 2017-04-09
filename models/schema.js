@@ -19,3 +19,7 @@ module.exports.Questions = mongoose.model('Questions', new schema({
   answer:      {type: String, required: '{PATH} is required.' },
   question:     {type: String, required: '{PATH} is required.' }
 }));
+module.exports.Game = mongoose.model('game', new schema({
+  id:           ObjectId,
+  game:     { type: Object, required: '{PATH} is required.'}
+}));

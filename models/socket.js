@@ -302,6 +302,7 @@ module.exports = (io) => {
             if(test){
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 games[dex].roundCount++;
+                
                 io.sockets.in(msg.gameCode).emit('redirect', '/game');
             }else{
                 console.log('no game', games);
@@ -332,6 +333,23 @@ module.exports = (io) => {
             if(test){
                 // find the index of the game with gameCode
                 let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
+                var gameSave = new schema.Questions({
+                    gameCode:  game.gameCode,
+                    players: game.players,
+                    playerPoints: game.playerPoints,
+                    winner: game.winner,
+                    numRounds: game.numRounds,
+                    round: game.round,
+                }, console.log.bind(console, 'set up new user schema'));
+
+                gameSave.save(function(err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('question created');
+                        res.redirect('/questions');
+                    }
+                });
                 // remove game from games
                 games.splice(dex, 1);
                 // make sure game is closed

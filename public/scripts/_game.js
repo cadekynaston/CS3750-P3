@@ -203,8 +203,8 @@ window.onload = ()=>{
             $scores.find('.score').html(player[1]);
             $('.scores').append($scores);
         }
-        var $button;
         
+        var $button;
         if(game.numRounds == game.roundCount+1){
             $button = $($('.endButton_template').clone().html());
         }else{
@@ -213,6 +213,7 @@ window.onload = ()=>{
         $('.next').append($button);
 
         $('.endGame').click(function (e) {
+            game[winner] = sortable[0];
             console.log('End game', game);
             socket.emit('server-endGame', game);
         });
