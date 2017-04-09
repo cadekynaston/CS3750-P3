@@ -250,8 +250,10 @@ window.onload = ()=>{
             }
             
             var $button;
+            var $restartButton;
             if(game.numRounds == game.roundCount+1){
                 $button = $($('.endButton_template').clone().html());
+                $restartButton = $($('.restartButton_template').clone().html());
             }else{
                 $button = $($('.nextButton_template').clone().html());
                 endRoundTimer =setTimeout(()=>{
@@ -268,6 +270,12 @@ window.onload = ()=>{
                 }, 1000);
             }
             $('.next').append($button);
+            $('.next').append($restartButton);
+
+            $('.restartGame').click(function (e) {
+                //alert('restart working');
+                socket.emit('server-restartGame', game);
+            });
 
             $('.endGame').click(function (e) {
                 let temp = sortable[0]

@@ -112,6 +112,12 @@ module.exports = (io) => {
             console.log(games);
         });
 
+        //restart a game with same players and number of rounds
+            //same categories??
+        socket.on('server-restartGame', function(game) {
+            sockets.broadcast(';sldkjfsldkjf');
+        });
+
         // this will get the server side game
         socket.on('server-getGame',function(game){
             let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
