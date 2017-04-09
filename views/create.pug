@@ -16,18 +16,20 @@ block content
             br
             label(for='numPlayers') Number of Players:
                 output#players(name='numberPlayers') 2
-            input.form-control#numPlayers(type='range', name='numPlayers', value='2', min='2', max='10' oninput='players.value = numPlayers.value')
+            input.form-control#numPlayers(type='range', name='numPlayers', value='2', min='2', max='20' oninput='players.value = numPlayers.value')
             //input.form-control#numPlayers(name='numPlayers', type='text' placeholder="Number of Players" required)
             br
             label(for='numPlayers') Number of Rounds:
                 output#rounds(name='numberRounds') 1
-            input.form-control#numRounds(type='range', name='numRounds', value='1', min='1', max='10' oninput="rounds.value = numRounds.value")
+            input.form-control#numRounds(type='range', name='numRounds', value='1', min='1', max='20' oninput="rounds.value = numRounds.value")
             //input.form-control#numRounds(name='numRounds', type='text' placeholder="Number of Rounds" required)
             br
             label(for='Categories') Select Categories:
             br
-            .checkbox-inline
-                
+            .checkbox-inline.div
+                label
+                    input(type='checkbox' name='allCats' id='allCats' onclick="toggle(this)") 
+                    | All Categories
             br
             div.submitdiv
                 div.center

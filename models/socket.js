@@ -220,7 +220,7 @@ module.exports = (io) => {
                 if(games[dex].playerCount <= games[dex].round[games[dex].roundCount].liesIn){
                     io.sockets.in(msg.gameCode).emit('client-selectionRound', games[dex].round[games[dex].roundCount]);
                 }else{
-                    socket.emit('wait', {text: 'waiting for all players to send there lies'});
+                    socket.emit('wait', {text: 'Waiting for All Players to Send Their Lies'});
                 }
             }else{
                io.sockets.in(msg.gameCode).emit('message', {
@@ -282,7 +282,7 @@ module.exports = (io) => {
                     console.log('end Round', games[dex].playerPoints);
                     io.sockets.in(msg.gameCode).emit('client-getScores', games[dex]);
                 }else{
-                    socket.emit('wait', {text: 'waiting for all players to send there Answers'});
+                    socket.emit('wait', {text: 'Waiting for All Players to Send Their Answers'});
                 }
             }else{
                io.sockets.in(msg.gameCode).emit('message', {
