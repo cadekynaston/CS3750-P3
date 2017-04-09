@@ -199,7 +199,7 @@ window.onload = ()=>{
         console.log('sorted array',sortable);
         for(i=0;i<sortable.length;i++){
             let player = sortable[i];
-            $scores.find('.player').html(player[0]);
+            $scores.find('.player').html(game.players[player[0]]);
             $scores.find('.score').html(player[1]);
             $('.scores').append($scores);
         }
@@ -213,7 +213,9 @@ window.onload = ()=>{
         $('.next').append($button);
 
         $('.endGame').click(function (e) {
-            game[winner] = sortable[0];
+            let temp = sortable[0]
+            console.log(temp[0]);
+            game.winner = temp[0];
             console.log('End game', game);
             socket.emit('server-endGame', game);
         });
