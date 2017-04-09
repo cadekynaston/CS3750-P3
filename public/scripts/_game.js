@@ -215,7 +215,7 @@ window.onload = ()=>{
         $('.endGame').click(function (e) {
             let temp = sortable[0]
             console.log(temp[0]);
-            game.winner = temp[0];
+            game.winner = game.players[temp[0]];
             console.log('End game', game);
             socket.emit('server-endGame', game);
         });
