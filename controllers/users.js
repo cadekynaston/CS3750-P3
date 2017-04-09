@@ -30,10 +30,10 @@ router.get('/create', function(req, res, next) {
  * Once a user is logged in, they will be sent to the chat page.
  */
 router.post('/create', function(req, res, next) {
-  schema.User.findOne({ username: req.body.username }, function(err, user) {
+  schema.Users.findOne({ username: req.body.username }, function(err, user) {
     if(!user){
       // create a new schema.User from the fields in the form 
-      var user = new schema.User({
+      var user = new schema.Users({
         username: req.body.username,
         gameCode: req.body.gameCode,
       });
@@ -51,7 +51,7 @@ router.post('/create', function(req, res, next) {
         }
       });
     }else{
-      schema.User.update({username: req.body.username,}, {
+      schema.Users.update({username: req.body.username,}, {
           gameCode: req.body.gameCode
       }, function(err, numberAffected, rawResponse) {
         //handle it
@@ -82,10 +82,10 @@ router.get('/join', function(req, res, next) {
  * Once a user is logged in, they will be sent to the dashboard page.
  */
 router.post('/join', function(req, res, next) {
-  schema.User.findOne({ username: req.body.username }, function(err, user) {
+  schema.Users.findOne({ username: req.body.username }, function(err, user) {
     if(!user){
       // create a new schema.User from the fields in the form 
-      var user = new schema.User({
+      var user = new schema.Users({
         username: req.body.username,
         gameCode: req.body.gameCode,
       });
@@ -103,7 +103,7 @@ router.post('/join', function(req, res, next) {
         }
       });
     }else{
-      schema.User.update({username: req.body.username,}, {
+      schema.Users.update({username: req.body.username,}, {
           gameCode: req.body.gameCode
       }, function(err, numberAffected, rawResponse) {
         //handle it

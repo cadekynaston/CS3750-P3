@@ -4,14 +4,10 @@ var ObjectId = schema.ObjectId;
 
 // The User model
 
-module.exports.User = mongoose.model('User', new schema({
+module.exports.Users = mongoose.model('Users', new schema({
   id:           ObjectId,
   username:     { type: String, required: '{PATH} is required.'},
   gameCode:       {type: String, required: '{PATH} is required.' }
-}));
-module.exports.Categories = mongoose.model('Categories', new schema({
-  id:           ObjectId,
-  category:     { type: String, required: '{PATH} is required.'},
 }));
 module.exports.Questions = mongoose.model('Questions', new schema({
   id:           ObjectId,
@@ -19,7 +15,7 @@ module.exports.Questions = mongoose.model('Questions', new schema({
   answer:      {type: String, required: '{PATH} is required.' },
   question:     {type: String, required: '{PATH} is required.' }
 }));
-module.exports.Game = mongoose.model('game', new schema({
+module.exports.Games = mongoose.model('Games', new schema({
   id:           ObjectId,
   gameCode:  { type: String, required: '{PATH} is required.'},
   players: { type: Object, required: '{PATH} is required.'},
