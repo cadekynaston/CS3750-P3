@@ -308,3 +308,9 @@ window.onload = ()=>{
         window.location.href = loc;
     })
 }
+
+$('#lie').keyup(function (event) {
+    if(event.keyCode == 13){
+        $('#lie').click();
+    }
+});

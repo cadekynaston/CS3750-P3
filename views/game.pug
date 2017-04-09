@@ -18,10 +18,10 @@ block content
     button#createRound.btn.btn-primary(type='submit') Start Round
 
   .waitScreen_template.template#content
-    #loader-wrapper
-      .wait 
-        h1.text Please wait for Host 
-      #loader
+    //#loader-wrapper
+    .wait 
+      h1.text Please wait for Host
+      //#loader
       //- .loader-section.section-left
       //- .loader-section.section-right
 
@@ -30,7 +30,7 @@ block content
       .textCat
     .question
       .textQue
-    input.lie(type="text" placeholder="Tell Your Lie, make it good")
+    input.lie.form-control#lie(type="text" placeholder="Write Your Lie, make it good")
     button#getAnswer.btn.btn-primary(type='submit') Send Lie
 
   .gameRoundAnswer_template.template
@@ -49,7 +49,7 @@ block content
         .text
 
   .gameCorrectAnswer_template.template
-    .scoreTitle And the Correct Answer Is
+    .scoreTitle And the Correct Answer is
     .listOfScores
      ul.scores
       li
@@ -70,7 +70,7 @@ block content
   
   .createButton_template.template
     a.createButton.btn.btn-primary(href='/game')
-      .text Create Round
+      .text Next Round
 
   .endButton_template.template
     button.endGame.btn.btn-primary(type='submit')
