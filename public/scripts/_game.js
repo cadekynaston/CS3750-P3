@@ -161,7 +161,7 @@ window.onload = ()=>{
                 socket.emit('server-updateRoundLies', gameInfo);
                 console.log('lie sent', gameInfo);
             }else{
-                console.log('failuer to retreve value')
+                console.log('failure to retrieve value')
                 e.preventDefault();
             }
         });
@@ -209,7 +209,7 @@ window.onload = ()=>{
                 socket.emit('server-getRoundAnswers', gameInfo)
                 console.log('lie selected', gameInfo);
             }else{
-                console.log('failuer to retreve value')
+                console.log('failure to retrieve value')
                 e.preventDefault();
             }
         });
@@ -222,7 +222,7 @@ window.onload = ()=>{
         var $answer = $($('.gameCorrectAnswer_template').clone().html());
         $('.game').children().remove();
         $answer.find('.player').html(game.round[game.roundCount].Question);
-        $answer.find('.score').html(game.round[game.roundCount].playerLies[0]['Answer']);
+        $answer.find('.answer').html(game.round[game.roundCount].playerLies[0]['Answer']);
         $('.game').append($answer);
 
 
@@ -253,7 +253,7 @@ window.onload = ()=>{
             if(game.numRounds == game.roundCount+1){
                 $button = $($('.endButton_template').clone().html());
             }else{
-                $button = $($('.createButton_template').clone().html());
+                $button = $($('.nextButton_template').clone().html());
                 endRoundTimer =setTimeout(()=>{
                     console.log('End round', game);
                     socket.emit('server-endRound', game);
@@ -309,8 +309,10 @@ window.onload = ()=>{
     })
 }
 
-$('#lie').keyup(function (event) {
-    if(event.keyCode == 13){
-        $('#lie').click();
-    }
-});
+function keyPress(e)
+{
+    // look for window.event in case event isn't passed in
+    e = e || window.event;
+    if (e.keyCode == 13)
+        document.getElementById('getAnswer').click();
+}

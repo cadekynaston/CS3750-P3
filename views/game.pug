@@ -21,7 +21,7 @@ block content
     //#loader-wrapper
     .wait 
       h1.text Please wait for Host
-      //#loader
+      #loader
       //- .loader-section.section-left
       //- .loader-section.section-right
 
@@ -30,8 +30,8 @@ block content
       .textCat
     .question
       .textQue
-    input.lie.form-control#lie(type="text" placeholder="Write Your Lie, make it good")
-    button#getAnswer.btn.btn-primary(type='submit') Send Lie
+    input.lie.form-control#lie(type="text" placeholder="Write Your Lie, make it good" onkeypress="keyPress(event)")
+    button#getAnswer.btn.btn-primary(type='submit' ) Send Lie
 
   .gameRoundAnswer_template.template
     .category
@@ -55,7 +55,7 @@ block content
       li
         .player
       li
-        .score
+        .answer
 
   .gameEndRoundContainer_template.template
     .scoreTitle Scores
@@ -70,7 +70,7 @@ block content
   
   .createButton_template.template
     a.createButton.btn.btn-primary(href='/game')
-      .text Next Round
+      .text Create Round
 
   .endButton_template.template
     button.endGame.btn.btn-primary(type='submit')

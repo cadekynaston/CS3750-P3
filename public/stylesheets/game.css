@@ -1,11 +1,8 @@
-
-
 ul.scores
 {
     list-style: none;
     color: white;
     padding-bottom: 40px;
-    padding-right: 100px;
     position: relative;
     flex-flow: row wrap;
     display: flex;
@@ -16,17 +13,22 @@ ul.scores
 .player
 {
     font-size: 25px;
-    width: 170px;
+    width: 250px;
     padding-bottom: 10px;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
     text-overflow: ellipsis;
     overflow: hidden;
     
 }
-.score
+.answer
 {
-    
-    padding-left: 80px;
+    padding-left: 10px;
+    padding-top: 6px;
+    font-size: 22px;
+}
+.score
+{    
+    /*padding-left: 80px;*/
     padding-top: 6px;
     font-size: 22px;
 }
@@ -72,6 +74,7 @@ ul.scores
 .text{
     width: 100%;
     white-space: normal;
+    word-wrap: break-word;
     text-align: center;
     min-height: 30px;
     display: flex;
