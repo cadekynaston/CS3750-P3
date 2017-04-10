@@ -12,7 +12,9 @@ block content
     each val, key in questions
       .category-container
         .category-title #{key}
-        .question-category-container
+        - console.log(key)
+        input.hideshow(type='button', value='hide/show', onclick='hideShow('+key.toString()+')')
+        div(id=key class="question-category-container")
           - for (var i=0; i<val.length; i++)
               .question-container
                 a(href="/questions/"+val[i]['_id']) 
@@ -22,3 +24,11 @@ block content
                   .indent #{val[i]['answer']}
                   p Category:
                   .indent #{val[i]['category']}
+  script.
+    function hideShow(x) {
+      if (x.style.display == 'none') {
+        x.style.display = 'flex';
+      } else {
+        x.style.display = 'none';
+      }
+    }
