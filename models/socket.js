@@ -67,7 +67,7 @@ module.exports = (io) => {
                             console.log('join game room', games[dex]);
                         }else{
                             console.log('game is full', games[dex]);
-                            socket.emit('redirect', '/join');
+                            socket.emit('redirect', '/game/join');
                         }
                             
                     }
