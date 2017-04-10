@@ -113,10 +113,36 @@ module.exports = (io) => {
         });
 
         //restart a game with same players and number of rounds
-            //same categories??
+            //************************************************************************** */
         socket.on('server-restartGame', function(game) {
-            sockets.broadcast(';sldkjfsldkjf');
+            //console.log("Game Code: " + game.gameCode);
+            var existingGameCode = game.gameCode;
+            var newGameCode = "";
+            var letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+            for(i=0;i<7;i++){
+                newGameCode += letters[(Math.floor(Math.random() * letters.length))];
+            }
+            let newGame = {
+            gameCode:  newGameCode,
+            numPlayers: game.playerCount,
+            playerCount: 1,
+            players: {
+                player0: game.player0,
+            },
+            playerPoints: {
+                player0: 0,
+            },
+            categories: game.categories,
+            numRounds: game.numRounds, //parseInt
+            roundCount: 0,
+            round: [],
+            usedQuestions: [],
+            winner: ''
+        }
+            io.sockets.in(game.gameCode).emit('client-restartGame', newGame);
         });
+
+        //*********************************************************************** */
 
         // this will get the server side game
         socket.on('server-getGame',function(game){

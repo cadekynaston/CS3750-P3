@@ -271,11 +271,20 @@ window.onload = ()=>{
             }
             $('.next').append($button);
             $('.next').append($restartButton);
-
-            $('.restartGame').click(function (e) {
+// ***************   restart ********************************************************
+            $('.restartGame').click(function () {
                 //alert('restart working');
                 socket.emit('server-restartGame', game);
+                
             });
+
+            socket.on('client-restartGame', function(game){
+    
+        
+        alert("game code: " + game.gameCode);
+        socket.emit('create', game);
+        });
+        //************************************************************************ */
 
             $('.endGame').click(function (e) {
                 let temp = sortable[0]
@@ -297,7 +306,7 @@ window.onload = ()=>{
         $button = $($('.nextButton_template').clone().html());
         $('.next').html($button);
     });
-
+    
     
     // test function click to run socket commands
     $('#test').click(function (e) {
