@@ -16,8 +16,8 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/load', function(req, res, next) {
-  res.render('loading');
-});
+// router.get('/load', function(req, res, next) {
+//   res.render('loading');
+// });
 
 module.exports = router;

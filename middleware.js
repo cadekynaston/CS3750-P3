@@ -8,7 +8,7 @@ var utils = require('./controllers/utils');
  */
 module.exports.simpleAuth = function(req, res, next) {
   if (req.session && req.session.user) {
-    models.User.findOne({ username: req.session.user.username }, function(err, user) {
+    models.Users.findOne({ username: req.session.user.username }, function(err, user) {
       if (user) {
         utils.createUserSession(req, res, user);
       }
