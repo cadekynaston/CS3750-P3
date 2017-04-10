@@ -250,8 +250,10 @@ window.onload = ()=>{
             }
             
             var $button;
-            if(game.numRounds == game.roundCount+1){
+            if(game.numRounds <= game.roundCount+1){
                 $button = $($('.endButton_template').clone().html());
+                $restartButton = $($('.restartButton_template').clone().html());
+                $('.next').append($restartButton);
             }else{
                 $button = $($('.nextButton_template').clone().html());
                 endRoundTimer =setTimeout(()=>{
@@ -269,6 +271,12 @@ window.onload = ()=>{
             }
             $('.next').append($button);
 
+            $('.restartGame').click(function () {
+                //alert('restart working');
+                socket.emit('server-restartGame', game);
+                
+            });
+            
             $('.endGame').click(function (e) {
                 let temp = sortable[0]
                 console.log(temp[0]);
@@ -282,14 +290,13 @@ window.onload = ()=>{
                 console.log('End round', game);
                 socket.emit('server-endRound', game);
             });
-    }, 7000); 
+    }, 4000); 
        
     });
     socket.on('changeNextButton', function(){
         $button = $($('.nextButton_template').clone().html());
         $('.next').html($button);
     });
-
     
     // test function click to run socket commands
     $('#test').click(function (e) {

@@ -67,7 +67,7 @@ module.exports = (io) => {
                             console.log('join game room', games[dex]);
                         }else{
                             console.log('game is full', games[dex]);
-                            socket.emit('redirect', '/join');
+                            socket.emit('redirect', '/game/join');
                         }
                             
                     }
@@ -110,6 +110,51 @@ module.exports = (io) => {
             }
 
             console.log(games);
+        });
+        
+        socket.on('server-restartGame', function(game) {
+            let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
+            if(test){
+                // find the index of the game with gameCode
+                let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
+                var gameSave = new schema.Games({
+                    gameCode:  game.gameCode,
+                    players: game.players,
+                    playerPoints: game.playerPoints,
+                    winner: game.winner,
+                    numQuestions: game.numRounds,
+                    round: game.round,
+                    timeStamp: new Date().getTime()
+                }, console.log.bind(console, 'set up new game schema'));
+
+                gameSave.save(function(err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('question created');
+                    }
+                });
+                // remove game from games
+                games.splice(dex, 1);
+                // make sure game is closed
+                console.log(games);
+            }
+            //console.log("Game Code: " + game.gameCode);
+            let newGame = {
+                gameCode:  game.gameCode,
+                numPlayers: game.playerCount,
+                playerCount: game.playerCount,
+                players: game.players,
+                playerPoints: game.playerPoints,
+                categories: game.categories,
+                numRounds: game.numRounds, //parseInt
+                roundCount: 0,
+                round: [],
+                usedQuestions: [],
+                winner: ''
+            }
+            games.push(newGame);
+            io.sockets.in(game.gameCode).emit('redirect', '/game/play');
         });
 
         // this will get the server side game
