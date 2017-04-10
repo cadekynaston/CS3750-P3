@@ -4,7 +4,7 @@ module.exports = (io) => {
     var app = require('express');
     var router = app.Router();
     var userCount = 0;// total number of players in all of the games
-    var games = [];// array of games
+    var games = [];// array of active games
     // socket.io events
     io.on('connection', function (socket) {
         userCount++;
@@ -115,30 +115,47 @@ module.exports = (io) => {
         //restart a game with same players and number of rounds
             //************************************************************************** */
         socket.on('server-restartGame', function(game) {
-            //console.log("Game Code: " + game.gameCode);
-            var existingGameCode = game.gameCode;
-            var newGameCode = "";
-            var letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-            for(i=0;i<7;i++){
-                newGameCode += letters[(Math.floor(Math.random() * letters.length))];
+            let test = games.filter(function(e) { return e.gameCode == game.gameCode; }).length > 0;
+            if(test){
+                // find the index of the game with gameCode
+                let dex = games.findIndex(function(e) { return e.gameCode == game.gameCode; });
+                var gameSave = new schema.Game({
+                    gameCode:  game.gameCode,
+                    players: game.players,
+                    playerPoints: game.playerPoints,
+                    winner: game.winner,
+                    numQuestions: game.numRounds,
+                    round: game.round,
+                    timeStamp: new Date().getTime()
+                }, console.log.bind(console, 'set up new game schema'));
+
+                gameSave.save(function(err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('question created');
+                    }
+                });
+                // remove game from games
+                games.splice(dex, 1);
+                // make sure game is closed
+                console.log(games);
             }
+            //console.log("Game Code: " + game.gameCode);
             let newGame = {
-            gameCode:  newGameCode,
-            numPlayers: game.playerCount,
-            playerCount: 1,
-            players: {
-                player0: game.player0,
-            },
-            playerPoints: {
-                player0: 0,
-            },
-            categories: game.categories,
-            numRounds: game.numRounds, //parseInt
-            roundCount: 0,
-            round: [],
-            usedQuestions: [],
-            winner: ''
-        }
+                gameCode:  game.gameCode,
+                numPlayers: game.playerCount,
+                playerCount: game.playerCount,
+                players: game.players,
+                playerPoints: game.playerPoints,
+                categories: game.categories,
+                numRounds: game.numRounds, //parseInt
+                roundCount: 0,
+                round: [],
+                usedQuestions: [],
+                winner: ''
+            }
+            games.push(newGame);
             io.sockets.in(game.gameCode).emit('client-restartGame', newGame);
         });
 

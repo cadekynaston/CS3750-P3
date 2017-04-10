@@ -254,6 +254,7 @@ window.onload = ()=>{
             if(game.numRounds == game.roundCount+1){
                 $button = $($('.endButton_template').clone().html());
                 $restartButton = $($('.restartButton_template').clone().html());
+                $('.next').append($restartButton);
             }else{
                 $button = $($('.nextButton_template').clone().html());
                 endRoundTimer =setTimeout(()=>{
@@ -270,21 +271,13 @@ window.onload = ()=>{
                 }, 1000);
             }
             $('.next').append($button);
-            $('.next').append($restartButton);
-// ***************   restart ********************************************************
+            
+
             $('.restartGame').click(function () {
                 //alert('restart working');
                 socket.emit('server-restartGame', game);
                 
             });
-
-            socket.on('client-restartGame', function(game){
-    
-        
-        alert("game code: " + game.gameCode);
-        socket.emit('create', game);
-        });
-        //************************************************************************ */
 
             $('.endGame').click(function (e) {
                 let temp = sortable[0]
@@ -299,8 +292,11 @@ window.onload = ()=>{
                 console.log('End round', game);
                 socket.emit('server-endRound', game);
             });
-    }, 7000); 
+        }, 7000); 
        
+    });
+    socket.on('client-restartGame', function(game){
+        socket.emit('connect-to-game-room', gameInfo);
     });
     socket.on('changeNextButton', function(){
         $button = $($('.nextButton_template').clone().html());
