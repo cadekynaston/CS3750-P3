@@ -250,7 +250,7 @@ window.onload = ()=>{
             }
             
             var $button;
-            if(game.numRounds == game.roundCount+1){
+            if(game.numRounds <= game.roundCount+1){
                 $button = $($('.endButton_template').clone().html());
                 $restartButton = $($('.restartButton_template').clone().html());
                 $('.next').append($restartButton);
