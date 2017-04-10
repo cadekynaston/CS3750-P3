@@ -298,6 +298,9 @@ window.onload = ()=>{
         $('.next').html($button);
     });
 
+    socket.on('client-restartGame', function(game){
+        socket.emit('connect-to-game-room', gameInfo);
+    });
     
     // test function click to run socket commands
     $('#test').click(function (e) {
