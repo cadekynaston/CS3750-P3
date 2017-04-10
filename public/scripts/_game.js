@@ -271,6 +271,12 @@ window.onload = ()=>{
             }
             $('.next').append($button);
 
+            $('.restartGame').click(function () {
+                //alert('restart working');
+                socket.emit('server-restartGame', game);
+                
+            });
+            
             $('.endGame').click(function (e) {
                 let temp = sortable[0]
                 console.log(temp[0]);
