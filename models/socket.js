@@ -303,7 +303,7 @@ module.exports = (io) => {
                 let dex = games.findIndex(function(e) { return e.gameCode == msg.gameCode; });
                 games[dex].roundCount++;
                 
-                io.sockets.in(msg.gameCode).emit('redirect', '/game');
+                io.sockets.in(msg.gameCode).emit('redirect', '/game/play');
             }else{
                 console.log('no game', games);
                 // tell game bage there is no game
