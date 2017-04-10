@@ -290,16 +290,12 @@ window.onload = ()=>{
                 console.log('End round', game);
                 socket.emit('server-endRound', game);
             });
-    }, 7000); 
+    }, 4000); 
        
     });
     socket.on('changeNextButton', function(){
         $button = $($('.nextButton_template').clone().html());
         $('.next').html($button);
-    });
-
-    socket.on('client-restartGame', function(game){
-        socket.emit('connect-to-game-room', gameInfo);
     });
     
     // test function click to run socket commands

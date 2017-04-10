@@ -154,7 +154,7 @@ module.exports = (io) => {
                 winner: ''
             }
             games.push(newGame);
-            io.sockets.in(game.gameCode).emit('client-restartGame', newGame);
+            io.sockets.in(game.gameCode).emit('redirect', '/game/play');
         });
 
         // this will get the server side game
