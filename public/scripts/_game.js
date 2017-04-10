@@ -252,6 +252,8 @@ window.onload = ()=>{
             var $button;
             if(game.numRounds == game.roundCount+1){
                 $button = $($('.endButton_template').clone().html());
+                $restartButton = $($('.restartButton_template').clone().html());
+                $('.next').append($restartButton);
             }else{
                 $button = $($('.nextButton_template').clone().html());
                 endRoundTimer =setTimeout(()=>{
